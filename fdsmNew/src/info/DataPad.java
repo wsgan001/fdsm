@@ -7,5 +7,7 @@ public class DataPad {
 	public static String data3user = Pfad_doc+"data3user.txt";
 	
 	public static String mytext = "mytext";
+	
+	public static String mytest = "mytest";
 
 }
