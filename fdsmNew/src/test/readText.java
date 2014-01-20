@@ -81,13 +81,10 @@ public class readText {
 				bw = new BufferedWriter(new FileWriter(file));
 			}
 			
-			bw.write("ahh");
+			bw.write("haha");
 			bw.newLine();
 			bw.write("huhu");
-			bw.write(File.pathSeparator);
-			bw.write(File.pathSeparatorChar);
-			bw.write("gege");
-			
+			bw.newLine();
 
 			bw.close();
 		}catch(IOException e){
@@ -106,7 +103,6 @@ public class readText {
 		
 		System.out.println(props.getProperty("os.name"));
 		
-				
 	}
 	
 	public static void sysIndependent(){
@@ -129,10 +125,14 @@ public class readText {
 		
 	}
 	
+	
+	
 
 	public static void main(String[] args) {
+		
+		String inputFileWithPath = DataPad.data3user;
 
-		sysIndependent();
+		readTextline(inputFileWithPath, 1, 10);
 		
 		
 	}
