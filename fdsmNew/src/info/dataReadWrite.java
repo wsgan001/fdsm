@@ -1,24 +1,30 @@
 package info;
 
+import gnu.trove.set.hash.TIntHashSet;
+
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 import javolution.util.FastBitSet;
+import javolution.util.FastSet;
 import javolution.util.FastTable;
 import javolution.util.Index;
-import gnu.trove.*;
-
-import org.apache.lucene.*;
-import org.apache.lucene.util.OpenBitSet;
+//import gnu.trove.*;
+//
+//import org.apache.lucene.*;
+//import org.apache.lucene.util.OpenBitSet;
 public class dataReadWrite {
 	
 	String outputPath = DataPad.outputPath;
@@ -39,11 +45,20 @@ public class dataReadWrite {
 		}
 		
 		try{
-			
-			
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			
+			String line = br.readLine();
 			
+			StringTokenizer st = new StringTokenizer(toker);
+			
+			while(line != null){
+				
+				
+				
+				
+				
+				
+			}
 			
 			
 			br.close();
@@ -60,79 +75,31 @@ public class dataReadWrite {
 		
 	}
 	
-	public static void test(){
-		
-		HashSet<String> hs = new HashSet<String>();
-		
-		hs.add("宝宝图");
-		hs.add("我们");
-		hs.add("5666");
-		hs.add("84");
-		hs.add("441");
-		
-		Iterator<String> it = hs.iterator();
-		
-//		while(it.hasNext()){
-//			System.out.println(it.next());
-//		}
-		
-		String[] myarray = 	(String[])hs.toArray(new String[0]);
-		
-		Arrays.sort(myarray);
-		
-//		for(String i : myarray){
-//			System.out.println(i);
-//		}
-		
-		
-		FastBitSet fbs = new FastBitSet();
-		
-		fbs.set(100);
-		fbs.set(102);
-		
-//		int[] arr = fbs.toArray(new int[0]);
-		
-		Index abc = fbs.max();
-		
-//		System.out.println(abc);
-		
-		BitSet bs = new BitSet();
-		
-		bs.set(100);
-		bs.set(200);
-		bs.set(56);
-		
-//		String bst = bs.toString();
-		
-//		System.out.println(bst);
-		
-		long[] larr = bs.toLongArray();
-		
-		
-		
-		System.out.println(larr.length);
-		
-for(int i = 0; i<larr.length;i++){
-	System.out.println(larr[i]);
-}
-
-	Set<Integer> tset = new TreeSet<Integer>();
-	
-	tset.add(6);
-	
-	tset.add(2);
-	
-	tset.add(3);
-	
-
 
 	
-	
+	public static void hstest(){
+		
+		FastSet<Integer> fs = new FastSet<Integer>();
+		
+		fs.add(100);
+		fs.add(101);
+		fs.add(22);
+		fs.add(45);
+		
+		FastSet<Integer> fs2 = new FastSet<Integer>();
+		
+		fs2.add(300);
+		fs2.add(600);
+		fs2.add(10);
+		fs2.add(34);
+		
+		fs.addAll(fs2);
+
 		
 		
-//		OpenBitSet obs = new OpenBitSet();
+		TIntHashSet tihs = new TIntHashSet();
 		
-				
+		
 		
 		
 		
@@ -141,8 +108,9 @@ for(int i = 0; i<larr.length;i++){
 	
 
 	public static void main(String[] args) {
-		test();
-
+		
+		hstest();
+		
 	}
 
 }
