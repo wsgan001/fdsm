@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
+import javolution.lang.Immutable;
 import javolution.util.FastBitSet;
 import javolution.util.FastSet;
 import javolution.util.FastSortedSet;
@@ -35,6 +36,16 @@ public class dataReadWrite {
 	static String secondaryIndexFile = outputPath + "SecondaryIndex.txt";
 	static String toker = ",";
 
+	/**
+	 * generate the computer indexes for the data, the outputs are two computer
+	 * indexes for the primary column and secondary column.
+	 * 
+	 * @param inputData
+	 * @param primaryColumn
+	 *            native number of the goal Column
+	 * @param secondaryColumn
+	 *            native number of the Column
+	 */
 	public static void dataIndex(String inputData, int primaryColumn,
 			int secondaryColumn) {
 
@@ -47,16 +58,15 @@ public class dataReadWrite {
 
 		}
 
+		FastBitSet fbsPrimaryList = new FastBitSet();
+		FastBitSet fbsSecondaryList = new FastBitSet();
+
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
-
 
 			String line = br.readLine();
 
 			StringTokenizer st = new StringTokenizer(toker);
-
-			FastBitSet fbsPrimaryList = new FastBitSet();
-			FastBitSet fbsSecondaryList = new FastBitSet();
 
 			while (line != null) {
 
@@ -78,41 +88,68 @@ public class dataReadWrite {
 			e.printStackTrace();
 
 		}
+		
+		Index[] indPrimary = fbsPrimaryList.toArray(new Index[0]);
+		Index[] indSecondary = fbsSecondaryList.toArray(new Index[0]);
 
 		int cnt = 0;
-		
+
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(
 					primaryIndexFile));
-			BufferedWriter bw2 = new BufferedWriter(new FileWriter(
-					secondaryIndexFile));
 			
+			for(Index ind : indPrimary){
+				
+				bw.write(cnt + toker + ind);
+				bw.newLine();
+				cnt++;
+			}
 			
-			
-			
-			
+
 			bw.close();
-			bw2.close();
+
+			cnt = 0;
+			
+			bw = new BufferedWriter(new FileWriter(secondaryIndexFile));
+			
+			for(Index ind : indSecondary){
+				
+				bw.newLine();
+				bw.write(cnt + toker + ind);
+				
+				cnt++;
+				
+			}
+
+			bw.close();
 		} catch (IOException e) {
 			System.exit(-1);
-		
+
 		}
-		
-		
-		
-		
-		
-		
+
 	}
 
 	public static void hstest() {
 
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputPath+"hallo.txt"));
+			bw.write("aaa");
+			
+			bw.close();
+			
+			
+		} catch (IOException e) {
+			// TODO: handle exception
+		}
+		
+		
+
 	}
 
 	public static void main(String[] args) {
-
-		hstest();
-
+		dataIndex(DataPad.data3user, 1, 2);
+		
+		
 	}
 
 }
