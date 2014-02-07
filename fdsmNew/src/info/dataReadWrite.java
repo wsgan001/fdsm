@@ -36,6 +36,7 @@ public class dataReadWrite {
 	static String secondaryIndexFile = outputPath + "SecondaryIndex.txt";
 	static String toker = ",";
 
+
 	/**
 	 * generate the computer indexes for the data, the outputs are two computer
 	 * indexes for the primary column and secondary column.
@@ -48,6 +49,8 @@ public class dataReadWrite {
 	 */
 	public static void dataIndex(String inputData, int primaryColumn,
 			int secondaryColumn) {
+		
+		File outputPath = new File(info.DataPad.outputPath);
 
 		File file = new File(inputData);
 
@@ -56,6 +59,10 @@ public class dataReadWrite {
 			System.err.println("Sorry, I can't find the input File! :-/ ");
 			System.exit(-1);
 
+		}
+		
+		if (!outputPath.exists()){
+			outputPath.mkdir();
 		}
 
 		FastBitSet fbsPrimaryList = new FastBitSet();
@@ -101,7 +108,7 @@ public class dataReadWrite {
 			for(Index ind : indPrimary){
 				
 				bw.write(cnt + toker + ind);
-				bw.newLine();
+				
 				cnt++;
 			}
 			
@@ -115,7 +122,7 @@ public class dataReadWrite {
 			for(Index ind : indSecondary){
 				
 				bw.newLine();
-				bw.write(cnt + toker + ind);
+				bw.write(cnt + toker + ind + DataPad.lineSeparate); 
 				
 				cnt++;
 				

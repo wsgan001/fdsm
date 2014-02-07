@@ -11,5 +11,9 @@ public class DataPad {
 	public static String mytext = "mytext";
 	
 	public static String mytest = "mytest";
+	
+	public static String lineSeparate = System.lineSeparator();
+	
+	
 
 }
