@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -21,13 +23,15 @@ import javolution.util.Index;
 
 public class dataReadWrite {
 
-	static String outputPath = DataSource.outputPath;
-	static String primaryIndexTXT = outputPath + "PrimaryIndex.txt";
-	static String secondaryIndexTXT = outputPath + "SecondaryIndex.txt";
-	static String toker = ",";
-	static String selectedEntriesSceondaryIdTXT = DataSource.outputPath
+	static public String outputPath = DataSource.outputPath;
+	static public String primaryIndexTXT = outputPath + "PrimaryIndex.txt";
+	static public String secondaryIndexTXT = outputPath + "SecondaryIndex.txt";
+	static public String toker = ",";
+	static public String selectedEntriesSecondaryIdTXT = DataSource.outputPath
 			+ "selectedEntriesSecondaryId.txt";
-	static String infoTXT = outputPath + "info.txt";
+	static public String infoTXT = outputPath + "info.txt";
+	static public String selectedEntriesSecondaryId_Model_2TXT = outputPath
+			+ "selectedEntriesSecondaryId_Model_2.txt";
 
 	/**
 	 * generate the computer indexes for the data, the outputs are two computer
@@ -307,11 +311,40 @@ public class dataReadWrite {
 	 */
 	public static void selectedEntries_Model_2(int from, int to) {
 
-		File file = new File(selectedEntriesSceondaryIdTXT);
+		File file = new File(selectedEntriesSecondaryIdTXT);
+
+		// Check if the parameters are valid.
+		HashMap<String, String> hm = readInfoTXT(infoTXT);
+
+		int numberOfSecondaryIds = Integer.parseInt(hm
+				.get("numberOfSecondaryIds"));
+
+		if (from > to) {
+			System.err
+					.println("the start number \"int from\" should not bigger than the end number \"int to\"");
+			System.exit(-1);
+		}
+
+		if (from > numberOfSecondaryIds || to > numberOfSecondaryIds) {
+			System.err
+					.println("the start number or the end number should not bigger than the number of all secondary Ids: "
+							+ numberOfSecondaryIds);
+
+			System.exit(-1);
+
+		}
+
+		// read
 
 	}
 
-	public static HashMap<String, String> readInfoTXT() {
+	/**
+	 * Read the Information from info.txt
+	 * 
+	 * @param infoTXT
+	 * @return
+	 */
+	public static HashMap<String, String> readInfoTXT(String infoTXT) {
 
 		File file = new File(infoTXT);
 
@@ -331,19 +364,17 @@ public class dataReadWrite {
 			while (line != null) {
 
 				if (!line.startsWith("#") && !line.trim().isEmpty()) {
-//					System.out.println("a");
-//					System.out.println("line = " + line);
 
 					String[] lineInfo = line.split("=");
 
+					if (lineInfo.length != 2) {
+						System.err.println(infoTXT + " has wrong Format!");
+						System.exit(-1);
+					}
+
 					hm.put(lineInfo[0].trim(), lineInfo[1].trim());
 
-//					System.out.println(line);
-//					System.out.println(lineInfo[0] + "," + lineInfo[1]);
-
 				}
-
-				// System.out.println(line);
 
 				line = br.readLine();
 
@@ -360,17 +391,25 @@ public class dataReadWrite {
 		return hm;
 	}
 
+
+
 	public static void test() {
 
-		HashMap<String, String> hm = readInfoTXT();
+		HashMap<String, String> hm = readInfoTXT(infoTXT);
 
 		System.out.println(hm.size());
+
+		Iterator<Map.Entry<String, String>> it = hm.entrySet().iterator();
+
+		while (it.hasNext()) {
+			Map.Entry<String, String> entry = it.next();
+			System.out.println(entry.getKey() + ", " + entry.getValue());
+
+		}
 
 	}
 
 	public static void main(String[] args) {
-
-		test();
 
 	}
 
