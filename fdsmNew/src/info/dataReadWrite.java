@@ -2,20 +2,18 @@ package info;
 
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.map.hash.TIntIntHashMap;
+import gnu.trove.set.hash.TIntHashSet;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 import javolution.util.FastBitSet;
@@ -32,6 +30,8 @@ public class dataReadWrite {
 	static public String infoTXT = outputPath + "info.txt";
 	static public String selectedEntriesSecondaryId_Model_2TXT = outputPath
 			+ "selectedEntriesSecondaryId_Model_2.txt";
+	static public String selectedEntriesSecondaryId_Model_1TXT = outputPath
+			+ "selectedEntriesSecondaryId_Model_1.txt";
 
 	/**
 	 * generate the computer indexes for the data, the outputs are two computer
@@ -301,20 +301,58 @@ public class dataReadWrite {
 		return hm;
 	}
 
+	public static void selectedEntries_Model_1(long seed, int Samples) {
+
+		Random random = new Random(seed);
+
+		ArrayList<String> arrL = new ArrayList<String>();
+
+		arrL = util.Text.textToList(selectedEntriesSecondaryIdTXT);
+		int total = arrL.size();
+
+		int[] randoms = new int[Samples];
+		
+		TIntHashSet hs = new TIntHashSet();
+
+		while(hs.size() < Samples){
+			
+			hs.add(random.nextInt(total));
+			
+		}
+
+		Arrays.sort(randoms);
+
+		try {
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(
+					selectedEntriesSecondaryId_Model_1TXT));
+
+			for (int i = 0; i < Samples; i++) {
+				bw.write(i + ":" + arrL.get(randoms[i])
+						+ DataSource.lineSeparate);
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+
 	/**
 	 * Choose the Samples with select Model = 1
 	 * 
 	 * @param from
-	 *            ComputerSecondaryId+1
+	 *            ComputerSecondaryId+1(nature number)
 	 * @param to
-	 *            ComputerSecondaryId+1
+	 *            ComputerSecondaryId+1(nature number)
 	 */
 	public static void selectedEntries_Model_2(int from, int to) {
 
-		File file = new File(selectedEntriesSecondaryIdTXT);
-
 		// Check if the parameters are valid.
-		HashMap<String, String> hm = readInfoTXT(infoTXT);
+		HashMap<String, String> hm = util.Text.readInfoTXT(infoTXT);
 
 		int numberOfSecondaryIds = Integer.parseInt(hm
 				.get("numberOfSecondaryIds"));
@@ -327,90 +365,40 @@ public class dataReadWrite {
 
 		if (from > numberOfSecondaryIds || to > numberOfSecondaryIds) {
 			System.err
-					.println("the start number or the end number should not bigger than the number of all secondary Ids: "
+					.println("the start number and the end number should smaller than all the number of SecodnaryIds: "
 							+ numberOfSecondaryIds);
 
 			System.exit(-1);
 
 		}
 
-		// read
-
-	}
-
-	/**
-	 * Read the Information from info.txt
-	 * 
-	 * @param infoTXT
-	 * @return
-	 */
-	public static HashMap<String, String> readInfoTXT(String infoTXT) {
-
-		File file = new File(infoTXT);
-
-		if (!file.exists()) {
-			System.err.println(infoTXT + " doesn't exist");
-			System.exit(-1);
-		}
-
-		HashMap<String, String> hm = new HashMap<String, String>();
+		ArrayList<String> arrL = util.Text
+				.textToList(selectedEntriesSecondaryIdTXT);
 
 		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(
+					selectedEntriesSecondaryId_Model_2TXT));
 
-			BufferedReader br = new BufferedReader(new FileReader(file));
-
-			String line = br.readLine();
-
-			while (line != null) {
-
-				if (!line.startsWith("#") && !line.trim().isEmpty()) {
-
-					String[] lineInfo = line.split("=");
-
-					if (lineInfo.length != 2) {
-						System.err.println(infoTXT + " has wrong Format!");
-						System.exit(-1);
-					}
-
-					hm.put(lineInfo[0].trim(), lineInfo[1].trim());
-
-				}
-
-				line = br.readLine();
+			for (int i = from - 1; i < to; i++) {
+				bw.write(arrL.get(i) + DataSource.lineSeparate);
 
 			}
 
-			br.close();
+			bw.close();
 		} catch (IOException e) {
-			System.err.println(infoTXT + " doesn't exist!");
-
+			e.printStackTrace();
 			System.exit(-1);
-
 		}
 
-		return hm;
 	}
 
-
-
 	public static void test() {
-
-		HashMap<String, String> hm = readInfoTXT(infoTXT);
-
-		System.out.println(hm.size());
-
-		Iterator<Map.Entry<String, String>> it = hm.entrySet().iterator();
-
-		while (it.hasNext()) {
-			Map.Entry<String, String> entry = it.next();
-			System.out.println(entry.getKey() + ", " + entry.getValue());
-
-		}
 
 	}
 
 	public static void main(String[] args) {
-
+		// selectedEntries_Model_2(1, 20000);
+		selectedEntries_Model_1(3306, 3);
 	}
 
 }
