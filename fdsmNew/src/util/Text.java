@@ -1,16 +1,14 @@
 package util;
 
-import info.DataSource;
-import info.dataReadWrite;
-
-import java.awt.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -57,19 +55,20 @@ public class Text {
 				System.out.println(list.get(Integer.parseInt(e)));
 
 			}
-			
+
 			read.close();
 
 		}
 
 	}
-	
+
 	/**
 	 * Read Text into an ArrayList<String>
+	 * 
 	 * @param inputTXT
 	 * @return
 	 */
-	public static ArrayList<String> textToList(String inputTXT){
+	public static ArrayList<String> textToList(String inputTXT) {
 		ArrayList<String> arrL = new ArrayList<String>();
 		try {
 
@@ -83,7 +82,6 @@ public class Text {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 
 		return arrL;
 	}
@@ -140,37 +138,52 @@ public class Text {
 
 		return hm;
 	}
-	
-	public static List<Integer> randomSample2(ArrayList<Integer> items, int m, long seed){
+
+	/**
+	 * take the random Sample from a 
+	 * @param items
+	 * @param m
+	 * @param seed
+	 * @return
+	 */
+	public static List<Integer> randomSample2(List<Integer> items, int m,
+			long seed) {
+
+		if (m > items.size()) {
+			System.err.println("m should smaller than the items.size():"
+					+ items.size());
+			System.exit(-1);
+		}
+
 		Random rnd = new Random(seed);
-	    for(int i=0;i<m;i++){
-	        int pos = i + rnd.nextInt(items.size() - i);
-	        Integer tmp = items.get(pos);
-	        items.set(pos, items.get(i));
-	        items.set(i, tmp);
-	    }
-	    return (List<Integer>) items.subList(0, m);
+		for (int i = 0; i < m; i++) {
+			int pos = i + rnd.nextInt(items.size() - i);
+			Integer tmp = items.get(pos);
+			items.set(pos, items.get(i));
+			items.set(i, tmp);
+		}
+		
+
+		return items.subList(0, m);
 	}
+	
+
+
 
 	public static void main(String[] args) {
 
-//		textReader(info.dataReadWrite.selectedEntriesSecondaryIdTXT);
+		// textReader(info.dataReadWrite.selectedEntriesSecondaryIdTXT);
 		
-		ArrayList<Integer> items = new ArrayList<Integer>();
-		for(int i = 0; i<10; i++){
+		List<Integer> items = new ArrayList<Integer>();
+		
+		for(int i= 0; i<20; i++){
 			items.add(i);
-			
 		}
 		
-		int m = 5;
+		items = randomSample2(items, 20, 3306);
 		
-		long seed = 3306;
+		System.out.println(items.toString());
 		
-		ArrayList<Integer> arrL2 = randomSample2(items, m, seed);
-		
-		for(int i = 0; i<5; i++){
-			System.out.println(arrL2.get(i));
-		}
 
 	}
 
