@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -167,24 +169,59 @@ public class Text {
 		return items.subList(0, m);
 	}
 	
+	public static HashMap<String, String> readLineInfos(HashMap<String, String> hsMap, String lineInfos){
+		HashMap<String, String> hs = hsMap;
+		
+		String line;
+		
+		if(lineInfos.startsWith("#")){
+			line = lineInfos.substring(1);
+		}else {
+			line = lineInfos;
+		}
+		
+		String[] lineArr = line.split(",");
+		
+		for(int i = 0; i<lineArr.length; i++){
+			
+			String[] parameters = lineArr[i].split("=");
+			
+			if(parameters.length != 2){
+				System.err.println("The Format of the Infomation is wrong!");
+				System.exit(-1);
+			}
+			
+			hs.put(parameters[0].trim(), parameters[1].trim());
+							
+		}
+		
+		
+		
+		
+		return hsMap;
+	}
+	
 
 
 
 	public static void main(String[] args) {
 
-		// textReader(info.dataReadWrite.selectedEntriesSecondaryIdTXT);
+		HashMap<String, String> hs = new HashMap<String, String>();
 		
-		List<Integer> items = new ArrayList<Integer>();
+		hs.put("huhu", "haha");
 		
-		for(int i= 0; i<20; i++){
-			items.add(i);
-		}
+		String line = "#numberOfSamples = 20000, from = 1, to = 20000";
 		
-		items = randomSample2(items, 20, 3306);
-		
-		System.out.println(items.toString());
-		
+		hs = readLineInfos(hs, line);
 
+		Iterator<Entry<String, String>> it = hs.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Entry<String, String> entry = it.next();
+			System.out.println("hs.size = "+hs.size());
+			
+			System.out.println(entry.getKey()+","+entry.getValue());
+		}
 	}
 
 }

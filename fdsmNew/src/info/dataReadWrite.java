@@ -311,13 +311,13 @@ public class dataReadWrite {
 		int total = arrL.size();
 
 		int[] randoms = new int[Samples];
-		
+
 		TIntHashSet hs = new TIntHashSet();
 
-		while(hs.size() < Samples){
-			
+		while (hs.size() < Samples) {
+
 			hs.add(random.nextInt(total));
-			
+
 		}
 
 		Arrays.sort(randoms);
@@ -326,6 +326,9 @@ public class dataReadWrite {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(
 					selectedEntriesSecondaryId_Model_1TXT));
+			
+			bw.write("#numberOfSamples = "+Samples+","+DataSource.lineSeparate);
+			bw.write("#WorkComputerSecondaryId:ComputerSecondaryId:Cardinality:PrimaryIds"+DataSource.lineSeparate);
 
 			for (int i = 0; i < Samples; i++) {
 				bw.write(i + ":" + arrL.get(randoms[i])
@@ -378,9 +381,10 @@ public class dataReadWrite {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(
 					selectedEntriesSecondaryId_Model_2TXT));
-
+			bw.write("#numberOfSamples = "+(to-from+1)+","+" from = "+from+", to = "+to+DataSource.lineSeparate);
+			bw.write("#WorkComputerSecondaryId:ComputerSecondaryId:Cardinality:PrimaryIds"+DataSource.lineSeparate);
 			for (int i = from - 1; i < to; i++) {
-				bw.write(arrL.get(i) + DataSource.lineSeparate);
+				bw.write(i + ":" + arrL.get(i) + DataSource.lineSeparate);
 
 			}
 
@@ -397,8 +401,8 @@ public class dataReadWrite {
 	}
 
 	public static void main(String[] args) {
-		// selectedEntries_Model_2(1, 20000);
-		selectedEntries_Model_1(3306, 3);
+		selectedEntries_Model_2(1, 20000);
+		// selectedEntries_Model_1(3306, 3);
 	}
 
 }
