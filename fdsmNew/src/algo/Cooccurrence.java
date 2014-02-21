@@ -15,56 +15,63 @@ import javax.tools.JavaFileManager.Location;
 import util.MyBitSet;
 
 public class Cooccurrence {
-	
-	public static MyBitSet[] bipartiteGraphSecBS(String inputTXT){
-		
+
+	public static MyBitSet[] bipartiteGraphSecBS(String inputTXT) {
+
 		File file = new File(inputTXT);
-		
-		MyBitSet[] adjM;
-		
+
+		MyBitSet[] adjM = null;
+
 		try {
-			
+
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line = br.readLine();
 			HashMap<String, String> hs = new HashMap<String, String>();
 			hs = util.Text.readLineInfos(hs, line);
 			int numberOfSamples = Integer.parseInt(hs.get("numberOfSamples"));
-			
+
 			adjM = new MyBitSet[numberOfSamples];
-			
-			
+
 			br.readLine();
-			
+
 			line = br.readLine();
 
-			while(line != null){
-				String[] lineInfos = line.split(",");
+			int cnt = 0;
+			while (line != null) {
+				String[] lineInfos = line.split(":");
+
+				int cardinality = Integer.parseInt(lineInfos[2]);
 				
-				
-				
-				
-				
+
+				adjM[cnt] = new MyBitSet();
+
+				if (cardinality != 0) {
+					
+					String[] primaryIds = lineInfos[3].split(",");
+					for (int i = 0; i < cardinality; i++) {
+
+						adjM[cnt].set(Integer.parseInt(primaryIds[i]));
+
+					}
+				}
+
 				line = br.readLine();
+				cnt++;
 			}
-			
-			
-			
-			
+
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-	
+
 		return adjM;
-		
+
 	}
-	
-	
-	
+
 	public static void main(String[] args) {
-		
+
+
+
 	}
 
 }
