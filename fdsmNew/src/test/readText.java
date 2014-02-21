@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.LinkOption;
@@ -16,6 +17,10 @@ import java.nio.file.WatchService;
 import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchEvent.Modifier;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import info.*;
 
 public class readText {
@@ -131,10 +136,10 @@ public class readText {
 				+ System.getProperty("user.timezone")); // z.B. 'Europe/Berlin'
 
 	}
-	
+
 	public enum EnumExample {
-		  A, B, C, D
-		}
+		A, B, C, D
+	}
 
 	public enum Chara {
 		A(1, 2), B(3, 4), C(5, 6), D(7, 8);
@@ -154,14 +159,101 @@ public class readText {
 		public int getValue2() {
 			return value2;
 		}
-		
-		
 
+	}
+
+	/**
+	 * random Sampling without repeat
+	 * 
+	 * @param items
+	 *            A list with basic Data
+	 * @param m
+	 *            the number of desired Samples
+	 * @param seed
+	 *            the initial seed
+	 * @return A list with obtained Samples
+	 */
+	public static <E> List<E> randomSample(List<E> items, int m, long seed) {
+
+		if (m > items.size()) {
+			System.err.println("m should smaller than the items.size():"
+					+ items.size());
+			System.exit(-1);
+		}
+
+		Random rnd = new Random(seed);
+		for (int i = 0; i < m; i++) {
+			int pos = i + rnd.nextInt(items.size() - i);
+			E tmp = items.get(pos);
+			items.set(pos, items.get(i));
+			items.set(i, tmp);
+		}
+
+		return items.subList(0, m);
+	}
+	
+	/**
+	 * random Sampling without repeat
+	 * 
+	 * @param items
+	 *            An array with basic Data
+	 * @param m
+	 *            the number of desired Samples
+	 * @param seed
+	 *            the initial seed
+	 * @return A array with obtained Samples
+	 */
+	public static <E> E[] randomSample2(E[] items, int m, long seed){
+		
+		if (m > items.length) {
+			System.err.println("m should smaller than the items.size():"
+					+ items.length);
+			System.exit(-1);
+		}else if (items.length <=1) {
+			System.err.println("items can't be empty"
+					+ items.length);
+			System.exit(-1);
+		}
+		
+		Random rnd = new Random(seed);
+		for (int i = 0; i < m; i++) {
+			int pos = i + rnd.nextInt(items.length - i);
+			E tmp = items[pos];
+			items[pos] = items[i];
+			items[i] = tmp;
+		}
+		
+		E[] result = Arrays.copyOf(items, m);
+		
+		return result;
+		
 	}
 
 	public static void main(String[] args) {
 
 		// String inputFileWithPath = DataPad.data3user;
+
+//		List<Integer> abc = new ArrayList<Integer>();
+//
+//		for (int i = 0; i < 20; i++) {
+//			abc.add(i);
+//
+//		}
+//
+//		System.out.println(randomSample(abc, 20, 3306).toString());
+		
+		int length = 10;
+//		int[] abc = new int[length];
+		Integer[] abc = new Integer[length];
+		
+		for(int i = 0; i<length; i++){
+			abc[i] = i;
+		}
+		Integer[] bbc = randomSample2(abc, length, 3306);
+		
+		for(Integer i : bbc){
+			System.out.print(i+",");
+		}
 		
 
 	}
