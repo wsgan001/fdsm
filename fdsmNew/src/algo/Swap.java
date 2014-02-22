@@ -4,14 +4,18 @@ public class Swap {
 	
 	
 	public static int[][] generateEdges(Object bipartiteGraph){
-		if(bipartiteGraph.getClass()bipartiteGraph == )
 		
+		int[][] abc = null;
+		System.out.println(bipartiteGraph.getClass().getName());
+		return abc;
 		
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+		String aaa = "huhu";
+		generateEdges(aaa);
+		
 	}
 
 }
