@@ -49,5 +49,23 @@ public class MyBitSet extends BitSet {
 		a.andNot(b);
 		return a;
 	}
+	
+	public int[] toArray(){
+		
+		int[] arr = new int[this.cardinality()];
+		
+		int cnt = 0;
+		
+		for(int i = this.nextSetBit(0); i>= 0; i = this.nextSetBit(i)){
+			
+			arr[cnt] = i;
+			
+			cnt++;
+			
+		}
+		
+		
+		return arr;
+	}
 
 }

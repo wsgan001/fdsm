@@ -11,32 +11,94 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 import util.MyBitSet;
 import util.MyFastBitSet;
+import util.Text;
 
 public class BipartiteGraph {
 
-	public static MyBitSet[] bipartiteGraphSecBS(String inputTXT) {
+	String inputTXT = dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
 
-		File file = new File(inputTXT);
+	int numberOfSamples = 20000;
+
+	int numberOfPrimaryIds = 17770;
+
+	int numberOfEdges = 2347218;
+
+	public BipartiteGraph() {
+
+		if (DataSource.selectModel == 1) {
+			this.inputTXT = dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
+		} else {
+			this.inputTXT = dataReadWrite.selectedEntriesSecondaryId_Model_2TXT;
+		}
+
+		try {
+
+			BufferedReader br = new BufferedReader(
+					new FileReader(this.inputTXT));
+
+			String line = br.readLine();
+
+			HashMap<String, String> hm = util.Text.readLineInfos(line);
+
+			this.numberOfSamples = Integer.parseInt(hm.get("numberOfSamples"));
+			
+			this.numberOfPrimaryIds = Integer.parseInt(hm.get("numberOfPrimaryIds"));
+
+			this.numberOfEdges = Integer.parseInt(hm.get("sumOfCardinarity"));
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public BipartiteGraph(String inputTXT) {
+
+		this.inputTXT = inputTXT;
+
+		try {
+
+			BufferedReader br = new BufferedReader(
+					new FileReader(this.inputTXT));
+
+			String line = br.readLine();
+
+			HashMap<String, String> hm = util.Text.readLineInfos(line);
+
+			this.numberOfSamples = Integer.parseInt(hm.get("numberOfSamples"));
+
+			this.numberOfEdges = Integer.parseInt(hm.get("sumOfCardinarity"));
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public MyBitSet[] toSecBS() {
+
+		File file = new File(this.inputTXT);
 
 		MyBitSet[] adjM = null;
 
 		try {
 
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line = br.readLine();
-			HashMap<String, String> hs = new HashMap<String, String>();
-			hs = util.Text.readLineInfos(hs, line);
-			int numberOfSamples = Integer.parseInt(hs.get("numberOfSamples"));
+			br.readLine();
 
-			adjM = new MyBitSet[numberOfSamples];
+			adjM = new MyBitSet[this.numberOfSamples];
 
 			br.readLine();
 
-			line = br.readLine();
+			String line = br.readLine();
 
 			int cnt = 0;
 			while (line != null) {
@@ -69,25 +131,22 @@ public class BipartiteGraph {
 
 	}
 
-	public static MyFastBitSet[] bipartiteGraphSecFBS(String inputTXT) {
+	public MyFastBitSet[] toSecFBS() {
 
-		File file = new File(inputTXT);
+		File file = new File(this.inputTXT);
 
 		MyFastBitSet[] adjM = null;
 
 		try {
 
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line = br.readLine();
-			HashMap<String, String> hs = new HashMap<String, String>();
-			hs = util.Text.readLineInfos(hs, line);
-			int numberOfSamples = Integer.parseInt(hs.get("numberOfSamples"));
-
-			adjM = new MyFastBitSet[numberOfSamples];
+			br.readLine();
 
 			br.readLine();
 
-			line = br.readLine();
+			adjM = new MyFastBitSet[this.numberOfSamples];
+
+			String line = br.readLine();
 
 			int cnt = 0;
 			while (line != null) {
@@ -120,25 +179,22 @@ public class BipartiteGraph {
 
 	}
 
-	public static TreeSet<Integer>[] bipartiteGraphSecTS(String inputTXT) {
-		File file = new File(inputTXT);
+	public TreeSet<Integer>[] toSecTS() {
+		File file = new File(this.inputTXT);
 
 		TreeSet<Integer>[] adjM = null;
 
 		try {
 
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line = br.readLine();
-			HashMap<String, String> hs = new HashMap<String, String>();
-			hs = util.Text.readLineInfos(hs, line);
-			int numberOfSamples = Integer.parseInt(hs.get("numberOfSamples"));
+			br.readLine();
 
 			adjM = (TreeSet<Integer>[]) Array.newInstance(TreeSet.class,
-					numberOfSamples);
+					this.numberOfSamples);
 
 			br.readLine();
 
-			line = br.readLine();
+			String line = br.readLine();
 
 			int cnt = 0;
 			while (line != null) {
@@ -171,25 +227,22 @@ public class BipartiteGraph {
 
 	}
 
-	public static TIntHashSet[] bipartiteGraphSecTHS(String inputTXT) {
+	public TIntHashSet[] toSecTHS() {
 
-		File file = new File(inputTXT);
+		File file = new File(this.inputTXT);
 
 		TIntHashSet[] adjM = null;
 
 		try {
 
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line = br.readLine();
-			HashMap<String, String> hs = new HashMap<String, String>();
-			hs = util.Text.readLineInfos(hs, line);
-			int numberOfSamples = Integer.parseInt(hs.get("numberOfSamples"));
+			br.readLine();
 
-			adjM = new TIntHashSet[numberOfSamples];
+			adjM = new TIntHashSet[this.numberOfSamples];
 
 			br.readLine();
 
-			line = br.readLine();
+			String line = br.readLine();
 
 			int cnt = 0;
 			while (line != null) {
@@ -222,12 +275,12 @@ public class BipartiteGraph {
 
 	}
 
-	public static MyBitSet[] bipartiteGraphPrimBS(String inputTXT) {
+	public MyBitSet[] toPrimBS() {
 
 		HashMap<String, String> infos = util.Text
 				.readInfoTXT(dataReadWrite.infoTXT);
 
-		File file = new File(inputTXT);
+		File file = new File(this.inputTXT);
 
 		int numberOfPrimaryIds = Integer.parseInt(infos
 				.get("numberOfPrimaryIds"));
@@ -276,12 +329,12 @@ public class BipartiteGraph {
 
 	}
 
-	public static MyFastBitSet[] bipartiteGraphPrimFBS(String inputTXT) {
+	public MyFastBitSet[] toPrimFBS() {
 
 		HashMap<String, String> infos = util.Text
 				.readInfoTXT(dataReadWrite.infoTXT);
 
-		File file = new File(inputTXT);
+		File file = new File(this.inputTXT);
 
 		int numberOfPrimaryIds = Integer.parseInt(infos
 				.get("numberOfPrimaryIds"));
@@ -329,12 +382,12 @@ public class BipartiteGraph {
 		return adjM;
 	}
 
-	public static TreeSet<Integer>[] bipartiteGraphPrimTS(String inputTXT) {
+	public TreeSet<Integer>[] toPrimTS() {
 
 		HashMap<String, String> infos = util.Text
 				.readInfoTXT(dataReadWrite.infoTXT);
 
-		File file = new File(inputTXT);
+		File file = new File(this.inputTXT);
 
 		int numberOfPrimaryIds = Integer.parseInt(infos
 				.get("numberOfPrimaryIds"));
@@ -385,12 +438,12 @@ public class BipartiteGraph {
 		return adjM;
 
 	}
-	
-	public static TIntHashSet[] bipartiteGraphPrimTHS(String inputTXT){
+
+	public TIntHashSet[] toPrimTHS() {
 		HashMap<String, String> infos = util.Text
 				.readInfoTXT(dataReadWrite.infoTXT);
 
-		File file = new File(inputTXT);
+		File file = new File(this.inputTXT);
 
 		int numberOfPrimaryIds = Integer.parseInt(infos
 				.get("numberOfPrimaryIds"));
@@ -436,17 +489,76 @@ public class BipartiteGraph {
 		}
 
 		return adjM;
-		
+
+	}
+
+	public int[][] generateEdges() {
+
+		int[][] edges = null;
+
+		try {
+
+			BufferedReader br = new BufferedReader(
+					new FileReader(this.inputTXT));
+
+			String line = br.readLine();
+
+			edges = new int[this.numberOfEdges][2];
+
+			br.readLine();
+
+			int cnt = 0;
+
+			line = br.readLine();
+
+			while (line != null) {
+
+				String[] lineInfos = line.split(":");
+
+				if (lineInfos.length != 4) {
+					line = br.readLine();
+					continue;
+				}
+
+				int cardi = Integer.parseInt(lineInfos[2]);
+				StringTokenizer st = new StringTokenizer(lineInfos[3], ",");
+				for (int i = 0; i < cardi; i++) {
+
+					edges[cnt][0] = Integer.parseInt(lineInfos[0]);
+					edges[cnt][1] = Integer.parseInt(st.nextToken());
+
+					cnt++;
+
+				}
+
+				line = br.readLine();
+			}
+
+			br.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return edges;
+
 	}
 
 	public static void main(String[] args) {
 
+		BipartiteGraph bp = new BipartiteGraph();
+
 		// long t1 = System.currentTimeMillis();
-		// MyBitSet[] bipGraph =
-		// bipartiteGraphSecBS(info.dataReadWrite.selectedEntriesSecondaryId_Model_2TXT);
+		//
+		// BipartiteGraph bp = new BipartiteGraph();
+		// MyBitSet[] bipGraph = bp.bipartiteGraphSecBS();
+		//
 		// long t2 = System.currentTimeMillis();
 		//
 		// System.out.println("Time = " + (t2 - t1));
+		//
+		// System.out.println(bipGraph.length);
+
 		//
 		// t1 = System.currentTimeMillis();
 		// MyFastBitSet[] bipGraph1 =
@@ -470,14 +582,16 @@ public class BipartiteGraph {
 		//
 		// System.out.println(bipGraph4[1].toString());
 
-		long t1 = System.currentTimeMillis();
-		TIntHashSet[] bipGraph5 = bipartiteGraphPrimTHS(info.dataReadWrite.selectedEntriesSecondaryId_Model_2TXT);
-		long t2 = System.currentTimeMillis();
-		System.out.println("Time = " + (t2 - t1));
-		System.out.println(bipGraph5.length);
-		int number = 1;
-		System.out.println("cardinarity = " + bipGraph5[number].size() + " : "
-				+ bipGraph5[number].toString());
+		// long t1 = System.currentTimeMillis();
+		// TIntHashSet[] bipGraph5 =
+		// bipartiteGraphPrimTHS(info.dataReadWrite.selectedEntriesSecondaryId_Model_2TXT);
+		// long t2 = System.currentTimeMillis();
+		// System.out.println("Time = " + (t2 - t1));
+		// System.out.println(bipGraph5.length);
+		// int number = 1;
+		// System.out.println("cardinarity = " + bipGraph5[number].size() +
+		// " : "
+		// + bipGraph5[number].toString());
 
 		//
 		// System.out.println("Time = " + (t2 - t1));

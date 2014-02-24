@@ -16,18 +16,14 @@ public class DataSource {
 	
 	public static int ratingCriterion = 3;
 	
-	public static String mytext = "mytext";
-	
-	public static String mytest = "mytest";
-	
 	public static String lineSeparate = System.lineSeparator();
 	
-	public static int selectModel = 1; // 1: select from ... to .., 2:random 
+	public static int selectModel = 1; //1:select from ... to .., 2:random
 	
 	public static int fromInd = 0;
 	
 	public static int toInd = 20000;
 	
 	public static int numberOfSamples = 20000;
-
+	
 }

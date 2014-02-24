@@ -1,5 +1,8 @@
 package util;
 
+import info.DataSource;
+import info.dataReadWrite;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +38,9 @@ public class Text {
 
 		Scanner read = new Scanner(System.in);
 
-		String line = "1";
+		read.useDelimiter(DataSource.lineSeparate);
+
+		String line = "0";
 
 		while (10 > 0) {
 
@@ -58,10 +63,9 @@ public class Text {
 
 			}
 
-			read.close();
-
 		}
 
+		read.close();
 	}
 
 	/**
@@ -142,7 +146,8 @@ public class Text {
 	}
 
 	/**
-	 * take the random Sample from a 
+	 * take the random Sample from a
+	 * 
 	 * @param items
 	 * @param m
 	 * @param seed
@@ -164,64 +169,60 @@ public class Text {
 			items.set(pos, items.get(i));
 			items.set(i, tmp);
 		}
-		
 
 		return items.subList(0, m);
 	}
-	
-	public static HashMap<String, String> readLineInfos(HashMap<String, String> hsMap, String lineInfos){
-		HashMap<String, String> hs = hsMap;
-		
+
+	public static HashMap<String, String> readLineInfos(
+			String lineInfos) {
+		HashMap<String, String> hs = new HashMap<String, String>();
+
 		String line;
-		
-		if(lineInfos.startsWith("#")){
+
+		if (lineInfos.startsWith("#")) {
 			line = lineInfos.substring(1);
-		}else {
+		} else {
 			line = lineInfos;
 		}
-		
+
 		String[] lineArr = line.split(",");
-		
-		for(int i = 0; i<lineArr.length; i++){
-			
+
+		for (int i = 0; i < lineArr.length; i++) {
+
 			String[] parameters = lineArr[i].split("=");
-			
-			if(parameters.length != 2){
+
+			if (parameters.length != 2) {
 				System.err.println("The Format of the Infomation is wrong!");
 				System.exit(-1);
 			}
-			
+
 			hs.put(parameters[0].trim(), parameters[1].trim());
-							
+
 		}
-		
-		
-		
-		
-		return hsMap;
+
+		return hs;
 	}
-	
-
-
 
 	public static void main(String[] args) {
 
-		HashMap<String, String> hs = new HashMap<String, String>();
-		
-		hs.put("huhu", "haha");
-		
-		String line = "#numberOfSamples = 20000, from = 1, to = 20000";
-		
-		hs = readLineInfos(hs, line);
+		// HashMap<String, String> hs = new HashMap<String, String>();
+		//
+		// hs.put("huhu", "haha");
+		//
+		// String line = "#numberOfSamples = 20000, from = 1, to = 20000";
+		//
+		// hs = readLineInfos(hs, line);
+		//
+		// Iterator<Entry<String, String>> it = hs.entrySet().iterator();
+		//
+		// while(it.hasNext()){
+		// Entry<String, String> entry = it.next();
+		// System.out.println("hs.size = "+hs.size());
+		//
+		// System.out.println(entry.getKey()+","+entry.getValue());
+		// }
 
-		Iterator<Entry<String, String>> it = hs.entrySet().iterator();
-		
-		while(it.hasNext()){
-			Entry<String, String> entry = it.next();
-			System.out.println("hs.size = "+hs.size());
-			
-			System.out.println(entry.getKey()+","+entry.getValue());
-		}
+		textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
 	}
 
 }

@@ -28,10 +28,11 @@ public class dataReadWrite {
 	static public String selectedEntriesSecondaryIdTXT = DataSource.outputPath
 			+ "selectedEntriesSecondaryId.txt";
 	static public String infoTXT = outputPath + "info.txt";
-	static public String selectedEntriesSecondaryId_Model_2TXT = outputPath
-			+ "selectedEntriesSecondaryId_Model_2.txt";
 	static public String selectedEntriesSecondaryId_Model_1TXT = outputPath
 			+ "selectedEntriesSecondaryId_Model_1.txt";
+	static public String selectedEntriesSecondaryId_Model_2TXT = outputPath
+			+ "selectedEntriesSecondaryId_Model_2.txt";
+
 
 	/**
 	 * generate the computer indexes for the data, the outputs are two computer
@@ -300,8 +301,87 @@ public class dataReadWrite {
 
 		return hm;
 	}
+	
+	
 
-	public static void selectedEntries_Model_1(long seed, int Samples) {
+
+	/**
+	 * Choose the Samples with select Model = 1
+	 * 
+	 * @param from
+	 *            ComputerSecondaryId+1(nature number)
+	 * @param to
+	 *            ComputerSecondaryId+1(nature number)
+	 */
+	public static void selectedEntries_Model_1(int from, int to) {
+
+		// Check if the parameters are valid.
+		HashMap<String, String> hm = util.Text.readInfoTXT(infoTXT);
+
+		int numberOfSecondaryIds = Integer.parseInt(hm
+				.get("numberOfSecondaryIds"));
+		int numberOfPrimaryIds = Integer.parseInt(hm.get("numberOfPrimaryIds"));
+
+		if (from > to) {
+			System.err
+					.println("the start number \"int from\" should not bigger than the end number \"int to\"");
+			System.exit(-1);
+		}
+
+		if (from > numberOfSecondaryIds || to > numberOfSecondaryIds) {
+			System.err
+					.println("the start number and the end number should smaller than all the number of SecodnaryIds: "
+							+ numberOfSecondaryIds);
+
+			System.exit(-1);
+
+		}
+
+		ArrayList<String> arrL = util.Text
+				.textToList(selectedEntriesSecondaryIdTXT);
+
+		int length = arrL.size();
+		int sumCardi = 0;
+
+		for (int i = from-1; i < to; i++) {
+
+			StringTokenizer st = new StringTokenizer(arrL.get(i), ":");
+			st.nextToken();
+			sumCardi += Integer.parseInt(st.nextToken());
+
+		}
+
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(
+					selectedEntriesSecondaryId_Model_1TXT));
+			bw.write("#numberOfSamples = " + (to - from + 1) + "," + " from = "
+					+ from + ", to = " + to + ", numberOfPrimaryIds = " + numberOfPrimaryIds + ", sumOfCardinarity = "
+					+ sumCardi + DataSource.lineSeparate);
+			bw.write("#WorkComputerSecondaryId:ComputerSecondaryId:Cardinality:PrimaryIds"
+					+ DataSource.lineSeparate);
+			for (int i = from - 1; i < to; i++) {
+				bw.write(i + ":" + arrL.get(i) + DataSource.lineSeparate);
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+	
+	/**
+	 * Choose the Samples with select Model = 2, Random Model
+	 * 
+	 * @param seed
+	 *            inital seed
+	 * @param Samples
+	 *            the number of Samples to be taken
+	 */
+
+	public static void selectedEntries_Model_2(long seed, int Samples) {
 
 		Random random = new Random(seed);
 
@@ -326,9 +406,11 @@ public class dataReadWrite {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(
 					selectedEntriesSecondaryId_Model_1TXT));
-			
-			bw.write("#numberOfSamples = "+Samples+","+DataSource.lineSeparate);
-			bw.write("#WorkComputerSecondaryId:ComputerSecondaryId:Cardinality:PrimaryIds"+DataSource.lineSeparate);
+
+			bw.write("#numberOfSamples = " + Samples + ","
+					+ DataSource.lineSeparate);
+			bw.write("#WorkComputerSecondaryId:ComputerSecondaryId:Cardinality:PrimaryIds"
+					+ DataSource.lineSeparate);
 
 			for (int i = 0; i < Samples; i++) {
 				bw.write(i + ":" + arrL.get(randoms[i])
@@ -343,65 +425,14 @@ public class dataReadWrite {
 		}
 
 	}
-
-	/**
-	 * Choose the Samples with select Model = 1
-	 * 
-	 * @param from
-	 *            ComputerSecondaryId+1(nature number)
-	 * @param to
-	 *            ComputerSecondaryId+1(nature number)
-	 */
-	public static void selectedEntries_Model_2(int from, int to) {
-
-		// Check if the parameters are valid.
-		HashMap<String, String> hm = util.Text.readInfoTXT(infoTXT);
-
-		int numberOfSecondaryIds = Integer.parseInt(hm
-				.get("numberOfSecondaryIds"));
-
-		if (from > to) {
-			System.err
-					.println("the start number \"int from\" should not bigger than the end number \"int to\"");
-			System.exit(-1);
-		}
-
-		if (from > numberOfSecondaryIds || to > numberOfSecondaryIds) {
-			System.err
-					.println("the start number and the end number should smaller than all the number of SecodnaryIds: "
-							+ numberOfSecondaryIds);
-
-			System.exit(-1);
-
-		}
-
-		ArrayList<String> arrL = util.Text
-				.textToList(selectedEntriesSecondaryIdTXT);
-
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(
-					selectedEntriesSecondaryId_Model_2TXT));
-			bw.write("#numberOfSamples = "+(to-from+1)+","+" from = "+from+", to = "+to+DataSource.lineSeparate);
-			bw.write("#WorkComputerSecondaryId:ComputerSecondaryId:Cardinality:PrimaryIds"+DataSource.lineSeparate);
-			for (int i = from - 1; i < to; i++) {
-				bw.write(i + ":" + arrL.get(i) + DataSource.lineSeparate);
-
-			}
-
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
-
-	}
+	
 
 	public static void test() {
 
 	}
 
 	public static void main(String[] args) {
-		selectedEntries_Model_2(1, 20000);
+		selectedEntries_Model_1(1, 20000);
 		// selectedEntries_Model_1(3306, 3);
 	}
 
