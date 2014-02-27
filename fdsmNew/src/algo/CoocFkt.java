@@ -105,7 +105,25 @@ public class CoocFkt {
 		}
 
 	}
-
+	
+	public static void readCooccPrimary(MyBitSet[] adjM, int[][] coocc){
+		
+		int adjM_length = adjM.length;
+		
+		for(int i = 0; i<adjM_length; i++){
+			
+			for(int j = i+1; j<adjM_length; j++){
+				
+				coocc[i][j] = adjM[i].myand(adjM[j]).cardinality();
+					
+				}
+				
+				
+			}
+			
+			
+		}
+		
 	public static void main(String[] args) {
 
 	}
