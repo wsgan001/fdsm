@@ -1,6 +1,6 @@
 package util;
 
-public class funktions {
+public class Functions {
 	
 	public static void arrayPrintTwoDimensions(int[][] arr){
 		

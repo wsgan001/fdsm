@@ -15,7 +15,7 @@ import javax.tools.JavaFileManager.Location;
 
 import util.MyBitSet;
 
-import util.funktions;
+import util.Functions;
 
 public class CoocFkt {
 
