@@ -34,8 +34,6 @@ public class Test {
 	public static <T> void useFoo(Class<T> a) {
 
 		Class<?> b = a.getSuperclass();
-		
-		
 
 		System.out.println(b.toString());
 
@@ -43,7 +41,7 @@ public class Test {
 
 		try {
 
-			Object newinstance = (Object)b.newInstance();
+			Object newinstance = (Object) b.newInstance();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,42 +50,38 @@ public class Test {
 		foo(a, new ArrayList<T>());
 
 	}
-	
-	public static void tt(){
-		
-//		HashSet<String> abc = new HashSet<String>();
-		
-//		String abc = "100";
-	
+
+	public static void tt() {
+
+		// HashSet<String> abc = new HashSet<String>();
+
+		// String abc = "100";
+
 		Number abc = 100;
-		
+
 		Class<?> clazz = abc.getClass();
-//		Class<?> clazz1 = clazz.getSuperclass();
-		
-		
-		
+		// Class<?> clazz1 = clazz.getSuperclass();
+
 		System.out.println(clazz.toString());
-//		System.out.println(clazz1.toString());
-		
+		// System.out.println(clazz1.toString());
+
 		try {
-			
-//			Number haha = (Number)clazz.newInstance();
-			
-//			Number yy = clazz.getConstructors();
-//			Object bubu = clazz1.newInstance();
-			
+
+			// Number haha = (Number)clazz.newInstance();
+
+			// Number yy = clazz.getConstructors();
+			// Object bubu = clazz1.newInstance();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
+
+
 
 	public static void main(String[] args) {
 
-//		MyMethod(-5);
-
-		tt();
 	}
 
 }

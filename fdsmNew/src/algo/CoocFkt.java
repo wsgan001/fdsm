@@ -15,6 +15,8 @@ import javax.tools.JavaFileManager.Location;
 
 import util.MyBitSet;
 
+import util.funktions;
+
 public class CoocFkt {
 
 	/**
@@ -79,9 +81,11 @@ public class CoocFkt {
 	 * from this array represent the friends(PrimaryIds) of a SecondaryId.
 	 * 
 	 * @param adjM
+	 *            Format: SecondaryId: PrimaryId_1, PrimaryId_2...
 	 * @param coocc
+	 *            a two dimensional array, with stores the value of coocurence
 	 */
-	public static void readCooccSec(MyBitSet[] adjM, int[][] coocc) {
+	public static void readCooccSecTopRight(MyBitSet[] adjM, int[][] coocc) {
 
 		int adjM_length = adjM.length;
 
@@ -105,26 +109,79 @@ public class CoocFkt {
 		}
 
 	}
-	
-	public static void readCooccPrimary(MyBitSet[] adjM, int[][] coocc){
-		
+
+	/**
+	 * calculate cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
+	 * from this array represent the friends(PrimaryIds) of a SecondaryId.
+	 * 
+	 * @param adjM
+	 *            Format: SecondaryId: PrimaryId_1, PrimaryId_2...
+	 * @param coocc
+	 *            a two dimensional array, with stores the value of coocurence
+	 */
+	public static void readCooccSecLowerLeft(MyBitSet[] adjM, int[][] coocc) {
+
 		int adjM_length = adjM.length;
-		
-		for(int i = 0; i<adjM_length; i++){
-			
-			for(int j = i+1; j<adjM_length; j++){
-				
-				coocc[i][j] = adjM[i].myand(adjM[j]).cardinality();
-					
+
+		int[] primaryIds = null;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			primaryIds = adjM[i].toArray();
+
+			int i_length = adjM[i].length();
+
+			for (int j = 0; j < i_length; j++) {
+
+				for (int k = j + 1; k < i_length; k++) {
+
+					coocc[primaryIds[k]][primaryIds[j]]++;
+
 				}
-				
-				
 			}
-			
-			
+
 		}
-		
+
+	}
+
+	public static void readCooccPrimaryTopRight(MyBitSet[] adjM, int[][] coocc) {
+
+		int adjM_length = adjM.length;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			for (int j = i + 1; j < adjM_length; j++) {
+
+				coocc[i][j] = adjM[i].myand(adjM[j]).cardinality();
+
+			}
+
+		}
+
+	}
+
+	public static void readCooccPrimaryLowerLeft(MyBitSet[] adjM, int[][] coocc) {
+
+		int adjM_length = adjM.length;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			for (int j = i + 1; j < adjM_length; j++) {
+
+				coocc[j][i] = adjM[i].myand(adjM[j]).cardinality();
+
+			}
+
+		}
+
+	}
+
+
+
 	public static void main(String[] args) {
+
+		
+
 
 	}
 
