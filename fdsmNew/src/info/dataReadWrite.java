@@ -33,7 +33,6 @@ public class dataReadWrite {
 	static public String selectedEntriesSecondaryId_Model_2TXT = outputPath
 			+ "selectedEntriesSecondaryId_Model_2.txt";
 
-
 	/**
 	 * generate the computer indexes for the data, the outputs are two computer
 	 * indexes for the primary column and secondary column.
@@ -102,6 +101,9 @@ public class dataReadWrite {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(
 					primaryIndexTXT));
 
+			bw.write("#numberOfIndexs=" + indPrimary.length
+					+ System.lineSeparator());
+
 			for (Index ind : indPrimary) {
 
 				bw.write(cnt + "," + ind + DataSource.lineSeparate);
@@ -114,6 +116,9 @@ public class dataReadWrite {
 			cnt = 0;
 
 			bw = new BufferedWriter(new FileWriter(secondaryIndexTXT));
+
+			bw.write("#numberOfIndexs=" + indSecondary.length
+					+ System.lineSeparator());
 
 			for (Index ind : indSecondary) {
 
@@ -301,9 +306,6 @@ public class dataReadWrite {
 
 		return hm;
 	}
-	
-	
-
 
 	/**
 	 * Choose the Samples with select Model = 1
@@ -343,7 +345,7 @@ public class dataReadWrite {
 		int length = arrL.size();
 		int sumCardi = 0;
 
-		for (int i = from-1; i < to; i++) {
+		for (int i = from - 1; i < to; i++) {
 
 			StringTokenizer st = new StringTokenizer(arrL.get(i), ":");
 			st.nextToken();
@@ -355,8 +357,9 @@ public class dataReadWrite {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(
 					selectedEntriesSecondaryId_Model_1TXT));
 			bw.write("#numberOfSamples = " + (to - from + 1) + "," + " from = "
-					+ from + ", to = " + to + ", numberOfPrimaryIds = " + numberOfPrimaryIds + ", sumOfCardinarity = "
-					+ sumCardi + DataSource.lineSeparate);
+					+ from + ", to = " + to + ", numberOfPrimaryIds = "
+					+ numberOfPrimaryIds + ", sumOfCardinarity = " + sumCardi
+					+ DataSource.lineSeparate);
 			bw.write("#WorkComputerSecondaryId:ComputerSecondaryId:Cardinality:PrimaryIds"
 					+ DataSource.lineSeparate);
 			for (int i = from - 1; i < to; i++) {
@@ -371,7 +374,7 @@ public class dataReadWrite {
 		}
 
 	}
-	
+
 	/**
 	 * Choose the Samples with select Model = 2, Random Model
 	 * 
@@ -425,15 +428,76 @@ public class dataReadWrite {
 		}
 
 	}
+
 	
+	
+	 public static int[] readIndex(String indexTXT){
+		 
+		 int[] indexs = null;
+	
+		 try {
+			 
+			 BufferedReader br = new BufferedReader(new FileReader(indexTXT));
+			
+			 String line = br.readLine();
+			 
+			 
+			 HashMap<String, String> properties = util.Text.readLineInfos(line);
+			 
+			 int length = Integer.parseInt(properties.get("numberOfIndexs"));
+			 
+			 indexs = new int[length];
+			 
+			 line = br.readLine();
+			 
+			 int cnt= 0;
+			 
+			 while(line != null){
+				 
+				 String[] lineInfos = line.split(",");
+				 
+				 indexs[cnt] = Integer.parseInt(lineInfos[1]);
+				 
+				 line = br.readLine();
+				 
+				 cnt++;
+			 }
+			 
+			 
+			 
+			 
+			 br.close();
+		} catch (IOException | NumberFormatException e) {
+			e.printStackTrace();
+			
+			System.err.println("Can't find this Index File or the File has a wrong Format");
+			
+			System.exit(-1);
+		
+		}
+	
+	
+		 return indexs;
+	 }
 
 	public static void test() {
-
+		
+		String line = "number = 555";
+		HashMap<String, String> properties = util.Text.readLineInfos(line);
+		 properties.get("numberOfIndexs");
+		 System.out.println(properties.get("numberOfIndexs"));
+//		 int length = Integer.parseInt(properties.get("numberOfIndexs"));
+//		System.out.println(length);
+		
 	}
 
 	public static void main(String[] args) {
-		selectedEntries_Model_1(1, 20000);
+		// selectedEntries_Model_1(1, 20000);
 		// selectedEntries_Model_1(3306, 3);
+//		dataIndex(info.DataSource.data3user, 1, 2);
+		
+
+		
 	}
 
 }

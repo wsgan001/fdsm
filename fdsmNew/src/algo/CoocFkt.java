@@ -77,7 +77,7 @@ public class CoocFkt {
 	}
 
 	/**
-	 * calculate cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
+	 * Increase cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
 	 * from this array represent the friends(PrimaryIds) of a SecondaryId.
 	 * 
 	 * @param adjM
@@ -85,7 +85,7 @@ public class CoocFkt {
 	 * @param coocc
 	 *            a two dimensional array, with stores the value of coocurence
 	 */
-	public static void readCooccSecTopRight(MyBitSet[] adjM, int[][] coocc) {
+	public static void readCooccSecAddTopRight(MyBitSet[] adjM, int[][] coocc) {
 
 		int adjM_length = adjM.length;
 
@@ -111,7 +111,7 @@ public class CoocFkt {
 	}
 
 	/**
-	 * calculate cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
+	 * Decrease cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
 	 * from this array represent the friends(PrimaryIds) of a SecondaryId.
 	 * 
 	 * @param adjM
@@ -119,7 +119,42 @@ public class CoocFkt {
 	 * @param coocc
 	 *            a two dimensional array, with stores the value of coocurence
 	 */
-	public static void readCooccSecLowerLeft(MyBitSet[] adjM, int[][] coocc) {
+	public static void readCooccSecSubstractTopRight(MyBitSet[] adjM,
+			int[][] coocc) {
+
+		int adjM_length = adjM.length;
+
+		int[] primaryIds = null;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			primaryIds = adjM[i].toArray();
+
+			int i_length = adjM[i].length();
+
+			for (int j = 0; j < i_length; j++) {
+
+				for (int k = j + 1; k < i_length; k++) {
+
+					coocc[primaryIds[j]][primaryIds[k]]--;
+
+				}
+			}
+
+		}
+
+	}
+
+	/**
+	 * Increase cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
+	 * from this array represent the friends(PrimaryIds) of a SecondaryId.
+	 * 
+	 * @param adjM
+	 *            Format: SecondaryId: PrimaryId_1, PrimaryId_2...
+	 * @param coocc
+	 *            a two dimensional array, with stores the value of coocurence
+	 */
+	public static void readCooccSecAddLowerLeft(MyBitSet[] adjM, int[][] coocc) {
 
 		int adjM_length = adjM.length;
 
@@ -144,7 +179,43 @@ public class CoocFkt {
 
 	}
 
-	public static void readCooccPrimaryTopRight(MyBitSet[] adjM, int[][] coocc) {
+	/**
+	 * Decrease cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
+	 * from this array represent the friends(PrimaryIds) of a SecondaryId.
+	 * 
+	 * @param adjM
+	 *            Format: SecondaryId: PrimaryId_1, PrimaryId_2...
+	 * @param coocc
+	 *            a two dimensional array, with stores the value of coocurence
+	 */
+	public static void readCooccSecSubstractLowerLeft(MyBitSet[] adjM,
+			int[][] coocc) {
+
+		int adjM_length = adjM.length;
+
+		int[] primaryIds = null;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			primaryIds = adjM[i].toArray();
+
+			int i_length = adjM[i].length();
+
+			for (int j = 0; j < i_length; j++) {
+
+				for (int k = j + 1; k < i_length; k++) {
+
+					coocc[primaryIds[k]][primaryIds[j]]--;
+
+				}
+			}
+
+		}
+
+	}
+
+	public static void readCooccPrimaryAddTopRight(MyBitSet[] adjM,
+			int[][] coocc) {
 
 		int adjM_length = adjM.length;
 
@@ -152,7 +223,7 @@ public class CoocFkt {
 
 			for (int j = i + 1; j < adjM_length; j++) {
 
-				coocc[i][j] = adjM[i].myand(adjM[j]).cardinality();
+				coocc[i][j] += adjM[i].myand(adjM[j]).cardinality();
 
 			}
 
@@ -160,7 +231,25 @@ public class CoocFkt {
 
 	}
 
-	public static void readCooccPrimaryLowerLeft(MyBitSet[] adjM, int[][] coocc) {
+	public static void readCooccPrimarySubstractTopRight(MyBitSet[] adjM,
+			int[][] coocc) {
+
+		int adjM_length = adjM.length;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			for (int j = i + 1; j < adjM_length; j++) {
+
+				coocc[i][j] -= adjM[i].myand(adjM[j]).cardinality();
+
+			}
+
+		}
+
+	}
+
+	public static void readCooccAddPrimaryLowerLeft(MyBitSet[] adjM,
+			int[][] coocc) {
 
 		int adjM_length = adjM.length;
 
@@ -176,12 +265,85 @@ public class CoocFkt {
 
 	}
 
+	public static void readCooccSubstractPrimaryLowerLeft(MyBitSet[] adjM,
+			int[][] coocc) {
 
+		int adjM_length = adjM.length;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			for (int j = i + 1; j < adjM_length; j++) {
+
+				coocc[j][i] -= adjM[i].myand(adjM[j]).cardinality();
+
+			}
+
+		}
+
+	}
+
+	public static void multipleMatrixTopRight(int[][] coocc, int number) {
+
+		int length = coocc.length;
+
+		for (int i = 0; i < length; i++) {
+			for (int j = i + 1; j < length; j++) {
+
+				coocc[i][j] = number * coocc[i][j];
+
+			}
+
+		}
+
+	}
+
+	public static void matrixClearTopRight(int[][] coocc) {
+
+		int ilength = coocc.length;
+
+		int jlength = coocc[0].length;
+
+		for (int i = 0; i < ilength; i++) {
+			for (int j = i + 1; j < jlength; j++) {
+
+				coocc[i][j] = 0;
+
+			}
+
+		}
+
+	}
+
+	public static void matrixClearLowerLeft(int[][] coocc) {
+
+		int ilength = coocc.length;
+		int jlength = coocc[0].length;
+
+		for (int i = 0; i < ilength; i++) {
+			for (int j = i + 1; j < jlength; j++) {
+
+				coocc[i][j] = 0;
+			}
+		}
+
+	}
+
+	public static void matrixClear(int[][] coocc) {
+
+		int ilength = coocc.length;
+		int jlength = coocc[0].length;
+
+		for (int i = 0; i < ilength; i++) {
+			for (int j = 0; j < jlength; j++) {
+
+				coocc[i][j] = 0;
+			}
+
+		}
+
+	}
 
 	public static void main(String[] args) {
-
-		
-
 
 	}
 

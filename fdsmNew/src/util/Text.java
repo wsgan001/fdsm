@@ -26,9 +26,9 @@ public class Text {
 		try {
 
 			Scanner s = new Scanner(new File(inputTXT));
-
+			
 			while (s.hasNext()) {
-				list.add(s.next());
+				list.add(s.nextLine());
 			}
 			s.close();
 
@@ -43,6 +43,8 @@ public class Text {
 		String line = "0";
 
 		while (10 > 0) {
+			
+			System.out.println("This file has "+list.size()+" lines. You can give a number beween 0 and "+ (list.size()-1));
 
 			System.out
 					.println("Please give the number of the lines, which you want to show, please use the \",\" to split the numbers ");
@@ -62,6 +64,8 @@ public class Text {
 				System.out.println(list.get(Integer.parseInt(e)));
 
 			}
+			
+			System.out.println();
 
 		}
 
@@ -222,7 +226,9 @@ public class Text {
 		// System.out.println(entry.getKey()+","+entry.getValue());
 		// }
 
-		textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
+//		textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
+		
+		textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
 	}
 
 }
