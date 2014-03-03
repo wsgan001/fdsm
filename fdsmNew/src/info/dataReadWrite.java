@@ -430,7 +430,11 @@ public class dataReadWrite {
 	}
 
 	
-	
+	/**
+	 * read the Index File to a array
+	 * @param indexTXT primaryIndexTXT or secondaryIndexTXT
+	 * @return
+	 */
 	 public static int[] readIndex(String indexTXT){
 		 
 		 int[] indexs = null;
@@ -494,7 +498,8 @@ public class dataReadWrite {
 	public static void main(String[] args) {
 		// selectedEntries_Model_1(1, 20000);
 		// selectedEntries_Model_1(3306, 3);
-//		dataIndex(info.DataSource.data3user, 1, 2);
+		dataIndex(info.DataSource.data3user, 1, 2);
+//		selectedEntries_Model_1(1, 20000);
 		
 
 		

@@ -17,7 +17,7 @@ import util.MyBitSet;
 
 import util.Functions;
 
-public class CoocFkt {
+public class CooccFkt {
 
 	/**
 	 * swap the int[][] edges and MyBitSet[] degreeM
@@ -27,13 +27,13 @@ public class CoocFkt {
 	 * @param adjM
 	 */
 	public static void swap(int lengthOfWalks, int[][] edges, MyBitSet[] adjM,
-			int seed) {
+			Random generator_edge) {
 		int numberOfEdges = edges.length;
 
 		int unswapable = 0;
 
 		// Begin swap and change cooc.
-		Random generator_edge = new Random(seed);
+		// Random generator_edge = new Random(seed);
 
 		for (int i = 0; i < lengthOfWalks; i++) {
 
@@ -297,6 +297,21 @@ public class CoocFkt {
 
 	}
 
+	public static void matrixClear(int[][] coocc) {
+
+		int ilength = coocc.length;
+		int jlength = coocc[0].length;
+
+		for (int i = 0; i < ilength; i++) {
+			for (int j = 0; j < jlength; j++) {
+
+				coocc[i][j] = 0;
+			}
+
+		}
+
+	}
+
 	public static void matrixClearTopRight(int[][] coocc) {
 
 		int ilength = coocc.length;
@@ -328,15 +343,26 @@ public class CoocFkt {
 
 	}
 
-	public static void matrixClear(int[][] coocc) {
+	/**
+	 * Clear all the negative Numbers in the top right Matrix
+	 * 
+	 * @param coocc
+	 */
+	public static void matrixClearNegTopRight(int[][] coocc) {
 
 		int ilength = coocc.length;
 		int jlength = coocc[0].length;
 
-		for (int i = 0; i < ilength; i++) {
-			for (int j = 0; j < jlength; j++) {
+		for (int i = 0; i < coocc.length; i++) {
 
-				coocc[i][j] = 0;
+			for (int j = i + 1; j < coocc.length; j++) {
+
+				if (coocc[i][j] < 0) {
+
+					coocc[i][j] = 0;
+
+				}
+
 			}
 
 		}
