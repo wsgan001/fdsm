@@ -348,7 +348,7 @@ public class CooccFkt {
 	 * 
 	 * @param coocc
 	 */
-	public static void matrixClearNegTopRight(int[][] coocc) {
+	public static void matrixSelectPositiv(int[][] coocc) {
 
 		int ilength = coocc.length;
 		int jlength = coocc[0].length;
@@ -368,6 +368,13 @@ public class CooccFkt {
 		}
 
 	}
+	
+//	public static int[][] selectPositiv(int[][] coocc){
+//		
+//		
+//		
+//		
+//	}
 
 	public static void main(String[] args) {
 
