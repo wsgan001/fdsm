@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -14,7 +15,6 @@ import javax.tools.JavaFileObject;
 import javax.tools.JavaFileManager.Location;
 
 import util.MyBitSet;
-
 import util.Functions;
 
 public class CooccFkt {
@@ -368,13 +368,32 @@ public class CooccFkt {
 		}
 
 	}
+
+	public static ArrayList<int[]> positiveMeasureTopRight(int[][] coocc) {
+		ArrayList<int[]> arr = new ArrayList<int[]>();
+		int length = coocc.length;
+		for (int i = 0; i < length; i++) {
+			for (int j = i + 1; j < length; j++) {
+
+				if (coocc[i][j] > 0) {
+					arr.add(new int[] { i, j, coocc[i][j] });
+				}
+
+			}
+
+		}
+
+		return arr;
+	}
 	
-//	public static int[][] selectPositiv(int[][] coocc){
-//		
-//		
-//		
-//		
-//	}
+	
+
+	// public static int[][] selectPositiv(int[][] coocc){
+	//
+	//
+	//
+	//
+	// }
 
 	public static void main(String[] args) {
 
