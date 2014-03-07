@@ -4,10 +4,16 @@ import info.DataSource;
 import info.dataReadWrite;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -205,6 +211,122 @@ public class Text {
 		}
 
 		return hs;
+	}
+	
+	public static void writeGlobalList(List<int[]> list, String outputFile) {
+
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			int length = list.size();
+
+			bw.write("#length = " + length + System.lineSeparator());
+
+			for (int i = 0; i < length; i++) {
+
+				int[] cooccInfo = list.get(i);
+
+				for (int j = 0; j < cooccInfo.length; j++) {
+
+					bw.write(cooccInfo[j] + ",");
+
+				}
+
+				bw.newLine();
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+
+	public static void writeGlobalList(int[][] list, String outputFile) {
+
+		try {
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			int iLength = list.length;
+			int jLength = list[0].length;
+
+			bw.write("#length = " + iLength + System.lineSeparator());
+
+			for (int i = 0; i < iLength; i++) {
+
+				for (int j = 0; j < jLength; j++) {
+
+					bw.write(list[i][j] + ",");
+
+				}
+
+				bw.newLine();
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+	
+	public static void writeLocalList(int[][] list, int numberOfPrimaryIds, String outputFile){
+		
+		try {
+			
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+			
+			
+			
+			
+			
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
+		
+	}
+	
+	
+	public static void serObjectWrite_wrap(String outPutFile, Object obj) {
+		try {
+			ObjectOutputStream os = new ObjectOutputStream(
+					new FileOutputStream(outPutFile));
+			os.writeObject(obj);
+			os.close();
+			os = null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static Object serObjectRead_wrap(String serFile) {
+
+		Object ob = new Object();
+
+		try {
+			ObjectInputStream is = new ObjectInputStream(new FileInputStream(
+					serFile));
+			ob = is.readObject();
+			is.close();
+			is = null;
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return ob;
+
 	}
 
 	public static void main(String[] args) {

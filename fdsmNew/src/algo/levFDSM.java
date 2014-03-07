@@ -1,6 +1,7 @@
 package algo;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,8 +13,11 @@ public class levFDSM {
 
 	static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
 
-	static String outputPath = info.DataSource.outputPath + File.separatorChar
+	static String outputPath = info.DataSource.outputPath + File.separator
 			+ "levFDSM" + File.separator;
+
+	// output file name for the levFDSM result:global list
+	static String levFDSM_GL_TXT = outputPath + "levFDSM_GL.txt";
 
 	static int seed = 3306;
 
@@ -49,11 +53,45 @@ public class levFDSM {
 		return coocc;
 	}
 
-	public static void test() {
+	public static void run() {
+		
+		
+		File file = new File(levFDSM_GL_TXT);
+		
+		if(!file.exists()){
+			file.getParentFile().mkdirs();
+		}
+		
+		int[][] coocc = calculate();
+		
+		
+		
 
 	}
 
+	public static void test() {
+
+		File file = new File(outputPath+"aaa"+File.separator+"bbb.txt");
+		
+		
+		
+		if(!file.exists()){
+			
+			System.out.println(file.getParentFile().mkdirs());
+			
+			try {
+				System.out.println(file.createNewFile());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
 	public static void main(String[] args) {
+
+
 	}
 
 }
