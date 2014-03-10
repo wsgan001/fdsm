@@ -56,7 +56,7 @@ public class MyBitSet extends BitSet {
 		
 		int cnt = 0;
 		
-		for(int i = this.nextSetBit(0); i>= 0; i = this.nextSetBit(i)){
+		for(int i = this.nextSetBit(0); i>= 0; i = this.nextSetBit(i+1)){
 			
 			arr[cnt] = i;
 			

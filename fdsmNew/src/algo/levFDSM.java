@@ -9,7 +9,7 @@ import util.MyBitSet;
 
 public class levFDSM {
 
-	static int numberOfSampleGraphs = 5000;
+	static int numberOfSampleGraphs = 10;
 
 	static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
 
@@ -17,7 +17,9 @@ public class levFDSM {
 			+ "levFDSM" + File.separator;
 
 	// output file name for the levFDSM result:global list
+	static String levFDSM_TXT = outputPath + "levFDSM.txt";
 	static String levFDSM_GL_TXT = outputPath + "levFDSM_GL.txt";
+	static String levFDSM_LL_TXT = outputPath + "levFDSM_LL.txt";
 
 	static int seed = 3306;
 
@@ -31,11 +33,19 @@ public class levFDSM {
 
 		int[][] coocc = new int[bG.numberOfPrimaryIds][bG.numberOfPrimaryIds];
 
+		System.out.println("read original cooccurence...");
+
 		CooccFkt.readCooccSecAddTopRight(adjM, coocc);
+
+		System.out.println("multiple Samples");
 
 		CooccFkt.multipleMatrixTopRight(coocc, numberOfSampleGraphs);
 
+		System.out.println("generate edges...");
+
 		Random generator_edges = new Random(seed);
+
+		System.out.println("the first long long swap...");
 
 		CooccFkt.swap(4 * bG.numberOfEdges, edges, adjM, generator_edges);
 
@@ -44,9 +54,20 @@ public class levFDSM {
 
 		for (int i = 0; i < numberOfSampleGraphs; i++) {
 
+			long t1 = System.currentTimeMillis();
+			System.out.println("begin small swap, round " + i);
+
 			CooccFkt.swap(lengthOfWalks, edges, adjM, generator_edges);
+			
+			System.out.println("substact the coocc...");
 
 			CooccFkt.readCooccSecSubstractTopRight(adjM, coocc);
+
+			long t2 = System.currentTimeMillis();
+
+			double t3 = (t2 - t1) / 1000;
+
+			System.out.println("Sample " + i + " takes " + t3 + " seconds");
 
 		}
 
@@ -54,31 +75,30 @@ public class levFDSM {
 	}
 
 	public static void run() {
-		
-		
-		File file = new File(levFDSM_GL_TXT);
-		
-		if(!file.exists()){
-			file.getParentFile().mkdirs();
+
+		File file = new File(outputPath);
+
+		if (!file.exists()) {
+			file.mkdirs();
 		}
-		
+
 		int[][] coocc = calculate();
-		
-		
-		
+
+		ArrayList<int[]> lev = CooccFkt.positiveMeasureTopRight(coocc);
+
+		util.Text.writeList(lev, levFDSM_TXT, false);
+		util.Text.writeList(lev, levFDSM_GL_TXT, true);
 
 	}
 
 	public static void test() {
 
-		File file = new File(outputPath+"aaa"+File.separator+"bbb.txt");
-		
-		
-		
-		if(!file.exists()){
-			
+		File file = new File(outputPath + "aaa" + File.separator + "bbb.txt");
+
+		if (!file.exists()) {
+
 			System.out.println(file.getParentFile().mkdirs());
-			
+
 			try {
 				System.out.println(file.createNewFile());
 			} catch (IOException e) {
@@ -86,11 +106,14 @@ public class levFDSM {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	public static void main(String[] args) {
 
+//		run();
+		
+//		util.Text.textReader(levFDSM_GL_TXT);
 
 	}
 

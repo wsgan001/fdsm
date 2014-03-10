@@ -68,11 +68,10 @@ public class ColumnComparator implements Comparator<int[]> {
 
 			} else if (rang[i] < 0) {
 
-				rang[i] = -rang[i];
 
-				if (a[rang[i] - 1] > b[rang[i] - 1]) {
+				if (a[-rang[i] - 1] > b[-rang[i] - 1]) {
 					return -1;
-				} else if (a[rang[i] - 1] < b[rang[i] - 1]) {
+				} else if (a[-rang[i] - 1] < b[-rang[i] - 1]) {
 					return 1;
 				}
 
@@ -85,10 +84,10 @@ public class ColumnComparator implements Comparator<int[]> {
 	}
 
 	public static void main(String[] args) {
-		int[][] arr = new int[][] { { 1, 2, 3 }, { 10, 12, 12 }, { 7, 8, 9 },
-				{ 10, 12, 18 } };
+		int[][] arr = new int[][] { { 1, 2, 12 }, { 10, 12, 12 }, { 7, 8, 12 },
+				{ 9, 13, 12 } };
 
-		Arrays.sort(arr, new ColumnComparator(1, -2, -3));
+		Arrays.sort(arr, new ColumnComparator(-3, 1 , 2));
 
 		util.Functions.arrayPrintTwoDimensions(arr);
 

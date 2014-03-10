@@ -92,10 +92,11 @@ public class CooccFkt {
 		int[] primaryIds = null;
 
 		for (int i = 0; i < adjM_length; i++) {
-
+			
 			primaryIds = adjM[i].toArray();
+			
 
-			int i_length = adjM[i].length();
+			int i_length = primaryIds.length;
 
 			for (int j = 0; j < i_length; j++) {
 
@@ -130,7 +131,7 @@ public class CooccFkt {
 
 			primaryIds = adjM[i].toArray();
 
-			int i_length = adjM[i].length();
+			int i_length = adjM[i].cardinality();
 
 			for (int j = 0; j < i_length; j++) {
 
@@ -164,7 +165,7 @@ public class CooccFkt {
 
 			primaryIds = adjM[i].toArray();
 
-			int i_length = adjM[i].length();
+			int i_length = adjM[i].cardinality();
 
 			for (int j = 0; j < i_length; j++) {
 
@@ -199,7 +200,7 @@ public class CooccFkt {
 
 			primaryIds = adjM[i].toArray();
 
-			int i_length = adjM[i].length();
+			int i_length = adjM[i].cardinality();
 
 			for (int j = 0; j < i_length; j++) {
 

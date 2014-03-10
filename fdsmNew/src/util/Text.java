@@ -1,5 +1,6 @@
 package util;
 
+import gnu.trove.map.hash.TIntObjectHashMap;
 import info.DataSource;
 import info.dataReadWrite;
 
@@ -15,7 +16,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +35,7 @@ public class Text {
 		try {
 
 			Scanner s = new Scanner(new File(inputTXT));
-			
+
 			while (s.hasNext()) {
 				list.add(s.nextLine());
 			}
@@ -49,8 +52,10 @@ public class Text {
 		String line = "0";
 
 		while (10 > 0) {
-			
-			System.out.println("This file has "+list.size()+" lines. You can give a number beween 0 and "+ (list.size()-1));
+
+			System.out.println("This file has " + list.size()
+					+ " lines. You can give a number beween 0 and "
+					+ (list.size() - 1));
 
 			System.out
 					.println("Please give the number of the lines, which you want to show, please use the \",\" to split the numbers ");
@@ -70,7 +75,7 @@ public class Text {
 				System.out.println(list.get(Integer.parseInt(e)));
 
 			}
-			
+
 			System.out.println();
 
 		}
@@ -183,8 +188,7 @@ public class Text {
 		return items.subList(0, m);
 	}
 
-	public static HashMap<String, String> readLineInfos(
-			String lineInfos) {
+	public static HashMap<String, String> readLineInfos(String lineInfos) {
 		HashMap<String, String> hs = new HashMap<String, String>();
 
 		String line;
@@ -212,8 +216,13 @@ public class Text {
 
 		return hs;
 	}
-	
-	public static void writeGlobalList(List<int[]> list, String outputFile) {
+
+	public static void writeList(List<int[]> list, String outputFile,
+			boolean sort) {
+
+		if (sort == true) {
+			Collections.sort(list, new ColumnComparator(-3, 1, 2));
+		}
 
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
@@ -244,8 +253,13 @@ public class Text {
 
 	}
 
-	public static void writeGlobalList(int[][] list, String outputFile) {
+	public static void writeList(int[][] list, String outputFile, boolean sort) {
 
+		if(sort == true){
+			
+			Arrays.sort(list, new ColumnComparator(-3,1,2));
+		}
+		
 		try {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
@@ -274,27 +288,28 @@ public class Text {
 		}
 
 	}
-	
-	public static void writeLocalList(int[][] list, int numberOfPrimaryIds, String outputFile){
+
+	public static void writeLocalList(int[][] list, int numberOfPrimaryIds,
+			String outputFile) {
 		
+		TIntObjectHashMap<ArrayList<int[]>> hm = new TIntObjectHashMap<ArrayList<int[]>>();
+		
+		
+		
+		
+
 		try {
-			
+
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
-			
-			
-			
-			
-			
+
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
-		
+
 	}
-	
-	
+
 	public static void serObjectWrite_wrap(String outPutFile, Object obj) {
 		try {
 			ObjectOutputStream os = new ObjectOutputStream(
@@ -348,8 +363,8 @@ public class Text {
 		// System.out.println(entry.getKey()+","+entry.getValue());
 		// }
 
-//		textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
-		
+		// textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
+
 		textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
 	}
 
