@@ -1,5 +1,6 @@
 package util;
 
+import gnu.trove.iterator.TIntObjectIterator;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import info.DataSource;
 import info.dataReadWrite;
@@ -217,7 +218,7 @@ public class Text {
 		return hs;
 	}
 
-	public static void writeList(List<int[]> list, String outputFile,
+	public static void writeList(List<int[]> list, String outputFile, String measure, String extra,
 			boolean sort) {
 
 		if (sort == true) {
@@ -229,7 +230,7 @@ public class Text {
 
 			int length = list.size();
 
-			bw.write("#length = " + length + System.lineSeparator());
+			bw.write("#length = " + length +", measure = "+measure+", "+ "sort = "+sort+","+extra+ System.lineSeparator());
 
 			for (int i = 0; i < length; i++) {
 
@@ -255,11 +256,11 @@ public class Text {
 
 	public static void writeList(int[][] list, String outputFile, boolean sort) {
 
-		if(sort == true){
-			
-			Arrays.sort(list, new ColumnComparator(-3,1,2));
+		if (sort == true) {
+
+			Arrays.sort(list, new ColumnComparator(-3, 1, 2));
 		}
-		
+
 		try {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
@@ -289,18 +290,105 @@ public class Text {
 
 	}
 
-	public static void writeLocalList(int[][] list, int numberOfPrimaryIds,
-			String outputFile) {
-		
+	public static void writeLocalList(int[][] list, String outputFile) {
+
 		TIntObjectHashMap<ArrayList<int[]>> hm = new TIntObjectHashMap<ArrayList<int[]>>();
-		
-		
-		
-		
+
+		for (int i = 0; i < list.length; i++) {
+
+			if (hm.containsKey(list[i][0])) {
+				hm.get(list[i][0]).add(new int[] { list[i][1], list[i][2] });
+			} else {
+				hm.put(list[i][0], new ArrayList<int[]>());
+				hm.get(list[i][0]).add(new int[] { list[i][1], list[i][2] });
+			}
+
+			if (hm.containsKey(list[i][1])) {
+				hm.get(list[i][1]).add(new int[] { list[i][0], list[i][2] });
+			} else {
+				hm.put(list[i][1], new ArrayList<int[]>());
+				hm.get(list[i][1]).add(new int[] { list[i][0], list[i][2] });
+			}
+
+		}
+
+		int[] primaryIds = hm.keys();
+
+		Arrays.sort(primaryIds);
 
 		try {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			for (int i = 0; i < primaryIds.length; i++) {
+
+				Collections.sort(hm.get(primaryIds[i]), new ColumnComparator(
+						-2, 1));
+
+				ArrayList<int[]> friends = hm.get(primaryIds[i]);
+
+				bw.write("#primaryId = " + primaryIds[i] + ","
+						+ " numberOfFriends = " + friends.size()
+						+ System.lineSeparator());
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+
+	public static void writeLocalList(ArrayList<int[]> list, String outputFile) {
+
+		TIntObjectHashMap<ArrayList<int[]>> hm = new TIntObjectHashMap<ArrayList<int[]>>();
+
+		int length = list.size();
+
+		for (int i = 0; i < length; i++) {
+
+			if (hm.containsKey(list.get(i)[0])) {
+				hm.get(list.get(i)[0]).add(
+						new int[] { list.get(i)[1], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[0], new ArrayList<int[]>());
+				hm.get(list.get(i)[0]).add(
+						new int[] { list.get(i)[1], list.get(i)[2] });
+			}
+
+			if (hm.containsKey(list.get(i)[1])) {
+				hm.get(list.get(i)[1]).add(
+						new int[] { list.get(i)[0], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[1], new ArrayList<int[]>());
+				hm.get(list.get(i)[1]).add(
+						new int[] { list.get(i)[0], list.get(i)[2] });
+			}
+
+		}
+
+		int[] primaryIds = hm.keys();
+
+		Arrays.sort(primaryIds);
+
+		try {
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			for (int i = 0; i < primaryIds.length; i++) {
+
+				Collections.sort(hm.get(primaryIds[i]), new ColumnComparator(
+						-2, 1));
+
+				ArrayList<int[]> friends = hm.get(primaryIds[i]);
+
+				bw.write("#primaryId = " + primaryIds[i] + ","
+						+ " numberOfFriends = " + friends.size()
+						+ System.lineSeparator());
+
+			}
 
 			bw.close();
 		} catch (IOException e) {
@@ -344,6 +432,47 @@ public class Text {
 
 	}
 
+	public static int[][] readMeasureFromTXT(String inputTXT) {
+
+		int[][] measure = null;
+
+		File file = new File(inputTXT);
+
+		if (!file.exists()) {
+
+			System.err.println("File " + inputTXT + " does not exist!");
+			System.exit(-1);
+		}
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			
+			String line = br.readLine();
+			
+			HashMap<String, String> hm = new HashMap<String, String>();
+			
+			
+			
+			
+			
+			
+			
+			
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+		return measure;
+	}
+
+	public static void test() {
+
+
+	}
+
 	public static void main(String[] args) {
 
 		// HashMap<String, String> hs = new HashMap<String, String>();
@@ -365,7 +494,10 @@ public class Text {
 
 		// textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
 
-		textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
+		// textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
+
+		test();
+
 	}
 
 }

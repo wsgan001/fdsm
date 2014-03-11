@@ -86,8 +86,13 @@ public class levFDSM {
 
 		ArrayList<int[]> lev = CooccFkt.positiveMeasureTopRight(coocc);
 
-		util.Text.writeList(lev, levFDSM_TXT, false);
-		util.Text.writeList(lev, levFDSM_GL_TXT, true);
+		System.out.println("Write the levFDSM");
+		util.Text.writeList(lev, levFDSM_TXT,"levFDSM","", false);
+		System.out.println("Write the GL");
+		util.Text.writeList(lev, levFDSM_GL_TXT, "levFDSM","", true);
+		
+		System.out.println("Write the LL");
+		util.Text.writeLocalList(lev, levFDSM_LL_TXT);
 
 	}
 
@@ -111,7 +116,7 @@ public class levFDSM {
 
 	public static void main(String[] args) {
 
-//		run();
+		run();
 		
 //		util.Text.textReader(levFDSM_GL_TXT);
 
