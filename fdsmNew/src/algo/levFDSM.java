@@ -17,11 +17,11 @@ public class levFDSM {
 			+ "levFDSM" + File.separator;
 
 	// output file name for the levFDSM result:global list
-	static String levFDSM_TXT = outputPath + "levFDSM.txt";
-	static String levFDSM_GL_TXT = outputPath + "levFDSM_GL.txt";
-	static String levFDSM_LL_TXT = outputPath + "levFDSM_LL.txt";
+	public static String levFDSM_TXT = outputPath + "levFDSM.txt";
+	public static String levFDSM_GL_TXT = outputPath + "levFDSM_GL.txt";
+	public static String levFDSM_LL_TXT = outputPath + "levFDSM_LL.txt";
 
-	static int seed = 3306;
+	public static int seed = 3306;
 
 	public static int[][] calculate() {
 
@@ -116,9 +116,13 @@ public class levFDSM {
 
 	public static void main(String[] args) {
 
-		run();
+//		run();
 		
-//		util.Text.textReader(levFDSM_GL_TXT);
+//		util.Text.textReader(levFDSM_LL_TXT);
+		
+		util.Text.textReader(levFDSM_GL_TXT);
+		
+		
 
 	}
 

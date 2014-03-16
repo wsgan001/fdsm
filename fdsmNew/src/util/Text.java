@@ -387,6 +387,12 @@ public class Text {
 				bw.write("#primaryId = " + primaryIds[i] + ","
 						+ " numberOfFriends = " + friends.size()
 						+ System.lineSeparator());
+				
+				for(int[] friend : friends){
+					bw.write(friend[0]+","+friend[1]+System.lineSeparator());
+					
+					
+				}
 
 			}
 
@@ -496,7 +502,6 @@ public class Text {
 
 		// textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
 
-		test();
 
 	}
 

@@ -35,7 +35,8 @@ public class dataReadWrite {
 
 	/**
 	 * generate the computer indexes for the data, the outputs are two computer
-	 * indexes for the primary column and secondary column.
+	 * indexes for the primary column and secondary column. There will be three
+	 * file as output: 1. info.txt 2. PrimaryIndex.txt 3. SecondaryIndex.txt
 	 * 
 	 * @param inputData
 	 * @param primaryColumn
@@ -429,80 +430,75 @@ public class dataReadWrite {
 
 	}
 
-	
 	/**
 	 * read the Index File to a array
-	 * @param indexTXT primaryIndexTXT or secondaryIndexTXT
+	 * 
+	 * @param indexTXT
+	 *            primaryIndexTXT or secondaryIndexTXT
 	 * @return
 	 */
-	 public static int[] readIndex(String indexTXT){
-		 
-		 int[] indexs = null;
-	
-		 try {
-			 
-			 BufferedReader br = new BufferedReader(new FileReader(indexTXT));
-			
-			 String line = br.readLine();
-			 
-			 
-			 HashMap<String, String> properties = util.Text.readLineInfos(line);
-			 
-			 int length = Integer.parseInt(properties.get("numberOfIndexs"));
-			 
-			 indexs = new int[length];
-			 
-			 line = br.readLine();
-			 
-			 int cnt= 0;
-			 
-			 while(line != null){
-				 
-				 String[] lineInfos = line.split(",");
-				 
-				 indexs[cnt] = Integer.parseInt(lineInfos[1]);
-				 
-				 line = br.readLine();
-				 
-				 cnt++;
-			 }
-			 
-			 
-			 
-			 
-			 br.close();
+	public static int[] readIndex(String indexTXT) {
+
+		int[] indexs = null;
+
+		try {
+
+			BufferedReader br = new BufferedReader(new FileReader(indexTXT));
+
+			String line = br.readLine();
+
+			HashMap<String, String> properties = util.Text.readLineInfos(line);
+
+			int length = Integer.parseInt(properties.get("numberOfIndexs"));
+
+			indexs = new int[length];
+
+			line = br.readLine();
+
+			int cnt = 0;
+
+			while (line != null) {
+
+				String[] lineInfos = line.split(",");
+
+				indexs[cnt] = Integer.parseInt(lineInfos[1]);
+
+				line = br.readLine();
+
+				cnt++;
+			}
+
+			br.close();
 		} catch (IOException | NumberFormatException e) {
 			e.printStackTrace();
-			
-			System.err.println("Can't find this Index File or the File has a wrong Format");
-			
+
+			System.err
+					.println("Can't find this Index File or the File has a wrong Format");
+
 			System.exit(-1);
-		
+
 		}
-	
-	
-		 return indexs;
-	 }
+
+		return indexs;
+	}
 
 	public static void test() {
-		
+
 		String line = "number = 555";
 		HashMap<String, String> properties = util.Text.readLineInfos(line);
-		 properties.get("numberOfIndexs");
-		 System.out.println(properties.get("numberOfIndexs"));
-//		 int length = Integer.parseInt(properties.get("numberOfIndexs"));
-//		System.out.println(length);
-		
+		properties.get("numberOfIndexs");
+		System.out.println(properties.get("numberOfIndexs"));
+		// int length = Integer.parseInt(properties.get("numberOfIndexs"));
+		// System.out.println(length);
+
 	}
 
 	public static void main(String[] args) {
+		selectedEntries_Model_1(1, 20000);
+		// selectedEntries_Model_2(3306, 3);
+		// dataIndex(info.DataSource.data3user, 1, 2);
 		// selectedEntries_Model_1(1, 20000);
-		// selectedEntries_Model_1(3306, 3);
-		dataIndex(info.DataSource.data3user, 1, 2);
-//		selectedEntries_Model_1(1, 20000);
-		
 
-		
 	}
 
 }
