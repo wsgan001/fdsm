@@ -116,11 +116,11 @@ public class levFDSM {
 
 	public static void main(String[] args) {
 
-//		run();
+		run();
 		
 //		util.Text.textReader(levFDSM_LL_TXT);
 		
-		util.Text.textReader(levFDSM_GL_TXT);
+//		util.Text.textReader(levFDSM_GL_TXT);
 		
 		
 

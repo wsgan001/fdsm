@@ -168,6 +168,8 @@ public class dataReadWrite {
 		TIntArrayList[] selectedEntries = new TIntArrayList[secondaryIdList_HM
 				.size()];
 
+		System.out.println("aaa");
+
 		for (int i = 0; i < selectedEntries.length; i++) {
 
 			selectedEntries[i] = new TIntArrayList();
@@ -287,6 +289,7 @@ public class dataReadWrite {
 			BufferedReader br = new BufferedReader(new FileReader(new File(
 					indexTXT)));
 
+			br.readLine();
 			String line = br.readLine();
 
 			while (line != null) {
@@ -494,10 +497,9 @@ public class dataReadWrite {
 	}
 
 	public static void main(String[] args) {
+		dataIndex(info.DataSource.data3user, 1, 2);
+		selectEntries();
 		selectedEntries_Model_1(1, 20000);
-		// selectedEntries_Model_2(3306, 3);
-		// dataIndex(info.DataSource.data3user, 1, 2);
-		// selectedEntries_Model_1(1, 20000);
 
 	}
 
