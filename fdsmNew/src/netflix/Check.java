@@ -19,36 +19,40 @@ public class Check {
 
 	public static String movieTitleTXT = info.DataSource.Pfad_doc
 			+ "movie_titles.txt";
-	
-	public static String outputPath = info.DataSource.outputPath+"netflix/";
 
-	public static void readGL_Top(String levFDSM_GL_TXT, int top, String outputFile) {
+	public static String outputPath = info.DataSource.outputPath + "netflix/";
+
+	public static void readGL_Top(String levFDSM_GL_TXT, String movieTitleTXT, int top,
+			String outputFile) {
 
 		ArrayList<String[]> movieTitles = new ArrayList<String[]>();
 
+		movieTitles = readMoviTitles(movieTitleTXT);
+
 		try {
-			
-			// Read the movie titles into an Arraylist
-			BufferedReader br = new BufferedReader(
-					new FileReader(movieTitleTXT));
 
-			String line = br.readLine();
-
-			while (line != null) {
-
-				String[] content = line.split(",", 3);
-
-				movieTitles.add(Arrays.copyOfRange(content, 1, 3));
-
-				line = br.readLine();
-			}
-
-			br.close();
+			// // Read the movie titles into an Arraylist
+			// BufferedReader br = new BufferedReader(
+			// new FileReader(movieTitleTXT));
+			//
+			// String line = br.readLine();
+			//
+			// while (line != null) {
+			//
+			// String[] content = line.split(",", 3);
+			//
+			// movieTitles.add(Arrays.copyOfRange(content, 1, 3));
+			//
+			// line = br.readLine();
+			// }
+			//
+			// br.close();
 
 			// Read the global list.
-			br = new BufferedReader(new FileReader(levFDSM_GL_TXT));
+			BufferedReader br = new BufferedReader(new FileReader(
+					levFDSM_GL_TXT));
 
-			line = br.readLine();
+			String line = br.readLine();
 
 			HashMap<String, String> hm = util.Text.readLineInfos(line);
 
@@ -71,26 +75,22 @@ public class Check {
 				br.readLine();
 
 			}
-			
+
 			File file = new File(outputPath);
-			
+
 			if (!file.exists()) {
 				file.mkdir();
 			}
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
-			
+
 			bw.write("#Format: PrimaryId1, year1, title1, PrimaryId2, year2, title2, measure");
-			bw.write("#Top = "+top);
-			
+			bw.write("#Top = " + top);
+
 			top = Math.abs(top);
-			
 
+			// file = new File(outputFile);
 
-//			file = new File(outputFile);
-			
-			
-			
 			for (int i = 0; i < top; i++) {
 
 				line = br.readLine();
@@ -103,17 +103,16 @@ public class Check {
 
 				String details = cooccInfo[0] + ","
 						+ movieTitles.get(cooccInfo[0])[0] + ","
-						+ movieTitles.get(cooccInfo[0])[1] + ","
-						+ cooccInfo[1]+ "," 
-						+ movieTitles.get(cooccInfo[1])[0] + ","
+						+ movieTitles.get(cooccInfo[0])[1] + "," + cooccInfo[1]
+						+ "," + movieTitles.get(cooccInfo[1])[0] + ","
 						+ movieTitles.get(cooccInfo[1])[1] + "," + cooccInfo[2];
 
-				bw.write(details+System.lineSeparator());
+				bw.write(details + System.lineSeparator());
 				System.out.println(details);
 
 			}
-			
-//			System.out.println("0 : "+movieTitles.get(0)[0]+", "+movieTitles.get(0)[1]);
+
+			// System.out.println("0 : "+movieTitles.get(0)[0]+", "+movieTitles.get(0)[1]);
 
 			bw.close();
 			br.close();
@@ -125,14 +124,49 @@ public class Check {
 
 	}
 
+	public static ArrayList<String[]> readMoviTitles(String movieTitleTXT) {
+
+		ArrayList<String[]> movieTitles = new ArrayList<String[]>();
+
+		File file = new File(movieTitleTXT);
+
+		if (!file.exists()) {
+			System.err
+					.println("movieTitleTXT doesn't exist! Please give the right path!");
+			System.exit(-1);
+		}
+
+		try {
+
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String line = br.readLine();
+			while (line != null) {
+				StringTokenizer st = new StringTokenizer(line, ",");
+				st.nextToken();
+				String[] infos = new String[] { st.nextToken(), st.nextToken() };
+
+				movieTitles.add(infos);
+
+				line = br.readLine();
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+		return movieTitles;
+
+	}
+
 	public static void test() {
 
 	}
 
 	public static void main(String[] args) {
-		
-		String outputFile = outputPath+"levFDSM_GL_Top.txt";
-		readGL_Top(algo.levFDSM.levFDSM_GL_TXT, 100, outputFile);
+
+		String outputFile = outputPath + "levFDSM_GL_Top.txt";
+		readGL_Top(algo.levFDSM.levFDSM_GL_TXT, movieTitleTXT, 100, outputFile);
 
 	}
 
