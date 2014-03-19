@@ -19,6 +19,20 @@ import util.Functions;
 
 public class CooccFkt {
 
+	public static int[][] readOriginalCoocurrence() {
+
+		BipartiteGraph bG = new BipartiteGraph();
+
+		MyBitSet[] adjM = bG.toSecBS();
+
+		int[][] coocc = new int[bG.numberOfPrimaryIds][bG.numberOfPrimaryIds];
+
+		readCooccSecAddTopRight(adjM, coocc);
+
+		return coocc;
+
+	}
+
 	/**
 	 * swap the int[][] edges and MyBitSet[] degreeM
 	 * 
@@ -92,9 +106,8 @@ public class CooccFkt {
 		int[] primaryIds = null;
 
 		for (int i = 0; i < adjM_length; i++) {
-			
+
 			primaryIds = adjM[i].toArray();
-			
 
 			int i_length = primaryIds.length;
 
@@ -386,8 +399,6 @@ public class CooccFkt {
 
 		return arr;
 	}
-	
-	
 
 	// public static int[][] selectPositiv(int[][] coocc){
 	//

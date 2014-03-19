@@ -27,7 +27,7 @@ public class Check {
 
 		ArrayList<String[]> movieTitles = new ArrayList<String[]>();
 
-		movieTitles = readMoviTitles(movieTitleTXT);
+		movieTitles = readMovieTitles(movieTitleTXT);
 
 		try {
 
@@ -124,7 +124,7 @@ public class Check {
 
 	}
 
-	public static ArrayList<String[]> readMoviTitles(String movieTitleTXT) {
+	public static ArrayList<String[]> readMovieTitles(String movieTitleTXT) {
 
 		ArrayList<String[]> movieTitles = new ArrayList<String[]>();
 
@@ -157,6 +157,15 @@ public class Check {
 
 		return movieTitles;
 
+	}
+	
+	public static void readLL(int[] primaryIds, String movieTitleTXT, String outputFile){
+		ArrayList<String[]> movieTitles = readMovieTitles(movieTitleTXT);
+		
+		
+		
+		
+		
 	}
 
 	public static void test() {

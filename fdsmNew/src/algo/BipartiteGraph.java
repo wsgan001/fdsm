@@ -47,8 +47,9 @@ public class BipartiteGraph {
 			HashMap<String, String> hm = util.Text.readLineInfos(line);
 
 			this.numberOfSamples = Integer.parseInt(hm.get("numberOfSamples"));
-			
-			this.numberOfPrimaryIds = Integer.parseInt(hm.get("numberOfPrimaryIds"));
+
+			this.numberOfPrimaryIds = Integer.parseInt(hm
+					.get("numberOfPrimaryIds"));
 
 			this.numberOfEdges = Integer.parseInt(hm.get("sumOfCardinarity"));
 
@@ -492,6 +493,13 @@ public class BipartiteGraph {
 
 	}
 
+	/**
+	 * create edges with an array, this array has two dimension, something like
+	 * a table. The rows present the number of the edges, the columns present the
+	 * two vertices of an edge.
+	 * 
+	 * @return
+	 */
 	public int[][] generateEdges() {
 
 		int[][] edges = null;
