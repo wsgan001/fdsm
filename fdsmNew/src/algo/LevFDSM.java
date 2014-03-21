@@ -7,7 +7,7 @@ import java.util.Random;
 
 import util.MyBitSet;
 
-public class levFDSM {
+public class LevFDSM {
 
 	static int numberOfSampleGraphs = 10;
 
@@ -87,12 +87,12 @@ public class levFDSM {
 		ArrayList<int[]> lev = CooccFkt.positiveMeasureTopRight(coocc);
 
 		System.out.println("Write the levFDSM");
-		util.Text.writeList(lev, levFDSM_TXT,"levFDSM","", false);
+		util.Text.writeList(lev, levFDSM_TXT,"levFDSM","global list","", false);
 		System.out.println("Write the GL");
-		util.Text.writeList(lev, levFDSM_GL_TXT, "levFDSM","", true);
+		util.Text.writeList(lev, levFDSM_GL_TXT, "levFDSM","global list", "" ,true);
 		
 		System.out.println("Write the LL");
-		util.Text.writeLocalList(lev, levFDSM_LL_TXT);
+		util.Text.writeLocalList(lev, levFDSM_LL_TXT, "levFDSM", "local list", "" );
 
 	}
 

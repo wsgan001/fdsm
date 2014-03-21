@@ -1,6 +1,7 @@
 package util;
 
 import gnu.trove.iterator.TIntObjectIterator;
+import gnu.trove.map.hash.TDoubleObjectHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import info.DataSource;
 import info.dataReadWrite;
@@ -218,7 +219,7 @@ public class Text {
 		return hs;
 	}
 
-	public static void writeList(List<int[]> list, String outputFile, String measure, String extra,
+	public static void writeList(List<int[]> list, String outputFile, String measure, String type, String extra,
 			boolean sort) {
 
 		if (sort == true) {
@@ -230,7 +231,7 @@ public class Text {
 
 			int length = list.size();
 
-			bw.write("#length = " + length +", measure = "+measure+", "+ "sort = "+sort+","+extra+ System.lineSeparator());
+			bw.write("#length = " + length +", measure = "+measure+", "+ "sort = "+sort+", "+"type = "+type+","+extra+ System.lineSeparator());
 
 			for (int i = 0; i < length; i++) {
 
@@ -241,6 +242,38 @@ public class Text {
 					bw.write(cooccInfo[j] + ",");
 
 				}
+
+				bw.newLine();
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+	
+	public static void writeListDouble(List<double[]> list, String outputFile, String measure, String extra,
+			boolean sort) {
+
+		if (sort == true) {
+			Collections.sort(list, new ColumnComparatorDouble(-3, 1, 2));
+		}
+
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			int length = list.size();
+
+			bw.write("#length = " + length +", measure = "+measure+", "+ "sort = "+sort+","+extra+ System.lineSeparator());
+
+			for (int i = 0; i < length; i++) {
+
+				double[] cooccInfo = list.get(i);
+			
+				bw.write((int)cooccInfo[0]+","+(int)cooccInfo[1]+","+cooccInfo[2]);
 
 				bw.newLine();
 
@@ -341,7 +374,7 @@ public class Text {
 
 	}
 
-	public static void writeLocalList(ArrayList<int[]> list, String outputFile) {
+	public static void writeLocalList(ArrayList<int[]> list, String outputFile, String measure, String type, String extra) {
 
 		TIntObjectHashMap<ArrayList<int[]>> hm = new TIntObjectHashMap<ArrayList<int[]>>();
 
@@ -376,6 +409,8 @@ public class Text {
 		try {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+			
+			bw.write("measure = "+measure+", "+"type = "+type+","+extra+System.lineSeparator());
 
 			for (int i = 0; i < primaryIds.length; i++) {
 
@@ -390,6 +425,85 @@ public class Text {
 				
 				for(int[] friend : friends){
 					bw.write(friend[0]+","+friend[1]+System.lineSeparator());
+					
+					
+				}
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+	
+	public static void writeLocalListDouble(ArrayList<double[]> list, String outputFile) {
+
+		TDoubleObjectHashMap<ArrayList<double[]>> hm = new TDoubleObjectHashMap<ArrayList<double[]>>();
+
+		int length = list.size();
+		
+		System.out.println("leng = "+list.size());
+		
+		//create the hashmaps for local list.
+		System.out.println("create the hashmaps for local list.");
+
+		for (int i = 0; i < length; i++) {
+			
+			System.out.println(i+"," +list.get(i)[1]+","+list.get(i)[2]);
+
+			if (hm.containsKey(list.get(i)[0])) {
+				hm.get(list.get(i)[0]).add(
+						new double[] { list.get(i)[1], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[0], new ArrayList<double[]>());
+				hm.get(list.get(i)[0]).add(
+						new double[] { list.get(i)[1], list.get(i)[2] });
+			}
+
+			if (hm.containsKey(list.get(i)[1])) {
+				hm.get(list.get(i)[1]).add(
+						new double[] { list.get(i)[0], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[1], new ArrayList<double[]>());
+				hm.get(list.get(i)[1]).add(
+						new double[] { list.get(i)[0], list.get(i)[2] });
+			}
+
+		}
+		
+
+		double[] primaryIds = hm.keys();
+		
+		//sort the primary keys of the hashmap of local list
+		
+		System.out.println("sort the primary keys of the hashmap of local list");
+
+		Arrays.sort(primaryIds);
+		
+		//begin write the local list file.
+		
+		System.out.println("begin write the local list file.");
+
+		try {
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			for (int i = 0; i < primaryIds.length; i++) {
+
+				Collections.sort(hm.get(primaryIds[i]), new ColumnComparatorDouble(
+						-2, 1));
+
+				ArrayList<double[]> friends = hm.get(primaryIds[i]);
+
+				bw.write("#primaryId = " + (int)primaryIds[i] + ","
+						+ " numberOfFriends = " + friends.size()
+						+ System.lineSeparator());
+				
+				for(double[] friend : friends){
+					bw.write((int)friend[0]+","+friend[1]+System.lineSeparator());
 					
 					
 				}

@@ -175,7 +175,7 @@ public class Check {
 	public static void main(String[] args) {
 
 		String outputFile = outputPath + "levFDSM_GL_Top.txt";
-		readGL_Top(algo.levFDSM.levFDSM_GL_TXT, movieTitleTXT, 100, outputFile);
+		readGL_Top(algo.LevFDSM.levFDSM_GL_TXT, movieTitleTXT, 100, outputFile);
 
 	}
 
