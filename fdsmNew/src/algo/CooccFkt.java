@@ -400,6 +400,24 @@ public class CooccFkt {
 		return arr;
 	}
 
+	public static ArrayList<int[]> positiveMeasureLowerLeft(int[][] coocc) {
+		ArrayList<int[]> arr = new ArrayList<int[]>();
+		int length = coocc.length;
+		for (int i = 0; i < length; i++) {
+			for (int j = 0; j < i; j++) {
+				if (coocc[i][j] > 0) {
+					arr.add(new int[] { j, i, coocc[i][j] });
+
+				}
+
+			}
+
+		}
+
+		return arr;
+
+	}
+
 	// public static int[][] selectPositiv(int[][] coocc){
 	//
 	//

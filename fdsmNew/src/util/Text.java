@@ -17,6 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,8 +29,16 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
 
+import algo.Jaccard;
+
 public class Text {
 
+	/**
+	 * you can give the line number while runing the programm, but this methode
+	 * is not suitable for big file.
+	 * 
+	 * @param inputTXT
+	 */
 	public static void textReader(String inputTXT) {
 
 		ArrayList<String> list = new ArrayList<String>();
@@ -83,6 +92,58 @@ public class Text {
 		}
 
 		read.close();
+	}
+
+	public static void textReader2(String inputFile, int start, int end) {
+
+		File file = new File(inputFile);
+		if (!file.exists()) {
+			System.out.println("File dosen't exist!");
+			System.exit(-1);
+		}
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+			String line;
+			for (int i = 0; i < start; i++) {
+				br.readLine();
+			}
+
+			for (int i = 0; i <= end - start; i++) {
+
+				line = br.readLine();
+				System.out.println(line);
+			}
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+
+	public static void textReader3(String inputFile) {
+		File file = new File(inputFile);
+		if (!file.exists()) {
+			System.out.println("File dosen't exist!");
+			System.exit(-1);
+		}
+
+		ArrayList<Long> arr = new ArrayList<Long>();
+		arr.add((long) 0);
+		try {
+
+			RandomAccessFile raf = new RandomAccessFile(file, "r");
+
+			String line = raf.readLine();
+
+			raf.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
 	}
 
 	/**
@@ -207,20 +268,25 @@ public class Text {
 
 			String[] parameters = lineArr[i].split("=");
 
-			if (parameters.length != 2) {
+			if (parameters.length > 2) {
 				System.err.println("The Format of the Infomation is wrong!");
 				System.exit(-1);
 			}
 
-			hs.put(parameters[0].trim(), parameters[1].trim());
+			if(parameters.length == 1){
+				hs.put(parameters[0], "");
+			}else {
+				hs.put(parameters[0].trim(), parameters[1].trim());
+
+			}
 
 		}
 
 		return hs;
 	}
 
-	public static void writeList(List<int[]> list, String outputFile, String measure, String type, String extra,
-			boolean sort) {
+	public static void writeList(List<int[]> list, String outputFile,
+			String measure, String type, String extra, boolean sort) {
 
 		if (sort == true) {
 			Collections.sort(list, new ColumnComparator(-3, 1, 2));
@@ -231,7 +297,9 @@ public class Text {
 
 			int length = list.size();
 
-			bw.write("#length = " + length +", measure = "+measure+", "+ "sort = "+sort+", "+"type = "+type+","+extra+ System.lineSeparator());
+			bw.write("#length = " + length + ", measure = " + measure + ", "
+					+ "sort = " + sort + ", " + "type = " + type + "," + extra
+					+ System.lineSeparator());
 
 			for (int i = 0; i < length; i++) {
 
@@ -254,9 +322,9 @@ public class Text {
 		}
 
 	}
-	
-	public static void writeListDouble(List<double[]> list, String outputFile, String measure, String extra,
-			boolean sort) {
+
+	public static void writeListDouble(List<double[]> list, String outputFile,
+			String measure, String extra, boolean sort) {
 
 		if (sort == true) {
 			Collections.sort(list, new ColumnComparatorDouble(-3, 1, 2));
@@ -267,13 +335,15 @@ public class Text {
 
 			int length = list.size();
 
-			bw.write("#length = " + length +", measure = "+measure+", "+ "sort = "+sort+","+extra+ System.lineSeparator());
+			bw.write("#length = " + length + ", measure = " + measure + ", "
+					+ "sort = " + sort + "," + extra + System.lineSeparator());
 
 			for (int i = 0; i < length; i++) {
 
 				double[] cooccInfo = list.get(i);
-			
-				bw.write((int)cooccInfo[0]+","+(int)cooccInfo[1]+","+cooccInfo[2]);
+
+				bw.write((int) cooccInfo[0] + "," + (int) cooccInfo[1] + ","
+						+ cooccInfo[2]);
 
 				bw.newLine();
 
@@ -373,8 +443,17 @@ public class Text {
 		}
 
 	}
-
-	public static void writeLocalList(ArrayList<int[]> list, String outputFile, String measure, String type, String extra) {
+/**
+ * First line should be: measure = LevFDSM/Jaccard, type = locallist/globallist
+ * Write the local list with all int: Format: P1, P2, measure value
+ * @param list
+ * @param outputFile
+ * @param measure LevFDSM/Jaccard
+ * @param type locallist
+ * @param extra
+ */
+	public static void writeLocalList(ArrayList<int[]> list, String outputFile,
+			String measure, String type, String extra) {
 
 		TIntObjectHashMap<ArrayList<int[]>> hm = new TIntObjectHashMap<ArrayList<int[]>>();
 
@@ -409,8 +488,9 @@ public class Text {
 		try {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
-			
-			bw.write("measure = "+measure+", "+"type = "+type+","+extra+System.lineSeparator());
+
+			bw.write("measure = " + measure + ", " + "type = " + type + ","
+					+ extra + System.lineSeparator());
 
 			for (int i = 0; i < primaryIds.length; i++) {
 
@@ -422,11 +502,11 @@ public class Text {
 				bw.write("#primaryId = " + primaryIds[i] + ","
 						+ " numberOfFriends = " + friends.size()
 						+ System.lineSeparator());
-				
-				for(int[] friend : friends){
-					bw.write(friend[0]+","+friend[1]+System.lineSeparator());
-					
-					
+
+				for (int[] friend : friends) {
+					bw.write(friend[0] + "," + friend[1]
+							+ System.lineSeparator());
+
 				}
 
 			}
@@ -438,21 +518,22 @@ public class Text {
 		}
 
 	}
-	
-	public static void writeLocalListDouble(ArrayList<double[]> list, String outputFile) {
+
+	public static void writeLocalListDouble(ArrayList<double[]> list,
+			String outputFile) {
 
 		TDoubleObjectHashMap<ArrayList<double[]>> hm = new TDoubleObjectHashMap<ArrayList<double[]>>();
 
 		int length = list.size();
-		
-		System.out.println("leng = "+list.size());
-		
-		//create the hashmaps for local list.
+
+		System.out.println("leng = " + list.size());
+
+		// create the hashmaps for local list.
 		System.out.println("create the hashmaps for local list.");
 
 		for (int i = 0; i < length; i++) {
-			
-			System.out.println(i+"," +list.get(i)[1]+","+list.get(i)[2]);
+
+//			System.out.println(i + "," + list.get(i)[1] + "," + list.get(i)[2]);
 
 			if (hm.containsKey(list.get(i)[0])) {
 				hm.get(list.get(i)[0]).add(
@@ -473,18 +554,18 @@ public class Text {
 			}
 
 		}
-		
 
 		double[] primaryIds = hm.keys();
-		
-		//sort the primary keys of the hashmap of local list
-		
-		System.out.println("sort the primary keys of the hashmap of local list");
+
+		// sort the primary keys of the hashmap of local list
+
+		System.out
+				.println("sort the primary keys of the hashmap of local list");
 
 		Arrays.sort(primaryIds);
-		
-		//begin write the local list file.
-		
+
+		// begin write the local list file.
+
 		System.out.println("begin write the local list file.");
 
 		try {
@@ -493,19 +574,19 @@ public class Text {
 
 			for (int i = 0; i < primaryIds.length; i++) {
 
-				Collections.sort(hm.get(primaryIds[i]), new ColumnComparatorDouble(
-						-2, 1));
+				Collections.sort(hm.get(primaryIds[i]),
+						new ColumnComparatorDouble(-2, 1));
 
 				ArrayList<double[]> friends = hm.get(primaryIds[i]);
 
-				bw.write("#primaryId = " + (int)primaryIds[i] + ","
+				bw.write("#primaryId = " + (int) primaryIds[i] + ","
 						+ " numberOfFriends = " + friends.size()
 						+ System.lineSeparator());
-				
-				for(double[] friend : friends){
-					bw.write((int)friend[0]+","+friend[1]+System.lineSeparator());
-					
-					
+
+				for (double[] friend : friends) {
+					bw.write((int) friend[0] + "," + friend[1]
+							+ System.lineSeparator());
+
 				}
 
 			}
@@ -566,18 +647,10 @@ public class Text {
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			
+
 			String line = br.readLine();
-			
+
 			HashMap<String, String> hm = new HashMap<String, String>();
-			
-			
-			
-			
-			
-			
-			
-			
 
 			br.close();
 		} catch (IOException e) {
@@ -586,11 +659,6 @@ public class Text {
 		}
 
 		return measure;
-	}
-
-	public static void test() {
-
-
 	}
 
 	public static void main(String[] args) {
@@ -615,7 +683,7 @@ public class Text {
 		// textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
 
 		// textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
-
+		// textReader2(Jaccard.Jaccard_GL_TXT, 0, 100);
 
 	}
 

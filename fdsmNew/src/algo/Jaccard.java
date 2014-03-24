@@ -6,6 +6,7 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
 
+import util.ColumnComparator;
 import util.ColumnComparatorDouble;
 import util.MyBitSet;
 import util.Text;
@@ -34,11 +35,11 @@ public class Jaccard {
 		return degrees;
 	}
 
-	public static ArrayList<double[]> calculate() {
+	public static int[][] calculate() {
 
 		BipartiteGraph bg = new BipartiteGraph();
 
-		ArrayList<double[]> measures = new ArrayList<double[]>();
+		ArrayList<int[]> measures = new ArrayList<int[]>();
 
 		int[][] coocc = new int[bg.numberOfPrimaryIds][bg.numberOfPrimaryIds];
 
@@ -49,8 +50,6 @@ public class Jaccard {
 		int[] degrees = readDegree(adjMPrimary);
 
 		CooccFkt.readCooccPrimaryAddTopRight(adjMPrimary, coocc);
-		
-		System.out.println(degrees[41]+", "+degrees[334]+", "+coocc[41][334]);
 
 		for (int i = 0; i < length; i++) {
 
@@ -62,20 +61,21 @@ public class Jaccard {
 							.round((double) coocc[i][j]
 									* 10000.0
 									/ ((double) degrees[i]
-											+ (double) degrees[j] - (double) coocc[i][j])) / 10000.0;
+											+ (double) degrees[j] - (double) coocc[i][j]));
 					// double measureValue2 = Math.round((double)coocc[i][j] *
 					// 1000
 					// / ((double)degrees[i] + (double)degrees[j] -
 					// (double)coocc[i][j]));
-
-					if (measureValue > 0) {
-						measures.add(new double[] { i, j, measureValue });
-					}
-
+					//
+					// if (measureValue > 0) {
+					// measures.add(new int[] { i, j, (int)measureValue });
+					// }
+					//
 					// System.out.println("coocc[" + i + "][" + j + "] = "
 					// + coocc[i][j] + "," + "degree[" + i + "] = "
 					// + degrees[i] + ", degree[" + j + "] = "
 					// + degrees[j] + ", measureValue = " + measureValue);
+					coocc[j][i] = (int) measureValue;
 
 				}
 
@@ -83,7 +83,7 @@ public class Jaccard {
 
 		}
 
-		return measures;
+		return coocc;
 	}
 
 	public static void run() {
@@ -94,49 +94,60 @@ public class Jaccard {
 			file.mkdirs();
 		}
 
-		ArrayList<double[]> measures = calculate();
-		System.out.println("measures without sort");
-		for (int i = 0; i < 10; i++) {
-			System.out.println(measures.get(i)[0] + ", " + measures.get(i)[1]
-					+ ", " + measures.get(i)[2]);
-		}
+		int[][] coocc = calculate();
+		// System.out.println("measures without sort");
+		// for (int i = 0; i < 10; i++) {
+		// System.out.println(measures.get(i)[0] + ", " + measures.get(i)[1]
+		// + ", " + measures.get(i)[2]);
+		// }
 
-		Collections.sort(measures, new ColumnComparatorDouble(-3, 1, 2));
+		ArrayList<int[]> measures = CooccFkt.positiveMeasureLowerLeft(coocc);
 
-		System.out.println();
-		System.out.println("measures without sort");
-		for (int i = 0; i < 10; i++) {
-			System.out.println(measures.get(i)[0] + ", " + measures.get(i)[1]
-					+ ", " + measures.get(i)[2]);
-		}
+		Collections.sort(measures, new ColumnComparator(-3, 1, 2));
 
-		System.out.println("Write the Jaccard List");
-		Text.writeListDouble(measures, Jaccard_TXT, "Jaccard", "", false);
+		// System.out.println();
+		// System.out.println("measures with sort");
+		// for (int i = 0; i < 10; i++) {
+		// System.out.println(measures.get(i)[0] + ", " + measures.get(i)[1]
+		// + ", " + measures.get(i)[2]);
+		// }
 
-		System.out.println("Write the Jaccard Gloable List");
-		Text.writeListDouble(measures, Jaccard_GL_TXT, "Jaccard", "", true);
+//		System.out.println("Write the Jaccard List");
+//		Text.writeList(measures, Jaccard_TXT, "Jaccard", "List", "", false);
+//
+//		System.out.println("Write the Jaccard Gloable List");
+//		Text.writeList(measures, Jaccard_GL_TXT, "Jaccard", "global list", "",
+//				true);
 
-		// System.out.println("Write the Jaccard Local List");
-		// Text.writeLocalListDouble(measures, Jaccard_LL_TXT);
+		System.out.println("Write the Jaccard Local List");
+		Text.writeLocalList(measures, Jaccard_LL_TXT, "Jaccard", "locallist",
+				"");
 
 	}
 
 	public static void test() {
 
-		int a = 1;
-		int b = 19;
-		int c = 58;
-		double e = a / (b + c - a);
-		double f = Math.round((double) a * 10000
-				/ ((double) b + (double) c - (double) a)) / 10000.0;
-		System.out.println(e);
-		System.out.println(f);
+		BipartiteGraph bg = new BipartiteGraph();
+
+		MyBitSet[] adjMPrimary = bg.toPrimBS();
+
+		int[] degrees = readDegree(adjMPrimary);
+
+		int[] abc = new int[] { 334, 744, 1754, 3198, 3557, 4910, 5156, 5200,
+				5300, 5838, 41, 0, 72 };
+
+		for (int i = 0; i < abc.length; i++) {
+			System.out.println("degree(" + abc[i] + ") = " + degrees[abc[i]]);
+
+		}
+
+		System.out.println();
 
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		 run();
+		run();
 		// test();
 
 	}
