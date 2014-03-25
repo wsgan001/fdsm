@@ -1,6 +1,7 @@
 package util;
 
 import gnu.trove.iterator.TIntObjectIterator;
+import gnu.trove.list.array.TLongArrayList;
 import gnu.trove.map.hash.TDoubleObjectHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import info.DataSource;
@@ -25,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
@@ -94,6 +96,12 @@ public class Text {
 		read.close();
 	}
 
+	/**
+	 * Read the Text
+	 * @param inputFile
+	 * @param start computer number
+	 * @param end
+	 */
 	public static void textReader2(String inputFile, int start, int end) {
 
 		File file = new File(inputFile);
@@ -107,6 +115,12 @@ public class Text {
 			String line;
 			for (int i = 0; i < start; i++) {
 				br.readLine();
+			}
+			
+			if(start > end){
+				int temp = start;
+				start =end;
+				end = temp;
 			}
 
 			for (int i = 0; i <= end - start; i++) {
@@ -123,6 +137,11 @@ public class Text {
 
 	}
 
+	/**
+	 * Read Text with RandomAccessFile, start with nature number
+	 * 
+	 * @param inputFile
+	 */
 	public static void textReader3(String inputFile) {
 		File file = new File(inputFile);
 		if (!file.exists()) {
@@ -130,7 +149,8 @@ public class Text {
 			System.exit(-1);
 		}
 
-		ArrayList<Long> arr = new ArrayList<Long>();
+//		ArrayList<Long> arr = new ArrayList<Long>();
+		TLongArrayList arr = new TLongArrayList();
 		arr.add((long) 0);
 		try {
 
@@ -138,12 +158,141 @@ public class Text {
 
 			String line = raf.readLine();
 
-			raf.close();
+			while (line != null) {
+				arr.add((long) raf.getFilePointer());
+				line = raf.readLine();
+
+			}
+
+			System.out
+					.println("You can give a number which absolute value is bewteen 1 and "
+							+ (arr.size()-1)
+							+ ", the negative number means the reverse order: ");
+
+			Scanner reader = new Scanner(System.in);
+			reader.useDelimiter(DataSource.lineSeparate);
+
+			while (10 > 0) {
+
+				line = reader.nextLine();
+
+				if (line.trim().equals("exit")) {
+					System.exit(1);
+				}
+				
+
+				String[] infos = line.split(",");
+
+				for (int i = 0; i < infos.length; i++) {
+					if (!infos[i].contains("to")) {
+						int lineNumber = Integer.parseInt(infos[i].trim());
+						
+						if(lineNumber < 0){
+							lineNumber = arr.size()+lineNumber;									;
+						}
+
+						raf.seek(arr.get(lineNumber - 1));
+						String content = raf.readLine();
+
+						System.out.println("line " + lineNumber + ": "
+								+ content);
+
+					} else {
+
+						String[] sequence = infos[i].split("to");
+
+						if (sequence.length != 2) {
+							System.err
+									.println("Wrong Format! So this sequence cannot be seen!");
+							break;
+						}
+						
+						System.out.println("---------");
+						
+						System.out.println("line "+infos[i]);
+						
+						System.out.println("---------");
+				
+
+						int n1 = Integer.parseInt(sequence[0].trim())-1;
+						int n2 = Integer.parseInt(sequence[1].trim())-1;
+
+						if(n1 < 0){
+							n1 = arr.size() + n1;
+						}
+						if(n2 < 0){
+							n2 = arr.size() + n2;
+						}
+						
+						if(n1 > n2){
+							int temp = n1;
+							n1 = n2;
+							n2 = temp;
+						}
+						
+						raf.seek(arr.get(n1));
+						for(int j = n1; j<=n2; j++){
+							System.out.println("line "+(j+1) +" : "+ raf.readLine());
+						}
+						
+						
+						
+					}
+
+				}
+
+				StringTokenizer st = new StringTokenizer(line, ",");
+
+				int length = st.countTokens();
+
+				// for (int i = 0; i < length; i++) {
+				//
+				//
+				//
+				//
+				// if (info.contains("to")) {
+				//
+				// String[] sequence = info.split("to");
+				// int n1 = Integer.parseInt(sequence[0].trim());
+				// int n2 = Integer.parseInt(sequence[1].trim());
+				//
+				// if (n1 < 0) {
+				// n1 = arr.size() - n1;
+				// }
+				// if (n2 < 0) {
+				// n2 = arr.size() - n2;
+				// }
+				//
+				// if (n1 > n2) {
+				// int temp = n1;
+				// n1 = n2;
+				// n2 = n1;
+				// }
+				//
+				// for (int j = n1; j <= n2; j++) {
+				// System.out
+				// .println("line " + j + " : " + arr.get(j-1));
+				// arr.get(j - 1);
+				//
+				// }
+				//
+				// } else if (info == "exit") {
+				// break;
+				//
+				// }
+				//
+				// }
+
+			}
+
+			// raf.close();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
 
+		System.out.println(file.length() + "," + arr.get(arr.size() - 1));
 	}
 
 	/**
@@ -273,9 +422,9 @@ public class Text {
 				System.exit(-1);
 			}
 
-			if(parameters.length == 1){
+			if (parameters.length == 1) {
 				hs.put(parameters[0], "");
-			}else {
+			} else {
 				hs.put(parameters[0].trim(), parameters[1].trim());
 
 			}
@@ -443,15 +592,20 @@ public class Text {
 		}
 
 	}
-/**
- * First line should be: measure = LevFDSM/Jaccard, type = locallist/globallist
- * Write the local list with all int: Format: P1, P2, measure value
- * @param list
- * @param outputFile
- * @param measure LevFDSM/Jaccard
- * @param type locallist
- * @param extra
- */
+
+	/**
+	 * First line should be: measure = LevFDSM/Jaccard, type =
+	 * locallist/globallist Write the local list with all int: Format: P1, P2,
+	 * measure value
+	 * 
+	 * @param list
+	 * @param outputFile
+	 * @param measure
+	 *            LevFDSM/Jaccard
+	 * @param type
+	 *            locallist
+	 * @param extra
+	 */
 	public static void writeLocalList(ArrayList<int[]> list, String outputFile,
 			String measure, String type, String extra) {
 
@@ -533,7 +687,8 @@ public class Text {
 
 		for (int i = 0; i < length; i++) {
 
-//			System.out.println(i + "," + list.get(i)[1] + "," + list.get(i)[2]);
+			// System.out.println(i + "," + list.get(i)[1] + "," +
+			// list.get(i)[2]);
 
 			if (hm.containsKey(list.get(i)[0])) {
 				hm.get(list.get(i)[0]).add(
@@ -684,6 +839,7 @@ public class Text {
 
 		// textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
 		// textReader2(Jaccard.Jaccard_GL_TXT, 0, 100);
+		textReader3("testText");
 
 	}
 

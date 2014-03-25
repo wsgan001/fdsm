@@ -1,10 +1,14 @@
 package algo;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 import util.ColumnComparator;
 import util.ColumnComparatorDouble;
@@ -112,12 +116,13 @@ public class Jaccard {
 		// + ", " + measures.get(i)[2]);
 		// }
 
-//		System.out.println("Write the Jaccard List");
-//		Text.writeList(measures, Jaccard_TXT, "Jaccard", "List", "", false);
-//
-//		System.out.println("Write the Jaccard Gloable List");
-//		Text.writeList(measures, Jaccard_GL_TXT, "Jaccard", "global list", "",
-//				true);
+		// System.out.println("Write the Jaccard List");
+		// Text.writeList(measures, Jaccard_TXT, "Jaccard", "List", "", false);
+		//
+		// System.out.println("Write the Jaccard Gloable List");
+		// Text.writeList(measures, Jaccard_GL_TXT, "Jaccard", "global list",
+		// "",
+		// true);
 
 		System.out.println("Write the Jaccard Local List");
 		Text.writeLocalList(measures, Jaccard_LL_TXT, "Jaccard", "locallist",
@@ -145,10 +150,59 @@ public class Jaccard {
 
 	}
 
+	public static ArrayList<int[]> readGLTXTinList(String GlobalListTXT) {
+		ArrayList<int[]> measures = new ArrayList<int[]>();
+
+		try {
+			BufferedReader br = new BufferedReader(
+					new FileReader(GlobalListTXT));
+			String line = br.readLine();
+			HashMap<String, String> hm = Text.readLineInfos(line);
+			String type = hm.get("type").trim();
+			System.out.println(type);
+			if (!type.equalsIgnoreCase("global list") && !type.equalsIgnoreCase("List")) {
+				if(!type.equalsIgnoreCase("global list")){
+					System.err.println("The global list is Wrong");
+				}
+				if(!type.equalsIgnoreCase("List")){
+					System.err.println("The List is Wrong!");
+				}
+				
+				System.exit(-1);
+			}
+
+			line = br.readLine();
+
+			while (line != null) {
+
+				StringTokenizer st = new StringTokenizer(line, ",");
+				int[] value = new int[] { Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()) };
+				measures.add(value);
+				line = br.readLine();
+			}
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+		return measures;
+	}
+	
+	public static void creatLL(){
+		ArrayList<int[]> measures = readGLTXTinList(Jaccard_TXT);
+		Text.writeLocalList(measures, Jaccard_LL_TXT, "Jaccard", "local list", "");
+		
+		
+	}
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		run();
-		// test();
+		// run();
+//		creatLL();
+		 Text.textReader2(Jaccard_LL_TXT, 0, 10);
 
 	}
 

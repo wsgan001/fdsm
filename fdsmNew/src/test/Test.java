@@ -1,10 +1,10 @@
 package test;
 
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.StringTokenizer;
 
 import javax.sound.midi.ControllerEventListener;
 
@@ -81,6 +81,38 @@ public class Test {
 		}
 
 	}
+	
+	public static void test(){
+		
+//		String abc = " 0";
+//		
+//		StringTokenizer st = new StringTokenizer(abc,",");
+//		
+//		int length = st.countTokens();
+//		
+//		ArrayList<Integer> arr = new ArrayList<Integer>();
+//		
+//		for(int i = 0; i<length; i++){
+//			
+//			arr.add(Integer.parseInt(st.nextToken().trim()));
+//			
+//		}
+//		for(int i = 0; i<arr.size(); i++){
+//			System.out.println(arr.get(i));
+//		}
+		
+		String bbc = "12";
+		
+		String[] infos = bbc.split(",");
+		
+		System.out.println(infos.length);
+		
+		for(int i = 0; i<infos.length; i++){
+			System.out.println(infos[i]);
+		}
+		
+		
+	}
 
 
 	public static void main(String[] args) {
@@ -88,7 +120,7 @@ public class Test {
 		// HashSet<String> hs = new HashSet<String>();
 		// System.out.println(hs.getClass().getName());
 		
-		
+		test();
 
 
 	}
