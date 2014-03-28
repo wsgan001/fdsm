@@ -495,8 +495,8 @@ public class BipartiteGraph {
 
 	/**
 	 * create edges with an array, this array has two dimension, something like
-	 * a table. The rows present the number of the edges, the columns present the
-	 * two vertices of an edge.
+	 * a table. The rows present the number of the edges, the columns present
+	 * the two vertices of an edge.
 	 * 
 	 * @return
 	 */
@@ -550,6 +550,46 @@ public class BipartiteGraph {
 
 		return edges;
 
+	}
+
+	public static int[] readDegree(MyBitSet[] adjMPrimary) {
+		int[] degrees = new int[adjMPrimary.length];
+		int length = degrees.length;
+		for (int i = 0; i < length; i++) {
+			degrees[i] = adjMPrimary[i].cardinality();
+		}
+
+		return degrees;
+	}
+
+	public int[] readPrimaryDegree() {
+//		BipartiteGraph bg = new BipartiteGraph();
+		int[] degrees = new int[this.numberOfPrimaryIds];
+
+		MyBitSet[] adjM = toPrimBS();
+		int length = adjM.length;
+		for (int i = 0; i < length; i++) {
+			degrees[i] = adjM[i].size();
+
+		}
+
+		return degrees;
+
+	}
+	
+	public static int[] readSecondaryDegree(){
+		BipartiteGraph bg = new BipartiteGraph();
+		int[] degrees = new int[bg.numberOfSamples];
+
+		MyBitSet[] adjM = bg.toSecBS();
+		int length = adjM.length;
+		for (int i = 0; i < length; i++) {
+			degrees[i] = adjM[i].size();
+
+		}
+
+		return degrees;
+		
 	}
 
 	public static void main(String[] args) {
