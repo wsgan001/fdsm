@@ -84,33 +84,13 @@ public class Test {
 	
 	public static void test(){
 		
-//		String abc = " 0";
-//		
-//		StringTokenizer st = new StringTokenizer(abc,",");
-//		
-//		int length = st.countTokens();
-//		
-//		ArrayList<Integer> arr = new ArrayList<Integer>();
-//		
-//		for(int i = 0; i<length; i++){
-//			
-//			arr.add(Integer.parseInt(st.nextToken().trim()));
-//			
-//		}
-//		for(int i = 0; i<arr.size(); i++){
-//			System.out.println(arr.get(i));
-//		}
-		
-		String bbc = "12";
-		
-		String[] infos = bbc.split(",");
-		
-		System.out.println(infos.length);
-		
-		for(int i = 0; i<infos.length; i++){
-			System.out.println(infos[i]);
-		}
-		
+		String line = "#huhu";
+		String line2 = line.substring(1);
+		System.out.println(line2);
+		int lastIndex = line.lastIndexOf("#");
+		System.out.println(lastIndex);
+		String line3 = line.substring(line.lastIndexOf("#"));
+		System.out.println(line3);
 		
 	}
 

@@ -100,7 +100,7 @@ public class Text {
 	 * Read the Text
 	 * @param inputFile
 	 * @param start computer number
-	 * @param end
+	 * @param end computer number
 	 */
 	public static void textReader2(String inputFile, int start, int end) {
 
@@ -643,7 +643,7 @@ public class Text {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
 
-			bw.write("measure = " + measure + ", " + "type = " + type + ","
+			bw.write("#measure = " + measure + ", " + "type = " + type + ","
 					+ extra + System.lineSeparator());
 
 			for (int i = 0; i < primaryIds.length; i++) {
@@ -838,8 +838,8 @@ public class Text {
 		// textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
 
 		// textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
-		// textReader2(Jaccard.Jaccard_GL_TXT, 0, 100);
-		textReader3("testText");
+		 textReader2(Jaccard.Jaccard_LL_TXT, 0, 10);
+//		textReader3("testText");
 
 	}
 

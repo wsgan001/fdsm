@@ -569,7 +569,7 @@ public class BipartiteGraph {
 		MyBitSet[] adjM = toPrimBS();
 		int length = adjM.length;
 		for (int i = 0; i < length; i++) {
-			degrees[i] = adjM[i].size();
+			degrees[i] = adjM[i].cardinality();
 
 		}
 
@@ -584,7 +584,7 @@ public class BipartiteGraph {
 		MyBitSet[] adjM = bg.toSecBS();
 		int length = adjM.length;
 		for (int i = 0; i < length; i++) {
-			degrees[i] = adjM[i].size();
+			degrees[i] = adjM[i].cardinality();
 
 		}
 

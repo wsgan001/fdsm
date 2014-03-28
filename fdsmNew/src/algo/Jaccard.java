@@ -17,9 +17,9 @@ import util.Text;
 
 public class Jaccard {
 
-	static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
+	public static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
 
-	static String outputPath = info.DataSource.outputPath + File.separator
+	public static String outputPath = info.DataSource.outputPath + File.separator
 			+ "Jaccard" + File.separator;
 
 	// output file name for the levFDSM result:global list

@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.RandomAccess;
 import java.util.StringTokenizer;
 
+import algo.Jaccard;
+import algo.Remove;
+
 public class Check {
 
 	public static String movieTitleTXT = info.DataSource.Pfad_doc
@@ -31,31 +34,13 @@ public class Check {
 
 		try {
 
-			// // Read the movie titles into an Arraylist
-			// BufferedReader br = new BufferedReader(
-			// new FileReader(movieTitleTXT));
-			//
-			// String line = br.readLine();
-			//
-			// while (line != null) {
-			//
-			// String[] content = line.split(",", 3);
-			//
-			// movieTitles.add(Arrays.copyOfRange(content, 1, 3));
-			//
-			// line = br.readLine();
-			// }
-			//
-			// br.close();
-
-			// Read the global list.
 			BufferedReader br = new BufferedReader(new FileReader(
 					levFDSM_GL_TXT));
 
 			String line = br.readLine();
 
 			HashMap<String, String> hm = util.Text.readLineInfos(line);
-
+			
 			int numberOflines = Integer.parseInt(hm.get("length"));
 
 			if (Math.abs(top) > numberOflines) {
@@ -89,7 +74,6 @@ public class Check {
 
 			top = Math.abs(top);
 
-			// file = new File(outputFile);
 
 			for (int i = 0; i < top; i++) {
 
@@ -112,7 +96,6 @@ public class Check {
 
 			}
 
-			// System.out.println("0 : "+movieTitles.get(0)[0]+", "+movieTitles.get(0)[1]);
 
 			bw.close();
 			br.close();
@@ -124,6 +107,9 @@ public class Check {
 
 	}
 
+	/**
+	 * With ComputerId (PrimaryIds)
+	 */
 	public static ArrayList<String[]> readMovieTitles(String movieTitleTXT) {
 
 		ArrayList<String[]> movieTitles = new ArrayList<String[]>();
@@ -174,8 +160,11 @@ public class Check {
 
 	public static void main(String[] args) {
 
-		String outputFile = outputPath + "levFDSM_GL_Top.txt";
-		readGL_Top(algo.LevFDSM.levFDSM_GL_TXT, movieTitleTXT, 100, outputFile);
+//		String outputFile = outputPath + "levFDSM_GL_Top.txt";
+//		readGL_Top(algo.LevFDSM.levFDSM_GL_TXT, movieTitleTXT, 100, outputFile);
+		readGL_Top(Jaccard.outputPath+"Jaccard_GL_MinDegree2.txt", movieTitleTXT, 100, Jaccard.outputPath+"Jaccard_GL_MinDegree2Top100.txt");
+		
+		
 
 	}
 
