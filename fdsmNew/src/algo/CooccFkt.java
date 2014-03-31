@@ -417,6 +417,8 @@ public class CooccFkt {
 		return arr;
 
 	}
+	
+
 
 	// public static int[][] selectPositiv(int[][] coocc){
 	//

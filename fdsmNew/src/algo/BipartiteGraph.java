@@ -22,7 +22,7 @@ import util.Text;
 public class BipartiteGraph {
 
 	String inputTXT = dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
-
+//this numberOfSmaples represent the number of secondaryIds
 	int numberOfSamples = 20000;
 
 	int numberOfPrimaryIds = 17770;

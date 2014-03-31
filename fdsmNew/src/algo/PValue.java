@@ -1,5 +1,7 @@
 package algo;
 
+import gnu.trove.set.hash.TIntHashSet;
+
 import java.io.File;
 import java.util.HashSet;
 import java.util.Random;
@@ -58,6 +60,74 @@ public class PValue {
 
 		CooccFkt.swap(lengthOfWalks, edges, adjM, generator_edge);
 
+		
+		
+	}
+	
+	public static void pRead(int[][] coocc, MyBitSet[] priAdjM){
+
+		int length = priAdjM.length;
+		
+		for(int i = 0; i<length; i++){
+			for(int j=i+1; j<length; j++){
+				int cooccValue = priAdjM[i].myand(priAdjM[j]).cardinality();
+				
+				if(cooccValue<coocc[i][j]){
+					coocc[j][i]++;
+
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	public static void pRead(int[][] coocc, TIntHashSet[] priAdjM){
+		int length = priAdjM.length;
+		for(int i= 0; i<length; i++){
+			for(int j=i+1; j<length; j++){
+				int cooccValue = util.General.THSIntersectSize(priAdjM[i], priAdjM[j]);
+				
+				if(cooccValue <coocc[i][j]){
+					coocc[j][i]++;
+				}
+				
+			}
+			
+		}
+		
+		
+	}
+	
+	public static void calculate2(){
+		
+		BipartiteGraph bg = new BipartiteGraph();
+		MyBitSet[] priAdjM = bg.toPrimBS();
+		
+		int[][] edges = bg.generateEdges();
+		Random generator_edge = new Random(seed);
+		
+		System.out.println("the first long long swap...");
+
+		CooccFkt.swap(4 * bg.numberOfEdges, edges, priAdjM, generator_edge);
+
+		int lengthOfWalks = (int)(bg.numberOfSamples * Math.log(bg.numberOfSamples));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 	public static void test() {

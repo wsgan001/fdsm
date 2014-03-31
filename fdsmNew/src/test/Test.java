@@ -1,5 +1,7 @@
 package test;
 
+import gnu.trove.set.hash.TIntHashSet;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -84,13 +86,14 @@ public class Test {
 	
 	public static void test(){
 		
-		String line = "#huhu";
-		String line2 = line.substring(1);
-		System.out.println(line2);
-		int lastIndex = line.lastIndexOf("#");
-		System.out.println(lastIndex);
-		String line3 = line.substring(line.lastIndexOf("#"));
-		System.out.println(line3);
+		TIntHashSet ths1 = new TIntHashSet();
+		ths1.add(1);
+		ths1.add(2);
+		TIntHashSet ths2 = new TIntHashSet();
+		ths2.add(3);
+		ths2.add(4);
+		ths2.add(2);
+		
 		
 	}
 
