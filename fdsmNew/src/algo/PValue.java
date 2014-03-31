@@ -3,10 +3,12 @@ package algo;
 import gnu.trove.set.hash.TIntHashSet;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
 import util.MyBitSet;
+import util.Text;
 
 public class PValue {
 
@@ -18,9 +20,9 @@ public class PValue {
 			+ "PValue" + File.separator;
 
 	// output file name for the levFDSM result:global list
-	public static String levFDSM_TXT = outputPath + "PValue.txt";
-	public static String levFDSM_GL_TXT = outputPath + "PValue_GL.txt";
-	public static String levFDSM_LL_TXT = outputPath + "PValue_LL.txt";
+	public static String pValue_TXT = outputPath + "PValue.txt";
+	public static String pValue_GL_TXT = outputPath + "PValue_GL.txt";
+	public static String pValue_LL_TXT = outputPath + "PValue_LL.txt";
 
 	public static int seed = 3306;
 
@@ -64,7 +66,12 @@ public class PValue {
 		
 	}
 	
-	public static void pRead(int[][] coocc, MyBitSet[] priAdjM){
+	/**
+	 * if the value of coocc bigger than the random Sample Graph, then I will take it as one point.
+	 * @param coocc
+	 * @param priAdjM
+	 */
+	public static void pReadAddLowerleft(int[][] coocc, MyBitSet[] priAdjM){
 
 		int length = priAdjM.length;
 		
@@ -83,13 +90,13 @@ public class PValue {
 		
 	}
 	
-	public static void pRead(int[][] coocc, TIntHashSet[] priAdjM){
+	public static void pReadAddLowerleft(int[][] coocc, TIntHashSet[] priAdjM){
 		int length = priAdjM.length;
 		for(int i= 0; i<length; i++){
 			for(int j=i+1; j<length; j++){
 				int cooccValue = util.General.THSIntersectSize(priAdjM[i], priAdjM[j]);
 				
-				if(cooccValue <coocc[i][j]){
+				if(coocc[i][j] > cooccValue){
 					coocc[j][i]++;
 				}
 				
@@ -99,6 +106,8 @@ public class PValue {
 		
 		
 	}
+	
+
 	
 	public static void calculate2(){
 		
@@ -114,19 +123,22 @@ public class PValue {
 
 		int lengthOfWalks = (int)(bg.numberOfSamples * Math.log(bg.numberOfSamples));
 		
+		int[][] coocc = CooccFkt.readOriginalCoocurrence();
 		
+		for(int i=0; i<numberOfSampleGraphs; i++){
+			
+			CooccFkt.swap(lengthOfWalks, edges, priAdjM, generator_edge);
+			pReadAddLowerleft(coocc, priAdjM);
+		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		 System.out.println("Write the PValue Gloable List");
+		 ArrayList<int[]> measures = CooccFkt.positiveMeasureLowerLeft(coocc);
+		 
+		 
+		 
+		 Text.writeList(measures, pValue_TXT, "pValue", "list",
+		 "",
+		 false);
 		
 	}
 
@@ -136,6 +148,7 @@ public class PValue {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		calculate2();
 
 	}
 
