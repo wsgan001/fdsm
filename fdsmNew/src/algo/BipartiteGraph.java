@@ -22,7 +22,7 @@ import util.Text;
 public class BipartiteGraph {
 
 	String inputTXT = dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
-//this numberOfSmaples represent the number of secondaryIds
+	// this numberOfSmaples represent the number of secondaryIds
 	int numberOfSamples = 20000;
 
 	int numberOfPrimaryIds = 17770;
@@ -496,9 +496,10 @@ public class BipartiteGraph {
 	/**
 	 * create edges with an array, this array has two dimension, something like
 	 * a table. The rows present the number of the edges, the columns present
-	 * the two vertices of an edge.
+	 * the two vertices of an edge. Format: rows means the number of the Edges
 	 * 
-	 * @return
+	 * @return int[numberOfEdges][2] edges column[0]:the secondaryId, column[1]
+	 *         the primaryId
 	 */
 	public int[][] generateEdges() {
 
@@ -552,6 +553,66 @@ public class BipartiteGraph {
 
 	}
 
+	/**
+	 * create edges with an array, this array has two dimension, something like
+	 * a table. The rows present the number of the edges, the columns present
+	 * the two vertices of an edge. Format: rows means the number of the Edges
+	 * 
+	 * @return int[numberOfEdges][2] edges column[0]:the primaryId, column[1]
+	 *         the secondaryId
+	 */
+	public int[][] generateEdgesPrimarySecondary() {
+
+		int[][] edges = null;
+
+		try {
+
+			BufferedReader br = new BufferedReader(
+					new FileReader(this.inputTXT));
+
+			String line = br.readLine();
+
+			edges = new int[this.numberOfEdges][2];
+
+			br.readLine();
+
+			int cnt = 0;
+
+			line = br.readLine();
+
+			while (line != null) {
+
+				String[] lineInfos = line.split(":");
+
+				if (lineInfos.length != 4) {
+					line = br.readLine();
+					continue;
+				}
+
+				int cardi = Integer.parseInt(lineInfos[2]);
+				StringTokenizer st = new StringTokenizer(lineInfos[3], ",");
+				for (int i = 0; i < cardi; i++) {
+					edges[cnt][0] = Integer.parseInt(st.nextToken());
+
+					edges[cnt][1] = Integer.parseInt(lineInfos[0]);
+
+					cnt++;
+
+				}
+
+				line = br.readLine();
+			}
+
+			br.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return edges;
+
+	}
+
 	public static int[] readDegree(MyBitSet[] adjMPrimary) {
 		int[] degrees = new int[adjMPrimary.length];
 		int length = degrees.length;
@@ -563,7 +624,7 @@ public class BipartiteGraph {
 	}
 
 	public int[] readPrimaryDegree() {
-//		BipartiteGraph bg = new BipartiteGraph();
+		// BipartiteGraph bg = new BipartiteGraph();
 		int[] degrees = new int[this.numberOfPrimaryIds];
 
 		MyBitSet[] adjM = toPrimBS();
@@ -576,8 +637,8 @@ public class BipartiteGraph {
 		return degrees;
 
 	}
-	
-	public static int[] readSecondaryDegree(){
+
+	public static int[] readSecondaryDegree() {
 		BipartiteGraph bg = new BipartiteGraph();
 		int[] degrees = new int[bg.numberOfSamples];
 
@@ -589,7 +650,7 @@ public class BipartiteGraph {
 		}
 
 		return degrees;
-		
+
 	}
 
 	public static void main(String[] args) {

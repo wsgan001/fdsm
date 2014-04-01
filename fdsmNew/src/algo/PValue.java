@@ -114,7 +114,7 @@ public class PValue {
 		BipartiteGraph bg = new BipartiteGraph();
 		MyBitSet[] priAdjM = bg.toPrimBS();
 		
-		int[][] edges = bg.generateEdges();
+		int[][] edges = bg.generateEdgesPrimarySecondary();
 		Random generator_edge = new Random(seed);
 		
 		System.out.println("the first long long swap...");
