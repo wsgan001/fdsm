@@ -420,6 +420,7 @@ public class CooccFkt {
 	
 
 
+
 	// public static int[][] selectPositiv(int[][] coocc){
 	//
 	//

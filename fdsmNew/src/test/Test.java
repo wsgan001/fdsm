@@ -2,6 +2,11 @@ package test;
 
 import gnu.trove.set.hash.TIntHashSet;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -86,13 +91,25 @@ public class Test {
 	
 	public static void test(){
 		
-		TIntHashSet ths1 = new TIntHashSet();
-		ths1.add(1);
-		ths1.add(2);
-		TIntHashSet ths2 = new TIntHashSet();
-		ths2.add(3);
-		ths2.add(4);
-		ths2.add(2);
+		String outputFile = "D:/Ying/netflix/output/huhu/haha/lulu.txt"; 
+		
+		File file = new File(outputFile);
+		File path = file.getParentFile();
+		
+		if(!path.exists()){
+			path.mkdirs();
+		}
+		
+		try {
+			
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+			bw.write("mmm");
+			bw.close();
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		
 	}

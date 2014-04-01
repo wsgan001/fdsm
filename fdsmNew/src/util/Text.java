@@ -471,6 +471,51 @@ public class Text {
 		}
 
 	}
+	
+	
+	public static void writeListShort(List<short[]> list, String outputFile,
+			String measure, String type, String extra, boolean sort) {
+
+		if (sort == true) {
+			Collections.sort(list, new ColumnComparatorShort(-3, 1, 2));
+		}
+		
+		File file = new File(outputFile);
+		File path = file.getParentFile();
+		if(!path.exists()){
+			path.mkdirs();
+		}
+		
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+
+			int length = list.size();
+
+			bw.write("#length = " + length + ", measure = " + measure + ", "
+					+ "sort = " + sort + ", " + "type = " + type + "," + extra
+					+ System.lineSeparator());
+
+			for (int i = 0; i < length; i++) {
+
+				short[] cooccInfo = list.get(i);
+
+				for (int j = 0; j < cooccInfo.length; j++) {
+
+					bw.write(cooccInfo[j] + ",");
+
+				}
+
+				bw.newLine();
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
 
 	public static void writeListDouble(List<double[]> list, String outputFile,
 			String measure, String extra, boolean sort) {
