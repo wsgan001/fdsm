@@ -65,7 +65,7 @@ public class LevFDSM {
 
 			long t2 = System.currentTimeMillis();
 
-			double t3 = (t2 - t1) / 1000;
+			double t3 = (double)(t2 - t1) / (double)1000;
 
 			System.out.println("Sample " + i + " takes " + t3 + " seconds");
 

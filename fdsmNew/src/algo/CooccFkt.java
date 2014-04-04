@@ -194,6 +194,41 @@ public class CooccFkt {
 	}
 
 	/**
+	 * Increase cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
+	 * from this array represent the friends(PrimaryIds) of a SecondaryId.
+	 * 
+	 * @param adjM
+	 *            Format: SecondaryId: PrimaryId_1, PrimaryId_2...
+	 * @param pValue
+	 *            a two dimensional array, with stores the value of pValue
+	 */
+	public static void readCooccSecAddLowerLeft(MyBitSet[] adjM,
+			short[][] pValue) {
+
+		int adjM_length = adjM.length;
+
+		int[] primaryIds = null;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			primaryIds = adjM[i].toArray();
+
+			int i_length = adjM[i].cardinality();
+
+			for (int j = 0; j < i_length; j++) {
+
+				for (int k = j + 1; k < i_length; k++) {
+
+					pValue[primaryIds[k]][primaryIds[j]]++;
+
+				}
+			}
+
+		}
+
+	}
+
+	/**
 	 * Decrease cooccurence from a bipartite Graph MyBitSet[], every MyBitSet
 	 * from this array represent the friends(PrimaryIds) of a SecondaryId.
 	 * 
@@ -342,20 +377,22 @@ public class CooccFkt {
 		}
 
 	}
-
-	public static void matrixClearLowerLeft(int[][] coocc) {
-
-		int ilength = coocc.length;
-		int jlength = coocc[0].length;
-
-		for (int i = 0; i < ilength; i++) {
-			for (int j = i + 1; j < jlength; j++) {
-
-				coocc[i][j] = 0;
-			}
-		}
-
-	}
+//Hier is a Problem...It doesn't clear the LowerLeft, but Top Right
+//	public static void matrixClearLowerLeft(int[][] coocc) {
+//
+//		int ilength = coocc.length;
+//		int jlength = coocc[0].length;
+//
+//		for (int i = 0; i < ilength; i++) {
+//			for (int j = i + 1; j < jlength; j++) {
+//
+//				coocc[i][j] = 0;
+//			}
+//		}
+//
+//	}
+	
+	
 
 	/**
 	 * Clear all the negative Numbers in the top right Matrix
@@ -417,9 +454,6 @@ public class CooccFkt {
 		return arr;
 
 	}
-	
-
-
 
 	// public static int[][] selectPositiv(int[][] coocc){
 	//
