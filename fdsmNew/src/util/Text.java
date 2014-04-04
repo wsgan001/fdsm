@@ -98,9 +98,12 @@ public class Text {
 
 	/**
 	 * Read the Text
+	 * 
 	 * @param inputFile
-	 * @param start computer number
-	 * @param end computer number
+	 * @param start
+	 *            computer number
+	 * @param end
+	 *            computer number
 	 */
 	public static void textReader2(String inputFile, int start, int end) {
 
@@ -116,10 +119,10 @@ public class Text {
 			for (int i = 0; i < start; i++) {
 				br.readLine();
 			}
-			
-			if(start > end){
+
+			if (start > end) {
 				int temp = start;
-				start =end;
+				start = end;
 				end = temp;
 			}
 
@@ -149,7 +152,7 @@ public class Text {
 			System.exit(-1);
 		}
 
-//		ArrayList<Long> arr = new ArrayList<Long>();
+		// ArrayList<Long> arr = new ArrayList<Long>();
 		TLongArrayList arr = new TLongArrayList();
 		arr.add((long) 0);
 		try {
@@ -166,7 +169,7 @@ public class Text {
 
 			System.out
 					.println("You can give a number which absolute value is bewteen 1 and "
-							+ (arr.size()-1)
+							+ (arr.size() - 1)
 							+ ", the negative number means the reverse order: ");
 
 			Scanner reader = new Scanner(System.in);
@@ -179,16 +182,16 @@ public class Text {
 				if (line.trim().equals("exit")) {
 					System.exit(1);
 				}
-				
 
 				String[] infos = line.split(",");
 
 				for (int i = 0; i < infos.length; i++) {
 					if (!infos[i].contains("to")) {
 						int lineNumber = Integer.parseInt(infos[i].trim());
-						
-						if(lineNumber < 0){
-							lineNumber = arr.size()+lineNumber;									;
+
+						if (lineNumber < 0) {
+							lineNumber = arr.size() + lineNumber;
+							;
 						}
 
 						raf.seek(arr.get(lineNumber - 1));
@@ -206,37 +209,35 @@ public class Text {
 									.println("Wrong Format! So this sequence cannot be seen!");
 							break;
 						}
-						
-						System.out.println("---------");
-						
-						System.out.println("line "+infos[i]);
-						
-						System.out.println("---------");
-				
 
-						int n1 = Integer.parseInt(sequence[0].trim())-1;
-						int n2 = Integer.parseInt(sequence[1].trim())-1;
+						System.out.println("---------");
 
-						if(n1 < 0){
+						System.out.println("line " + infos[i]);
+
+						System.out.println("---------");
+
+						int n1 = Integer.parseInt(sequence[0].trim()) - 1;
+						int n2 = Integer.parseInt(sequence[1].trim()) - 1;
+
+						if (n1 < 0) {
 							n1 = arr.size() + n1;
 						}
-						if(n2 < 0){
+						if (n2 < 0) {
 							n2 = arr.size() + n2;
 						}
-						
-						if(n1 > n2){
+
+						if (n1 > n2) {
 							int temp = n1;
 							n1 = n2;
 							n2 = temp;
 						}
-						
+
 						raf.seek(arr.get(n1));
-						for(int j = n1; j<=n2; j++){
-							System.out.println("line "+(j+1) +" : "+ raf.readLine());
+						for (int j = n1; j <= n2; j++) {
+							System.out.println("line " + (j + 1) + " : "
+									+ raf.readLine());
 						}
-						
-						
-						
+
 					}
 
 				}
@@ -471,21 +472,20 @@ public class Text {
 		}
 
 	}
-	
-	
+
 	public static void writeListShort(List<short[]> list, String outputFile,
 			String measure, String type, String extra, boolean sort) {
 
 		if (sort == true) {
 			Collections.sort(list, new ColumnComparatorShort(-3, 1, 2));
 		}
-		
+
 		File file = new File(outputFile);
 		File path = file.getParentFile();
-		if(!path.exists()){
+		if (!path.exists()) {
 			path.mkdirs();
 		}
-		
+
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
@@ -550,6 +550,8 @@ public class Text {
 		}
 
 	}
+
+
 
 	public static void writeList(int[][] list, String outputFile, boolean sort) {
 
@@ -883,8 +885,8 @@ public class Text {
 		// textReader(dataReadWrite.selectedEntriesSecondaryIdTXT);
 
 		// textReader(dataReadWrite.selectedEntriesSecondaryId_Model_1TXT);
-		 textReader2(Jaccard.Jaccard_LL_TXT, 0, 10);
-//		textReader3("testText");
+		textReader2(Jaccard.Jaccard_LL_TXT, 0, 10);
+		// textReader3("testText");
 
 	}
 

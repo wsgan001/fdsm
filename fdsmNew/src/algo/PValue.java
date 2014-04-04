@@ -12,7 +12,7 @@ import util.Text;
 
 public class PValue {
 
-	static int numberOfSampleGraphs = 10;
+	static int numberOfSampleGraphs = 5000;
 
 	static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
 
@@ -67,7 +67,7 @@ public class PValue {
 			long t3 = t2 - t1;
 
 			System.out.println("Round " + i + " takes " + (t3 / 1000)
-					+ " milliseconds...");
+					+ " seconds...");
 
 		}
 
@@ -80,7 +80,7 @@ public class PValue {
 
 		long t2 = System.currentTimeMillis();
 
-		System.out.println("Write the pValue List takes " + (t2 - t1)
+		System.out.println("Write the pValue List takes " + (t2 - t1)/1000
 				+ " milliseconds");
 
 		System.out.println("Begin to write the pValue Global List...");
@@ -89,7 +89,7 @@ public class PValue {
 				"", true);
 		t2 = System.currentTimeMillis();
 
-		System.out.println("Write the pValue Global List takes " + (t2 - t1)
+		System.out.println("Write the pValue Global List takes " + (t2 - t1)/1000
 				+ " milliseconds");
 
 	}
