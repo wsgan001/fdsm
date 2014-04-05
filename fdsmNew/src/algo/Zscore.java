@@ -269,6 +269,15 @@ public class Zscore {
 		
 		
 	}
+	
+	public static void run2(){
+		
+		BipartiteGraph bg = new BipartiteGraph(inputDatabase);
+		
+		
+		
+		
+	}
 
 	public static void main(String[] args) {
 		// Text.textReader2(inputDatabase, 0, 10);
