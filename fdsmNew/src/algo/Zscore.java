@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -15,6 +17,7 @@ import javax.tools.FileObject;
 import javax.tools.JavaFileObject;
 import javax.tools.JavaFileManager.Location;
 
+import util.ColumnComparator;
 import util.MyBitSet;
 import util.Text;
 
@@ -40,6 +43,8 @@ public class Zscore {
 	public static String sumCooccTXT = outputPath + "sumCoocc.txt";
 	public static String Coocc5000TXT = outputPath + "Coocc5000.txt";
 	public static String CooccFDSM = outputPath + "CooccFDSM.txt";
+	public static String sumVarianceTXT = outputPath + "sumVariance.txt";
+	public static String standardDeviation = outputPath + "standardDeviation.txt";
 
 	public static int seed = 3306;
 
@@ -231,53 +236,242 @@ public class Zscore {
 		}
 
 	}
-	
-	public static void testValue(){
+
+	public static void run2() {
+		BipartiteGraph bg = new BipartiteGraph(inputDatabase);
+		double[][] cooccDouble = new double[bg.numberOfPrimaryIds][bg.numberOfPrimaryIds];
+		
+		//Read the E(X)
+		System.out.println("begin to read the E(X)");
+		readEX(cooccDouble, sumCooccTXT);
+		
+		
+		
+		int length = bg.numberOfPrimaryIds;
+		int[][] edges = bg.generateEdges();
+		Random generator_edges = new Random(seed);
+
+		MyBitSet[] adjM = bg.toSecBS();
+		CooccFkt.swap(4 * bg.numberOfSamples, edges, adjM, generator_edges);
+
+		int lengthOfWalks = (int) (bg.numberOfSamples * Math
+				.log(bg.numberOfSamples));
+
+		// Matrix pValue is used to records the pValues and every coocurence.
+		short[][] pValue = new short[bg.numberOfPrimaryIds][bg.numberOfPrimaryIds];
+
+		// calculate the sum [(X-E(X))^2]
+		for (int round = 0; round < numberOfSampleGraphs; round++) {
+			
+			long t1 = System.currentTimeMillis();
+			CooccFkt.swap(lengthOfWalks, edges, adjM, generator_edges);
+			CooccFkt.readCooccSecAddLowerLeft(adjM, pValue);
+
+			for (int i = 0; i < length; i++) {
+				for (int j = 0; j < i; j++) {
+
+					if (cooccDouble[j][i] == 0 || pValue[i][j] == 0) {
+						continue;
+					}
+
+					double value = (double) pValue[i][j] - cooccDouble[i][j];
+					value = value * value;
+
+					cooccDouble[j][i] += value;
+
+					pValue[i][j] = 0;
+				}
+
+			}
+			
+			long t2 = System.currentTimeMillis();
+			
+			long t3 = t2 - t1;
+			
+			System.out.println("Round "+round+" takes "+(t3/1000)+" seconds!");
+
+		}
+
+		// calculate the deviation
+		System.out.println("begin to calculate the standard deviation");
+		for (int i = 0; i < length; i++) {
+			for (int j = i + 1; j < length; j++) {
+
+				cooccDouble[j][i] = Math
+						.sqrt(cooccDouble[i][j] / (double) 5000);
+
+			}
+
+		}
+		
+		// Write the difference
+		System.out.println("begin to write the difference from top right Matrix");
+		
+		writeTopRightMatrix(cooccDouble, sumVarianceTXT);
+		
+		System.out.print("begin to write standard deviation from the lower left Matrix");
+		
+		writeLowerLeftMatrix(cooccDouble, standardDeviation);
+
+	}
+
+	public static void writeTopRightMatrix(double[][] cooccDouble,
+			String outputFile) {
+		int length = cooccDouble.length;
+
 		try {
-			
-			BufferedReader br = new BufferedReader(new FileReader(pValueTXT));
-			
-			String line = br.readLine();
-			
-			int[] abc = new int[11];
-			
-			
-			while(line != null){
-				StringTokenizer st = new StringTokenizer(line, ",");
-				st.nextToken();
-				st.nextToken();
-				
-				int value = Integer.parseInt(st.nextToken());
-				
-				abc[value]++;
-				
-				line = br.readLine();
-				
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			for (int i = 0; i < length; i++) {
+				for (int j = i + 1; j < length; j++) {
+
+					if (cooccDouble[i][j] > 0) {
+
+						bw.write(i + "," + j + "," + cooccDouble[i][j]
+								+ System.lineSeparator());
+
+					}
+
+				}
+
 			}
-			
-			br.close();
-			
-			for(int i = 0; i<11; i++){
-				System.out.println(i+" , "+abc[i]);
-				
-			}
-			
+
+			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
-		
+
+	}
+
+	public static void writeLowerLeftMatrix(double[][] cooccDouble,
+			String outputFile) {
+		int length = cooccDouble.length;
+
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			for (int i = 0; i < length; i++) {
+				for (int j = 0; j < i; j++) {
+
+					if (cooccDouble[i][j] > 0) {
+
+						bw.write(i + "," + j + "," + cooccDouble[i][j]
+								+ System.lineSeparator());
+
+					}
+
+				}
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+
+	public static void readEX(double[][] cooccDouble, String sumCooccTXT) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(sumCooccTXT));
+			String line = br.readLine();
+			while (line != null) {
+				StringTokenizer st = new StringTokenizer(line, ",");
+				int p1 = Integer.parseInt(st.nextToken());
+				int p2 = Integer.parseInt(st.nextToken());
+				double value = (double) Integer.parseInt(st.nextToken())
+						/ (double) numberOfSampleGraphs;
+				cooccDouble[p1][p2] = value;
+
+				line = br.readLine();
+			}
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+
+	public static void testValue() {
+		try {
+
+			BufferedReader br = new BufferedReader(new FileReader(pValueTXT));
+
+			String line = br.readLine();
+
+			int[] abc = new int[11];
+
+			while (line != null) {
+				StringTokenizer st = new StringTokenizer(line, ",");
+				st.nextToken();
+				st.nextToken();
+
+				int value = Integer.parseInt(st.nextToken());
+
+				abc[value]++;
+
+				line = br.readLine();
+
+			}
+
+			br.close();
+
+			for (int i = 0; i < 11; i++) {
+				System.out.println(i + " , " + abc[i]);
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+
+	public static void testCardi() {
+		BipartiteGraph bg = new BipartiteGraph();
+
+		MyBitSet[] adjMPrim = bg.toPrimBS();
+
+		int[][] cardi = new int[adjMPrim.length][2];
+		for (int i = 0; i < adjMPrim.length; i++) {
+			cardi[i][0] = i;
+			cardi[i][1] = adjMPrim[i].cardinality();
+
+		}
+
+		Arrays.sort(cardi, 0, cardi.length, new ColumnComparator(-2));
+		;
+
+		for (int i = 0; i < 10; i++) {
+			System.out.println(cardi[i][0] + "," + cardi[i][1]);
+
+		}
+
+	}
+
+	public static void test() {
+
+		boolean a = true;
+		boolean b = true;
+
+		System.out.println((a || b));
 	}
 
 	public static void main(String[] args) {
 		// Text.textReader2(inputDatabase, 0, 10);
 
-//		run1();
+		// run1();
 
-//		Text.textReader2(pValueTXT, 10000, 10010);
+//		 Text.textReader2(sumCooccTXT, 0, 20);
 		
-		testValue();
+		run2();
+
+	
 	}
 
 }

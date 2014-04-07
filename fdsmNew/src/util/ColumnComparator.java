@@ -20,7 +20,7 @@ public class ColumnComparator implements Comparator<int[]> {
 	/**
 	 * @param cols
 	 *            postive cols means ascending, negative cols means descending,
-	 *            0 is not allowed.
+	 *            0 is not allowed. (native number)
 	 */
 	public ColumnComparator(int... cols) {
 
