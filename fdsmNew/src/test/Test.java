@@ -6,7 +6,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.FieldPosition;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,7 +20,6 @@ import javax.sound.midi.ControllerEventListener;
 import javolution.util.FastBitSet;
 import javolution.util.Index;
 import util.MyFastBitSet;
-
 
 public class Test {
 
@@ -88,40 +89,18 @@ public class Test {
 		}
 
 	}
-	
-	public static void test(){
-		
-		String outputFile = "D:/Ying/netflix/output/huhu/haha/lulu.txt"; 
-		
-		File file = new File(outputFile);
-		File path = file.getParentFile();
-		
-		if(!path.exists()){
-			path.mkdirs();
-		}
-		
-		try {
-			
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			bw.write("mmm");
-			bw.close();
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
 
+	public static void test() {
+
+		System.out.println(1/0);
+	}
 
 	public static void main(String[] args) {
 
 		// HashSet<String> hs = new HashSet<String>();
 		// System.out.println(hs.getClass().getName());
-		
-		test();
 
+		test();
 
 	}
 
