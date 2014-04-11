@@ -41,10 +41,10 @@ public class Zscore {
 	// OutputFiles
 	public static String pValueTXT = outputPath + "pValue.txt";// topright
 	public static String sumCooccTXT = outputPath + "sumCoocc.txt";// lowerleft
-	public static String Coocc5000TXT = outputPath + "Coocc5000.txt";// topright
+	public static String CooccTXT = outputPath + "Coocc.txt";// topright
 	public static String sumVarianceTXT = outputPath + "sumVariance.txt";// topright
 	public static String CooccFDSMTXT = outputPath + "CooccFDSM.txt";// topright
-	public static String standardDeviation = outputPath
+	public static String standardDeviationTXT = outputPath
 			+ "standardDeviation.txt";// lowerleft
 	public static String zScoreTXT = outputPath + " zScore.txt";
 
@@ -111,7 +111,7 @@ public class Zscore {
 
 		}
 
-		write2ListFromMatrix(coocc, Coocc5000TXT, sumCooccTXT, CooccFDSMTXT);
+		write2ListFromMatrix(coocc, CooccTXT, sumCooccTXT, CooccFDSMTXT);
 
 		writeTopRightMatrix(pValue, pValueTXT);
 
@@ -173,9 +173,10 @@ public class Zscore {
 
 			for (int i = 0; i < length; i++) {
 				for (int j = i + 1; j < length; j++) {
-
-					if (coocc[i][j] - coocc[j][i] > 0) {
-						bw.write(i + "," + j + "," + coocc[i][j]
+					int cooccFDSM = coocc[i][j] * numberOfSampleGraphs
+							- coocc[j][i];
+					if (cooccFDSM > 0) {
+						bw.write(i + "," + j + "," + cooccFDSM
 								+ System.lineSeparator());
 
 					}
@@ -239,6 +240,10 @@ public class Zscore {
 
 	}
 
+	/**
+	 * Calculate the variance, write down the sum[(X-E(X))^2], and the standard
+	 * deviation.
+	 */
 	public static void run2() {
 		BipartiteGraph bg = new BipartiteGraph(inputDatabase);
 		double[][] cooccDouble = new double[bg.numberOfPrimaryIds][bg.numberOfPrimaryIds];
@@ -311,7 +316,7 @@ public class Zscore {
 		System.out
 				.print("begin to write standard deviation from the lower left Matrix");
 
-		writeLowerLeftMatrix(cooccDouble, standardDeviation);
+		writeLowerLeftMatrix(cooccDouble, standardDeviationTXT);
 
 	}
 
@@ -396,7 +401,58 @@ public class Zscore {
 
 	}
 
+	/**
+	 * Write the zscore
+	 */
 	public static void run3() {
+
+	}
+
+	/**
+	 * read the CooccFDSM.txt into a double[][] Matrix, which will be placed in
+	 * top right matrix.
+	 * 
+	 * @param coocc
+	 */
+	public static void readCooccFDSMTXT(double[][] coocc) {
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(CooccFDSMTXT));
+
+			String line = br.readLine();
+
+			while (line != null) {
+
+				StringTokenizer st = new StringTokenizer(line, ",");
+
+				int p1 = Integer.parseInt(st.nextToken());
+				int p2 = Integer.parseInt(st.nextToken());
+				int value = Integer.parseInt(st.nextToken());
+
+				coocc[p1][p2] = value;
+
+				line = br.readLine();
+
+			}
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+
+	public static void readStandardDeviationTXT(double[][] coocc) {
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(
+					standardDeviationTXT));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 
 	}
 
@@ -465,84 +521,82 @@ public class Zscore {
 
 		System.out.println((a || b));
 	}
-	
-	public static void findVar0(){
+
+	public static void findVar0() {
 		BipartiteGraph bg = new BipartiteGraph(inputDatabase);
 		double[][] cooccDouble = new double[bg.numberOfPrimaryIds][bg.numberOfPrimaryIds];
-	
-		String var0TXT = outputPath+"Var0.txt";
-		String var0CooccFDSMTXT = outputPath+"Var0CooccFDSM.txt";
-		String var0CooccFDSM0TXT = outputPath+"Var0CooccFDSM0.txt";
-		
+
+		String var0TXT = outputPath + "Var0.txt";
+		String var0CooccFDSMTXT = outputPath + "Var0CooccFDSM.txt";
+		String var0CooccFDSM0TXT = outputPath + "Var0CooccFDSM0.txt";
+
 		try {
-			
-			//read CooccFDSM topright Matrix
+
+			// read CooccFDSM topright Matrix
 			BufferedReader br = new BufferedReader(new FileReader(CooccFDSMTXT));
 			String line = br.readLine();
-			
-			while(line != null){
-				
+
+			while (line != null) {
+
 				StringTokenizer st = new StringTokenizer(line, ",");
 				int p1 = Integer.parseInt(st.nextToken());
 				int p2 = Integer.parseInt(st.nextToken());
 				int value = Integer.parseInt(st.nextToken());
-				
+
 				cooccDouble[p1][p2] = value;
-				
+
 				line = br.readLine();
 			}
-			
+
 			br.close();
-			
-			//read StandardDevation
-			
-			br = new BufferedReader(new FileReader(standardDeviation));
+
+			// read StandardDevation
+
+			br = new BufferedReader(new FileReader(standardDeviationTXT));
 			line = br.readLine();
-			
-			while(line != null){
+
+			while (line != null) {
 				StringTokenizer st = new StringTokenizer(line, ",");
-				
+
 				int p1 = Integer.parseInt(st.nextToken());
 				int p2 = Integer.parseInt(st.nextToken());
 				double value = Double.parseDouble(st.nextToken());
-				
+
 				cooccDouble[p1][p2] = value;
-				
-				
+
 				line = br.readLine();
 			}
-			
+
 			br.close();
-			
-			//write all the var <= 0
-			
-			BufferedWriter bw = new BufferedWriter(new FileWriter(var0CooccFDSMTXT));
+
+			// write all the var <= 0
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(
+					var0CooccFDSMTXT));
 			int length = bg.numberOfPrimaryIds;
-			int cnt = 0;//count the number of var0CooccFDSM
-			for(int i= 0; i<length; i++){
-				for(int j=i+1; j<length; j++){
-					if(cooccDouble[i][j] > 0 && cooccDouble[j][i]<=0 ){
-						bw.write(i+","+j+","+cooccDouble[i][j]+","+cooccDouble[j][i]+System.lineSeparator());
+			int cnt = 0;// count the number of var0CooccFDSM
+			for (int i = 0; i < length; i++) {
+				for (int j = i + 1; j < length; j++) {
+					if (cooccDouble[i][j] > 0 && cooccDouble[j][i] <= 0) {
+						bw.write(i + "," + j + "," + cooccDouble[i][j] + ","
+								+ cooccDouble[j][i] + System.lineSeparator());
 						cnt++;
 					}
 				}
 			}
-			System.out.println("the number of var = 0 and cooccFDSM > 0 is " + cnt);
-			
+			System.out.println("the number of var = 0 and cooccFDSM > 0 is "
+					+ cnt);
+
 			bw.close();
-			
-			//write all the 
-			
+
+			// write all the
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
-		
+
 		}
-		
-		
-		
-		
-		
+
 	}
 
 	public static void main(String[] args) {
@@ -555,11 +609,12 @@ public class Zscore {
 		// System.err.println("huhu......");
 		// Text.textReader2(standardDeviation, 0, 20);
 
-//		Text.textReader2(standardDeviation, 0, 20);
-
+//		Text.textReader2(CooccTXT, 0, 5);
+//		System.err.println();
+		Text.textReader2(CooccFDSMTXT, 0, 5);
+		System.out.println();
+		Text.textReader2(LevFDSM.levFDSM_TXT, 0, 5);
 		// run2();
-		
-		findVar0();
 
 	}
 
