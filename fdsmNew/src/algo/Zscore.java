@@ -514,14 +514,6 @@ public class Zscore {
 
 	}
 
-	public static void test() {
-
-		boolean a = true;
-		boolean b = true;
-
-		System.out.println((a || b));
-	}
-
 	public static void findVar0() {
 		BipartiteGraph bg = new BipartiteGraph(inputDatabase);
 		double[][] cooccDouble = new double[bg.numberOfPrimaryIds][bg.numberOfPrimaryIds];
@@ -599,6 +591,54 @@ public class Zscore {
 
 	}
 
+	public static void test(int breaknumber) {
+
+		// creatPath(outputPath);
+
+		BipartiteGraph bG = new BipartiteGraph(inputDatabase);
+
+		MyBitSet[] adjM = bG.toSecBS();
+
+		int[][] edges = bG.generateEdges();
+
+		// Matrix coocc records the coocc from the original graphs and the whole
+		// random sample graphs.
+
+		int[][] coocc = new int[bG.numberOfPrimaryIds][bG.numberOfPrimaryIds];
+
+		System.out.println("read original cooccurence");
+
+		CooccFkt.readCooccSecAddTopRight(adjM, coocc);
+
+//		CooccFkt.multipleMatrixTopRight(coocc, numberOfSampleGraphs);
+
+		int cnt = 1;
+
+		out:
+		for (int i = 0; i < coocc.length; i++) {
+
+			for (int j = i + 1; j < coocc.length; j++) {
+
+				if (coocc[i][j] > 0) {
+
+					System.out.println(i + "," + j + "," + coocc[i][j]);
+					
+					cnt++;
+					
+					if(cnt>breaknumber){
+						break out;
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+	
+
+
 	public static void main(String[] args) {
 		// Text.textReader2(inputDatabase, 0, 10);
 
@@ -609,11 +649,13 @@ public class Zscore {
 		// System.err.println("huhu......");
 		// Text.textReader2(standardDeviation, 0, 20);
 
-//		Text.textReader2(CooccTXT, 0, 5);
-//		System.err.println();
-		Text.textReader2(CooccFDSMTXT, 0, 5);
-		System.out.println();
-		Text.textReader2(LevFDSM.levFDSM_TXT, 0, 5);
+		// Text.textReader2(CooccTXT, 0, 5);
+		// System.err.println();
+//		Text.textReader2(CooccFDSMTXT, 0, 10);
+//		System.out.println();
+//		Text.textReader2(LevFDSM.levFDSM_TXT, 0, 11);
+		
+//		test(10);
 		// run2();
 
 	}

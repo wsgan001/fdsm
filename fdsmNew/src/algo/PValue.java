@@ -225,8 +225,10 @@ public class PValue {
 		ArrayList<int[]> measures = CooccFkt.positiveMeasureLowerLeft(coocc);
 
 		Text.writeList(measures, pValue_TXT, "pValue", "list", "", true);
-
+		
 	}
+	
+	
 
 	public static void test() {
 
