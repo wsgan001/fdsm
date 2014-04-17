@@ -58,6 +58,10 @@ public class Zscore {
 
 	}
 
+	
+	/**
+	 * Write the Co-occurence, CoocurenceFDSM, sum of the Co-occurence of the sample graphs
+	 */
 	public static void run1() {
 
 		creatPath(outputPath);
@@ -85,7 +89,7 @@ public class Zscore {
 
 		System.out.println("The first long swap walks...");
 
-		CooccFkt.swap(4 * bG.numberOfSamples, edges, adjM, generator_edges);
+		CooccFkt.swap(4 * bG.numberOfEdges, edges, adjM, generator_edges);
 
 		int lengthOfWalks = (int) (bG.numberOfSamples * Math
 				.log(bG.numberOfSamples));
@@ -120,6 +124,7 @@ public class Zscore {
 	public static void write2ListFromMatrix(int[][] coocc, String TopRightFile,
 			String LowerLeftFile, String levFile) {
 
+		//write the top right Matrix, it is co-occurence
 		try {
 			int length = coocc.length;
 
@@ -642,18 +647,23 @@ public class Zscore {
 	public static void main(String[] args) {
 		// Text.textReader2(inputDatabase, 0, 10);
 
-		// run1();
+		 run1();
 		//
 		// Text.textReader2(sumVarianceTXT, 0, 20);
 		// System.err.println();
 		// System.err.println("huhu......");
 		// Text.textReader2(standardDeviation, 0, 20);
 
-		// Text.textReader2(CooccTXT, 0, 5);
-		// System.err.println();
-//		Text.textReader2(CooccFDSMTXT, 0, 10);
-//		System.out.println();
-//		Text.textReader2(LevFDSM.levFDSM_TXT, 0, 11);
+		 Text.textReader2(CooccTXT, 0, 11);
+		 System.out.println();
+		 Text.textReader2(sumCooccTXT, 0, 11);
+		 System.out.println();
+		
+		 Text.textReader2(CooccFDSMTXT, 0, 11);
+		 System.out.println();
+		 
+		
+		
 		
 //		test(10);
 		// run2();

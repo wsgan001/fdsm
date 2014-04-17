@@ -1,5 +1,6 @@
 package util;
 
+import java.io.File;
 import java.math.BigDecimal;
 
 import gnu.trove.iterator.TIntIntIterator;
@@ -8,6 +9,14 @@ import gnu.trove.iterator.TIntShortIterator;
 import gnu.trove.set.hash.TIntHashSet;
 
 public class General {
+	
+	public static void creatPath(String outputPath) {
+		File file = new File(outputPath);
+		boolean createPath = file.mkdirs();
+
+//		System.out.println(createPath);
+
+	}
 
 	public static int THSIntersectSize(TIntHashSet ths1, TIntHashSet ths2) {
 		int counter = 0;
