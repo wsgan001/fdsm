@@ -176,7 +176,7 @@ public class dataReadWrite {
 
 		}
 
-		System.out.println("selectedEntires[] fertig and begin read...");
+//		System.out.println("selectedEntires[] fertig and begin read...");
 
 		try {
 

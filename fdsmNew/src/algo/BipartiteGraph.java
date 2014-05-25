@@ -72,6 +72,10 @@ public class BipartiteGraph {
 			String line = br.readLine();
 
 			HashMap<String, String> hm = util.Text.readLineInfos(line);
+			
+
+			this.numberOfPrimaryIds = Integer.parseInt(hm
+					.get("numberOfPrimaryIds"));
 
 			this.numberOfSamples = Integer.parseInt(hm.get("numberOfSamples"));
 
@@ -301,9 +305,12 @@ public class BipartiteGraph {
 			br.readLine();
 
 			String line = br.readLine();
+			
+//			System.out.println(line);
 
 			while (line != null) {
 				String[] lineInfos = line.split(":");
+//				System.out.println(lineInfos.length);
 				int cardinality = Integer.parseInt(lineInfos[2]);
 
 				if (cardinality != 0) {

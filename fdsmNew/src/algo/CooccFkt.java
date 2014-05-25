@@ -280,6 +280,23 @@ public class CooccFkt {
 
 	}
 
+	public static void readCooccPrimaryAddTopRight(MyBitSet[] adjM,
+			double[][] coocc) {
+
+		int adjM_length = adjM.length;
+
+		for (int i = 0; i < adjM_length; i++) {
+
+			for (int j = i + 1; j < adjM_length; j++) {
+
+				coocc[i][j] += adjM[i].myand(adjM[j]).cardinality();
+
+			}
+
+		}
+
+	}
+	
 	public static void readCooccPrimarySubstractTopRight(MyBitSet[] adjM,
 			int[][] coocc) {
 
@@ -455,6 +472,7 @@ public class CooccFkt {
 
 	}
 
+	
 	// public static int[][] selectPositiv(int[][] coocc){
 	//
 	//
