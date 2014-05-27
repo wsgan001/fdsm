@@ -97,6 +97,8 @@ public class cosine {
 		Collections.sort(measures, new ColumnComparator(-3,1,2));
 		
 		Text.writeList(measures, Cosine_GL_TXT, "Consine", "global list", "", true);
+		
+		Text.writeLocalList(measures, Cosine_LL_TXT, "Consine", "local list", "");
 
 	}
 
