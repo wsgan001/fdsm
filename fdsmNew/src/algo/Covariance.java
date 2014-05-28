@@ -44,6 +44,12 @@ public class Covariance {
 		CooccFkt.readCooccPrimaryAddTopRight(adjMPrimary, coocc);
 
 		int covariance;
+		
+	
+		
+		int n_R = bG.numberOfSamples;
+		
+		System.out.println("Anzahl der Users = "+n_R);
 
 		for (int i = 0; i < length; i++) {
 			for (int j = i + 1; j < length; j++) {
@@ -51,12 +57,18 @@ public class Covariance {
 					int d_i = adjMPrimary[i].cardinality();
 					int d_j = adjMPrimary[j].cardinality();
 
-					covariance = (int) Math
-							.rint(((double) coocc[i][j] * 1000 - (double) d_i
-									* (double) d_j * 1000 / (double) length)
-									/ (double) length);
+//					covariance = (int) Math
+//							.rint(((double) coocc[i][j] * 1000 - (double) d_i
+//									* (double) d_j * 1000 / (double) length)
+//									/ (double) length);
+					
+					covariance = (int)Math.rint( (double)((n_R * coocc[i][j] - d_i * d_j)*1000)/(double)(n_R * n_R));
 
 					globalList.add(new int[] { i, j, covariance });
+					
+					System.out.println("i = "+i+", j = "+j + ": d(i) = "+d_i + ", d(j) = "+ d_j + ", coocc[i][j] = "+ coocc[i][j]+": covariance = "+covariance);
+					
+					
 
 				}
 
