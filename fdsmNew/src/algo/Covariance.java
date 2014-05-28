@@ -3,34 +3,94 @@ package algo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.xml.soap.Text;
 
+import util.ColumnComparator;
+import util.MyBitSet;
+
 public class Covariance {
 
-	public static String inputFile = "C:/Users/fatfox/git/fdsm/fdsmNew/Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	// public static String inputFile =
+	// "C:/Users/fatfox/git/fdsm/fdsmNew/Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	//
+	// public static String outputPath =
+	// "C:/Users/fatfox/git/fdsm/fdsmNew/Example/Output/"+"Covariance"+File.separator;
 
-	public static String outputPath = "C:/Users/fatfox/git/fdsm/fdsmNew/Example/Output/"+"Covariance"+File.separator;
+	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+
+	public static String outputPath = "Example/Output/"
+			+ "Covariance/";
+
+	public static String Covariance_GL_TXT = outputPath + "Covariance_GL.txt";
+
+	public static String Covariance_LL_TXT = outputPath + "Covariance_LL.txt";
+
+	public static ArrayList<int[]> calculate() {
+
+		ArrayList<int[]> globalList = new ArrayList<int[]>();
+
+		BipartiteGraph bG = new BipartiteGraph(inputFile);
+
+		int length = bG.numberOfPrimaryIds;
+
+		int[][] coocc = new int[length][length];
+
+		MyBitSet[] adjMPrimary = bG.toPrimBS();
+
+		CooccFkt.readCooccPrimaryAddTopRight(adjMPrimary, coocc);
+
+		int covariance;
+
+		for (int i = 0; i < length; i++) {
+			for (int j = i + 1; j < length; j++) {
+				if (coocc[i][j] > 0) {
+					int d_i = adjMPrimary[i].cardinality();
+					int d_j = adjMPrimary[j].cardinality();
+
+					covariance = (int) Math
+							.rint(((double) coocc[i][j] * 1000 - (double) d_i
+									* (double) d_j * 1000 / (double) length)
+									/ (double) length);
+
+					globalList.add(new int[] { i, j, covariance });
+
+				}
+
+			}
+
+		}
+
+		return globalList;
+
+	}
 	
-	public static String Covariance_GL_TXT = outputPath+"Covariance_GL.txt";
-	
-	public static String Covariance_LL_TXT = outputPath+"Covariance_LL.txt";
-	
-	
-	
-	
-	
-	
+	public static void run(){
+		
+		File file = new File(outputPath);
+		
+		if(!file.exists()){
+			file.mkdirs();
+		}
+		
+		ArrayList<int[]> measures = calculate();
+		
+		Collections.sort(measures, new ColumnComparator(-3,1,2));
+		
+		util.Text.writeList(measures, Covariance_GL_TXT, "Covariance", "global list","", true);
+		
+		util.Text.writeLocalList(measures, Covariance_LL_TXT, "Covariance", "local list", "");
 		
 		
+	}
 
-	
-	
-	
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		run();
 
 	}
 

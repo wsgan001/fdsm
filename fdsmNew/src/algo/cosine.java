@@ -3,7 +3,6 @@ package algo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import util.ColumnComparator;
 import util.MyBitSet;
@@ -69,8 +68,8 @@ public class cosine {
 					continue;
 				}
 
-				cosine = (int) ((double) coocc[i][j] * (double) 1000 / Math
-						.sqrt(d_i * d_j));
+				cosine = (int) Math.rint( ((double) coocc[i][j] * (double) 1000 / Math
+						.sqrt(d_i * d_j)));
 
 				int[] measure = new int[]{ i, j, cosine };
 
@@ -105,6 +104,7 @@ public class cosine {
 	public static void main(String[] args) {
 
 		run();
+		
 		
 	}
 
