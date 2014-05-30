@@ -49,7 +49,7 @@ public class Covariance {
 		
 		int n_R = bG.numberOfSamples;
 		
-		System.out.println("Anzahl der Users = "+n_R);
+//		System.out.println("Anzahl der Users = "+n_R);
 
 		for (int i = 0; i < length; i++) {
 			for (int j = i + 1; j < length; j++) {
@@ -66,7 +66,7 @@ public class Covariance {
 
 					globalList.add(new int[] { i, j, covariance });
 					
-					System.out.println("i = "+i+", j = "+j + ": d(i) = "+d_i + ", d(j) = "+ d_j + ", coocc[i][j] = "+ coocc[i][j]+": covariance = "+covariance);
+//					System.out.println("i = "+i+", j = "+j + ": d(i) = "+d_i + ", d(j) = "+ d_j + ", coocc[i][j] = "+ coocc[i][j]+": covariance = "+covariance);
 					
 					
 
