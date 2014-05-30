@@ -518,7 +518,7 @@ public class Text {
 	}
 
 	public static void writeListDouble(List<double[]> list, String outputFile,
-			String measure, String extra, boolean sort) {
+			String measure, String type, String extra, boolean sort) {
 
 		if (sort == true) {
 			Collections.sort(list, new ColumnComparatorDouble(-3, 1, 2));
@@ -530,7 +530,7 @@ public class Text {
 			int length = list.size();
 
 			bw.write("#length = " + length + ", measure = " + measure + ", "
-					+ "sort = " + sort + "," + extra + System.lineSeparator());
+					+ "sort = " + sort + ", type = "+type + "," + extra + System.lineSeparator());
 
 			for (int i = 0; i < length; i++) {
 
@@ -721,7 +721,7 @@ public class Text {
 	}
 
 	public static void writeLocalListDouble(ArrayList<double[]> list,
-			String outputFile) {
+			String outputFile, String measure, String type, String extra) {
 
 		TDoubleObjectHashMap<ArrayList<double[]>> hm = new TDoubleObjectHashMap<ArrayList<double[]>>();
 
@@ -773,6 +773,8 @@ public class Text {
 		try {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+			
+			bw.write("#measure ="+measure+", type = "+type+","+extra+System.lineSeparator());
 
 			for (int i = 0; i < primaryIds.length; i++) {
 
