@@ -28,7 +28,7 @@ public class PValue {
 
 	public static void calculate() {
 
-		// initialise the basic Informations about this Bipartite Graph
+		// initialize the basic Informations about this Bipartite Graph
 		BipartiteGraph bG = new BipartiteGraph();
 
 		MyBitSet[] adjM = bG.toSecBS();
@@ -38,7 +38,7 @@ public class PValue {
 		int[][] coocc = new int[bG.numberOfPrimaryIds][bG.numberOfPrimaryIds];
 		short[][] pValues = new short[bG.numberOfPrimaryIds][bG.numberOfPrimaryIds];
 
-		// read the original Cooccurence
+		// read the original Co-occurrence
 		CooccFkt.readCooccSecAddTopRight(adjM, coocc);
 
 		// begin the first long swap walks

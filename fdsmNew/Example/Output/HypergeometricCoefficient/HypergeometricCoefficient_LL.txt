@@ -1,4 +1,4 @@
-#measure =Hypergeometric coefficient, type = local list,
+#measure = Hypergeometric coefficient, type = local list,
 #primaryId = 0, numberOfFriends = 5
 3,3.4011973816621555
 5,0.40546510810816444

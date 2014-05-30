@@ -4,6 +4,7 @@ import gnu.trove.iterator.TIntObjectIterator;
 import gnu.trove.list.array.TLongArrayList;
 import gnu.trove.map.hash.TDoubleObjectHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.map.hash.TShortObjectHashMap;
 import info.DataSource;
 import info.dataReadWrite;
 
@@ -516,6 +517,48 @@ public class Text {
 		}
 
 	}
+	
+	public static void writeListShortForPValue(List<short[]> list, int numberOfSamples, String outputFile,
+			String measure, String type, String extra, boolean sort) {
+
+		if (sort == true) {
+			Collections.sort(list, new ColumnComparatorShort(3, 1, 2));
+		}
+
+		File file = new File(outputFile);
+		File path = file.getParentFile();
+		if (!path.exists()) {
+			path.mkdirs();
+		}
+
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+
+			int length = list.size();
+			
+			bw.write("#length = " + length + ", measure = " + measure + ", "
+					+ "sort = " + sort + ", " + "type = " + type + "," + extra
+					+ System.lineSeparator());
+
+			for (int i = 0; i < length; i++) {
+
+				short[] cooccInfo = list.get(i);
+
+				double pValue = (double)cooccInfo[2]/(double)numberOfSamples;
+				
+				bw.write(cooccInfo[0]+","+cooccInfo[1]+","+pValue);
+				
+				bw.newLine();
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
 
 	public static void writeListDouble(List<double[]> list, String outputFile,
 			String measure, String type, String extra, boolean sort) {
@@ -774,7 +817,7 @@ public class Text {
 
 			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
 			
-			bw.write("#measure ="+measure+", type = "+type+","+extra+System.lineSeparator());
+			bw.write("#measure = "+measure+", type = "+type+","+extra+System.lineSeparator());
 
 			for (int i = 0; i < primaryIds.length; i++) {
 
@@ -802,6 +845,178 @@ public class Text {
 		}
 
 	}
+	
+	public static void writeLocalListShort(ArrayList<short[]> list,
+			String outputFile, String measure, String type, String extra) {
+
+//		TDoubleObjectHashMap<ArrayList<double[]>> hm = new TDoubleObjectHashMap<ArrayList<double[]>>();
+		
+		TShortObjectHashMap<ArrayList<short[]>> hm = new TShortObjectHashMap<ArrayList<short[]>>();
+
+		int length = list.size();
+
+		System.out.println("leng = " + list.size());
+
+		// create the hashmaps for local list.
+		System.out.println("create the hashmaps for local list.");
+
+		for (int i = 0; i < length; i++) {
+
+			// System.out.println(i + "," + list.get(i)[1] + "," +
+			// list.get(i)[2]);
+
+			if (hm.containsKey(list.get(i)[0])) {
+				hm.get(list.get(i)[0]).add(
+						new short[] { list.get(i)[1], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[0], new ArrayList<short[]>());
+				hm.get(list.get(i)[0]).add(
+						new short[] { list.get(i)[1], list.get(i)[2] });
+			}
+
+			if (hm.containsKey(list.get(i)[1])) {
+				hm.get(list.get(i)[1]).add(
+						new short[] { list.get(i)[0], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[1], new ArrayList<short[]>());
+				hm.get(list.get(i)[1]).add(
+						new short[] { list.get(i)[0], list.get(i)[2] });
+			}
+
+		}
+
+		short[] primaryIds = hm.keys();
+
+		// sort the primary keys of the hashmap of local list
+
+		System.out
+				.println("sort the primary keys of the hashmap of local list");
+
+		Arrays.sort(primaryIds);
+
+		// begin write the local list file.
+
+		System.out.println("begin write the local list file.");
+
+		try {
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+			
+			bw.write("#measure = "+measure+", type = "+type+","+extra+System.lineSeparator());
+
+			for (int i = 0; i < primaryIds.length; i++) {
+
+				Collections.sort(hm.get(primaryIds[i]),
+						new ColumnComparatorShort(-2, 1));
+
+				ArrayList<short[]> friends = hm.get(primaryIds[i]);
+
+				bw.write("#primaryId = " + (int) primaryIds[i] + ","
+						+ " numberOfFriends = " + friends.size()
+						+ System.lineSeparator());
+
+				for (short[] friend : friends) {
+					bw.write((int) friend[0] + "," + friend[1]
+							+ System.lineSeparator());
+
+				}
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+	
+	
+	public static void writeLocalListShortForPValue(ArrayList<short[]> list, int numberOfSamples,
+			String outputFile, String measure, String type, String extra) {
+
+//		TDoubleObjectHashMap<ArrayList<double[]>> hm = new TDoubleObjectHashMap<ArrayList<double[]>>();
+		
+		TShortObjectHashMap<ArrayList<short[]>> hm = new TShortObjectHashMap<ArrayList<short[]>>();
+
+		int length = list.size();
+
+		System.out.println("leng = " + list.size());
+
+		// create the hashmaps for local list.
+		System.out.println("create the hashmaps for local list.");
+
+		for (int i = 0; i < length; i++) {
+
+			// System.out.println(i + "," + list.get(i)[1] + "," +
+			// list.get(i)[2]);
+
+			if (hm.containsKey(list.get(i)[0])) {
+				hm.get(list.get(i)[0]).add(
+						new short[] { list.get(i)[1], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[0], new ArrayList<short[]>());
+				hm.get(list.get(i)[0]).add(
+						new short[] { list.get(i)[1], list.get(i)[2] });
+			}
+
+			if (hm.containsKey(list.get(i)[1])) {
+				hm.get(list.get(i)[1]).add(
+						new short[] { list.get(i)[0], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[1], new ArrayList<short[]>());
+				hm.get(list.get(i)[1]).add(
+						new short[] { list.get(i)[0], list.get(i)[2] });
+			}
+
+		}
+
+		short[] primaryIds = hm.keys();
+
+		// sort the primary keys of the hashmap of local list
+
+		System.out
+				.println("sort the primary keys of the hashmap of local list");
+
+		Arrays.sort(primaryIds);
+
+		// begin write the local list file.
+
+		System.out.println("begin write the local list file.");
+
+		try {
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+			
+			bw.write("#measure = "+measure+", type = "+type+","+extra+System.lineSeparator());
+
+			for (int i = 0; i < primaryIds.length; i++) {
+
+				Collections.sort(hm.get(primaryIds[i]),
+						new ColumnComparatorShort(2, 1));
+
+				ArrayList<short[]> friends = hm.get(primaryIds[i]);
+
+				bw.write("#primaryId = " + (int) primaryIds[i] + ","
+						+ " numberOfFriends = " + friends.size()
+						+ System.lineSeparator());
+
+				for (short[] friend : friends) {
+					bw.write((int) friend[0] + "," + (double)friend[1]/(double)numberOfSamples
+							+ System.lineSeparator());
+
+				}
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+	
 
 	public static void serObjectWrite_wrap(String outPutFile, Object obj) {
 		try {
