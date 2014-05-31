@@ -18,6 +18,7 @@ import javax.tools.FileObject;
 import javax.tools.JavaFileObject;
 import javax.tools.JavaFileManager.Location;
 
+import netflix.Jaccard;
 import util.MyBitSet;
 import util.Text;
 

@@ -21,13 +21,13 @@ import util.Text;
 
 public class BipartiteGraph {
 
-	String inputTXT = dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
+	public String inputTXT = dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
 	// this numberOfSmaples represent the number of secondaryIds
-	int numberOfSamples = 20000;
+	public int numberOfSamples = 20000;
 
-	int numberOfPrimaryIds = 17770;
+	public int numberOfPrimaryIds = 17770;
 
-	int numberOfEdges = 2347218;
+	public int numberOfEdges = 2347218;
 
 	public BipartiteGraph() {
 
@@ -72,7 +72,6 @@ public class BipartiteGraph {
 			String line = br.readLine();
 
 			HashMap<String, String> hm = util.Text.readLineInfos(line);
-			
 
 			this.numberOfPrimaryIds = Integer.parseInt(hm
 					.get("numberOfPrimaryIds"));
@@ -279,73 +278,74 @@ public class BipartiteGraph {
 		return adjM;
 
 	}
-//  conny: moment deactivate und I will delete it lately 
-//	public MyBitSet[] toPrimBS() {
-//
-//		HashMap<String, String> infos = util.Text
-//				.readInfoTXT(dataReadWrite.infoTXT);
-//
-//		File file = new File(this.inputTXT);
-//
-//		int numberOfPrimaryIds = Integer.parseInt(infos
-//				.get("numberOfPrimaryIds"));
-//
-//		MyBitSet[] adjM = new MyBitSet[numberOfPrimaryIds];
-//
-//		for (int i = 0; i < numberOfPrimaryIds; i++) {
-//
-//			adjM[i] = new MyBitSet();
-//		}
-//
-//		try {
-//
-//			BufferedReader br = new BufferedReader(new FileReader(file));
-//			br.readLine();
-//
-//			br.readLine();
-//
-//			String line = br.readLine();
-//			
-////			System.out.println(line);
-//
-//			while (line != null) {
-//				String[] lineInfos = line.split(":");
-////				System.out.println(lineInfos.length);
-//				int cardinality = Integer.parseInt(lineInfos[2]);
-//
-//				if (cardinality != 0) {
-//
-//					int secondaryId = Integer.parseInt(lineInfos[0]);
-//
-//					String[] primaryIds = lineInfos[3].split(",");
-//					for (int i = 0; i < cardinality; i++) {
-//
-//						adjM[Integer.parseInt(primaryIds[i])].set(secondaryId);
-//
-//					}
-//				}
-//
-//				line = br.readLine();
-//			}
-//
-//			br.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return adjM;
-//
-//	}
 
-	public MyBitSet[] toPrimBS(){
-//		HashMap<String, String> infos = util.Text
-//				.readInfoTXT(dataReadWrite.infoTXT);
+	// conny: moment deactivate und I will delete it lately
+	// public MyBitSet[] toPrimBS() {
+	//
+	// HashMap<String, String> infos = util.Text
+	// .readInfoTXT(dataReadWrite.infoTXT);
+	//
+	// File file = new File(this.inputTXT);
+	//
+	// int numberOfPrimaryIds = Integer.parseInt(infos
+	// .get("numberOfPrimaryIds"));
+	//
+	// MyBitSet[] adjM = new MyBitSet[numberOfPrimaryIds];
+	//
+	// for (int i = 0; i < numberOfPrimaryIds; i++) {
+	//
+	// adjM[i] = new MyBitSet();
+	// }
+	//
+	// try {
+	//
+	// BufferedReader br = new BufferedReader(new FileReader(file));
+	// br.readLine();
+	//
+	// br.readLine();
+	//
+	// String line = br.readLine();
+	//
+	// // System.out.println(line);
+	//
+	// while (line != null) {
+	// String[] lineInfos = line.split(":");
+	// // System.out.println(lineInfos.length);
+	// int cardinality = Integer.parseInt(lineInfos[2]);
+	//
+	// if (cardinality != 0) {
+	//
+	// int secondaryId = Integer.parseInt(lineInfos[0]);
+	//
+	// String[] primaryIds = lineInfos[3].split(",");
+	// for (int i = 0; i < cardinality; i++) {
+	//
+	// adjM[Integer.parseInt(primaryIds[i])].set(secondaryId);
+	//
+	// }
+	// }
+	//
+	// line = br.readLine();
+	// }
+	//
+	// br.close();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// return adjM;
+	//
+	// }
+
+	public MyBitSet[] toPrimBS() {
+		// HashMap<String, String> infos = util.Text
+		// .readInfoTXT(dataReadWrite.infoTXT);
 
 		File file = new File(this.inputTXT);
 
-//		int numberOfPrimaryIds = Integer.parseInt(infos
-//				.get("numberOfPrimaryIds"));
-		
+		// int numberOfPrimaryIds = Integer.parseInt(infos
+		// .get("numberOfPrimaryIds"));
+
 		int numberOfPrimaryIds = this.numberOfPrimaryIds;
 
 		MyBitSet[] adjM = new MyBitSet[numberOfPrimaryIds];
@@ -363,12 +363,12 @@ public class BipartiteGraph {
 			br.readLine();
 
 			String line = br.readLine();
-			
-//			System.out.println(line);
+
+			// System.out.println(line);
 
 			while (line != null) {
 				String[] lineInfos = line.split(":");
-//				System.out.println(lineInfos.length);
+				// System.out.println(lineInfos.length);
 				int cardinality = Integer.parseInt(lineInfos[2]);
 
 				if (cardinality != 0) {
@@ -392,10 +392,9 @@ public class BipartiteGraph {
 		}
 
 		return adjM;
-		
-		
+
 	}
-	
+
 	public MyFastBitSet[] toPrimFBS() {
 
 		HashMap<String, String> infos = util.Text
@@ -691,7 +690,7 @@ public class BipartiteGraph {
 
 	public int[] readPrimaryDegree() {
 		// BipartiteGraph bg = new BipartiteGraph();
-		int[] degrees = new int[this.numberOfPrimaryIds];
+		int[] degrees = new int[numberOfPrimaryIds];
 
 		MyBitSet[] adjM = toPrimBS();
 		int length = adjM.length;
@@ -704,13 +703,13 @@ public class BipartiteGraph {
 
 	}
 
-	public static int[] readSecondaryDegree() {
-		BipartiteGraph bg = new BipartiteGraph();
-		int[] degrees = new int[bg.numberOfSamples];
+	public int[] readSecondaryDegree() {
 
-		MyBitSet[] adjM = bg.toSecBS();
-		int length = adjM.length;
-		for (int i = 0; i < length; i++) {
+		int[] degrees = new int[numberOfSamples];
+
+		MyBitSet[] adjM = toSecBS();
+
+		for (int i = 0; i < numberOfSamples; i++) {
 			degrees[i] = adjM[i].cardinality();
 
 		}

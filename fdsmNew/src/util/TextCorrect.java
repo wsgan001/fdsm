@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import algo.Jaccard;
+import netflix.Jaccard;
 
 public class TextCorrect {
 

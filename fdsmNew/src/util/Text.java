@@ -32,7 +32,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
 
-import algo.Jaccard;
+import netflix.Jaccard;
 
 public class Text {
 
