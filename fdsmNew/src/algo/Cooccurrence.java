@@ -10,10 +10,14 @@ import util.Text;
 
 public class Cooccurrence {
 
-	public static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
-
-	public static String outputPath = info.DataSource.outputPath
-			+ File.separator + "Cooccurrence" + File.separator;
+//	public static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
+//
+//	public static String outputPath = info.DataSource.outputPath
+//			+ File.separator + "Cooccurrence" + File.separator;
+	
+	
+	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	public static String outputPath = "Example/Output/" + "Cooccurence/";
 
 	// public static int seed = 3306;
 

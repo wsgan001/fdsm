@@ -17,7 +17,7 @@ public class PValue {
 	public static String pValue_GL_TXT = outputPath + "PValue_GL.txt";
 	public static String pValue_LL_TXT = outputPath + "PValue_LL.txt";
 
-	public static int numberOfSamples = 5000;
+	public static int numberOfSampleGraphs = 5000;
 
 	public static int seed = 3306;
 
@@ -77,7 +77,7 @@ public class PValue {
 		int lengthOfWalks = (int) (bG.numberOfSamples * Math
 				.log(bG.numberOfSamples));
 
-		for (int i = 0; i < numberOfSamples; i++) {
+		for (int i = 0; i < numberOfSampleGraphs; i++) {
 
 			long t1 = System.currentTimeMillis();
 
@@ -205,9 +205,9 @@ public class PValue {
 		
 		ArrayList<short[]> measures = calculate();
 		
-		Text.writeListShortForPValue(measures, numberOfSamples, pValue_GL_TXT, "PValue", "global list", "", true);
+		Text.writeListShortForPValue(measures, numberOfSampleGraphs, pValue_GL_TXT, "PValue", "global list", "", true);
 		
-		Text.writeLocalListShortForPValue(measures, numberOfSamples, pValue_LL_TXT, "PValue", "loal list", "");
+		Text.writeLocalListShortForPValue(measures, numberOfSampleGraphs, pValue_LL_TXT, "PValue", "loal list", "");
 
 	}
 	

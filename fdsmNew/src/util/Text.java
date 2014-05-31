@@ -473,6 +473,46 @@ public class Text {
 		}
 
 	}
+	
+	public static void writeListScale(List<int[]> list, double scale, String outputFile,
+			String measure, String type, String extra, boolean sort) {
+
+		if (sort == true) {
+			Collections.sort(list, new ColumnComparator(-3, 1, 2));
+		}
+
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			int length = list.size();
+
+			bw.write("#length = " + length + ", measure = " + measure + ", "
+					+ "sort = " + sort + ", " + "type = " + type + "," + extra
+					+ System.lineSeparator());
+
+			for (int i = 0; i < length; i++) {
+
+				int[] cooccInfo = list.get(i);
+
+//				for (int j = 0; j < cooccInfo.length; j++) {
+//
+//					bw.write(cooccInfo[j] + ",");
+//
+//				}
+				
+				bw.write(cooccInfo[0]+","+cooccInfo[1]+","+(double)cooccInfo[2]/scale);
+
+				bw.newLine();
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
 
 	public static void writeListShort(List<short[]> list, String outputFile,
 			String measure, String type, String extra, boolean sort) {
@@ -749,6 +789,86 @@ public class Text {
 
 				for (int[] friend : friends) {
 					bw.write(friend[0] + "," + friend[1]
+							+ System.lineSeparator());
+
+				}
+
+			}
+
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
+	
+	/**
+	 * First line should be: measure = LevFDSM/Jaccard, type =
+	 * locallist/globallist Write the local list with all int: Format: P1, P2,
+	 * measure value
+	 * 
+	 * @param list
+	 * @param outputFile
+	 * @param measure
+	 *            LevFDSM/Jaccard
+	 * @param type
+	 *            locallist
+	 * @param extra
+	 */
+	public static void writeLocalListScale(ArrayList<int[]> list, double scale, String outputFile,
+			String measure, String type, String extra) {
+
+		TIntObjectHashMap<ArrayList<int[]>> hm = new TIntObjectHashMap<ArrayList<int[]>>();
+
+		int length = list.size();
+
+		for (int i = 0; i < length; i++) {
+
+			if (hm.containsKey(list.get(i)[0])) {
+				hm.get(list.get(i)[0]).add(
+						new int[] { list.get(i)[1], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[0], new ArrayList<int[]>());
+				hm.get(list.get(i)[0]).add(
+						new int[] { list.get(i)[1], list.get(i)[2] });
+			}
+
+			if (hm.containsKey(list.get(i)[1])) {
+				hm.get(list.get(i)[1]).add(
+						new int[] { list.get(i)[0], list.get(i)[2] });
+			} else {
+				hm.put(list.get(i)[1], new ArrayList<int[]>());
+				hm.get(list.get(i)[1]).add(
+						new int[] { list.get(i)[0], list.get(i)[2] });
+			}
+
+		}
+
+		int[] primaryIds = hm.keys();
+
+		Arrays.sort(primaryIds);
+
+		try {
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+
+			bw.write("#measure = " + measure + ", " + "type = " + type + ","
+					+ extra + System.lineSeparator());
+
+			for (int i = 0; i < primaryIds.length; i++) {
+
+				Collections.sort(hm.get(primaryIds[i]), new ColumnComparator(
+						-2, 1));
+
+				ArrayList<int[]> friends = hm.get(primaryIds[i]);
+
+				bw.write("#primaryId = " + primaryIds[i] + ","
+						+ " numberOfFriends = " + friends.size()
+						+ System.lineSeparator());
+
+				for (int[] friend : friends) {
+					bw.write(friend[0] + "," + (double)friend[1]/scale
 							+ System.lineSeparator());
 
 				}

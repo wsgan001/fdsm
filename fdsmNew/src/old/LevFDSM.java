@@ -1,10 +1,12 @@
-package algo;
+package old;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import algo.BipartiteGraph;
+import algo.CooccFkt;
 import util.MyBitSet;
 
 public class LevFDSM {
