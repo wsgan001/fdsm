@@ -68,6 +68,58 @@ public class levFDSM {
 		return measure;
 
 	}
+	
+	/**
+	 * Calculate all the co-occurrence with negative values
+	 * @return
+	 */
+	public static ArrayList<int[]> calculateAll() {
+
+		ArrayList<int[]> measure = new ArrayList<int[]>();
+		BipartiteGraph bG = new BipartiteGraph(inputFile);
+
+		MyBitSet[] adjM = bG.toSecBS();
+
+		int[][] edges = bG.generateEdges();
+
+		int[][] coocc = new int[bG.numberOfPrimaryIds][bG.numberOfPrimaryIds];
+
+		int length = bG.numberOfPrimaryIds;
+
+		CooccFkt.readCooccSecAddTopRight(adjM, coocc);
+
+		CooccFkt.multipleMatrixTopRight(coocc, numberOfSampleGraphs);
+
+		Random generator_edges = new Random(seed);
+
+		CooccFkt.swap(4 * bG.numberOfEdges, edges, adjM, generator_edges);
+
+		int lengthOfWalks = (int) (bG.numberOfSamples * Math
+				.log(bG.numberOfSamples));
+
+		for (int i = 0; i < numberOfSampleGraphs; i++) {
+
+			CooccFkt.swap(lengthOfWalks, edges, adjM, generator_edges);
+
+			CooccFkt.readCooccSecSubstractTopRight(adjM, coocc);
+
+		}
+
+		for (int i = 0; i < length; i++) {
+			for (int j = i + 1; j < length; j++) {
+				if (coocc[i][j] != 0) {
+
+					measure.add(new int[] { i, j, coocc[i][j] });
+
+				}
+
+			}
+
+		}
+
+		return measure;
+
+	}
 
 	public static void run() {
 
@@ -86,10 +138,31 @@ public class levFDSM {
 		Text.writeLocalListScale(measure, numberOfSampleGraphs, levFDSM_LL_TXT,
 				"levFDSM", "local list", "");
 	}
+	
+	//Write down all the co-occurrence values. The value of the missing nodes paars is 0
+	public static void runAll(){
+		File file = new File(outputPath);
+
+		if (!file.exists()) {
+			file.mkdirs();
+
+		}
+
+		ArrayList<int[]> measure = calculateAll();
+
+		Text.writeListScale(measure, numberOfSampleGraphs, levFDSM_GL_TXT,
+				"levFDSM", "global list", "", true);
+
+		Text.writeLocalListScale(measure, numberOfSampleGraphs, levFDSM_LL_TXT,
+				"levFDSM", "local list", "");
+		
+		
+	}
 
 	public static void main(String[] args) {
 		
 		run();
+//		runAll();
 		
 	}
 

@@ -99,12 +99,7 @@ public class PValue {
 		for (int i = 0; i < length; i++) {
 			for (int j = i + 1; j < length; j++) {
 
-				if (pValue[i][j] > 0) {
-
-					measure.add(new short[] { (short) i, (short) j,
-							pValue[i][j] });
-
-				}
+				measure.add(new short[] { (short) i, (short) j, pValue[i][j] });
 
 			}
 
@@ -113,15 +108,20 @@ public class PValue {
 		return measure;
 
 	}
-	
-	
+
 	/**
-	 * You can set the number of the random graphs and set the criterion for p-value to improve the calculate speed.
+	 * You can set the number of the random graphs and set the criterion for
+	 * p-value to improve the calculate speed.
+	 * 
 	 * @param numberOfSamples
-	 * @param pValueCriterion reserve the p-value which smaller than the Criterion. the value is between (0,1]. notice: <0 means all value will be considered.
+	 * @param pValueCriterion
+	 *            reserve the p-value which smaller than the Criterion. the
+	 *            value is between (0,1]. notice: <0 means all value will be
+	 *            considered.
 	 * @return
 	 */
-	public static ArrayList<short[]> calculate(int numberOfSamples, double pValueCriterion) {
+	public static ArrayList<short[]> calculate(int numberOfSamples,
+			double pValueCriterion) {
 
 		BipartiteGraph bG = new BipartiteGraph(inputFile);
 
@@ -172,8 +172,8 @@ public class PValue {
 					+ " seconds...");
 
 		}
-		
-		double pValueCriterionScaled = pValueCriterion*numberOfSamples;
+
+		double pValueCriterionScaled = pValueCriterion * numberOfSamples;
 
 		for (int i = 0; i < length; i++) {
 			for (int j = i + 1; j < length; j++) {
@@ -202,15 +202,17 @@ public class PValue {
 			file.mkdirs();
 
 		}
-		
+
 		ArrayList<short[]> measures = calculate();
-		
-		Text.writeListShortForPValue(measures, numberOfSampleGraphs, pValue_GL_TXT, "PValue", "global list", "", true);
-		
-		Text.writeLocalListShortForPValue(measures, numberOfSampleGraphs, pValue_LL_TXT, "PValue", "loal list", "");
+
+		Text.writeListShortForPValue(measures, numberOfSampleGraphs,
+				pValue_GL_TXT, "PValue", "global list", "", true);
+
+		Text.writeLocalListShortForPValue(measures, numberOfSampleGraphs,
+				pValue_LL_TXT, "PValue", "loal list", "");
 
 	}
-	
+
 	public static void run(int numberOfSamples, double pValueCriterion) {
 
 		File file = new File(outputPath);
@@ -220,18 +222,22 @@ public class PValue {
 			file.mkdirs();
 
 		}
-		
-		ArrayList<short[]> measures = calculate(numberOfSamples, pValueCriterion);
-		
-		Text.writeListShortForPValue(measures, numberOfSamples, pValue_GL_TXT, "PValue", "global list", "", true);
-		
-		Text.writeLocalListShortForPValue(measures, numberOfSamples, pValue_LL_TXT, "PValue", "loal list", "");
+
+		ArrayList<short[]> measures = calculate(numberOfSamples,
+				pValueCriterion);
+
+		Text.writeListShortForPValue(measures, numberOfSamples, pValue_GL_TXT,
+				"PValue", "global list", "", true);
+
+		Text.writeLocalListShortForPValue(measures, numberOfSamples,
+				pValue_LL_TXT, "PValue", "loal list", "");
 
 	}
 
 	public static void main(String[] args) {
 
-		run(5000, 1.0);
+//		run(5000, 1.0);
+		run();
 	}
 
 }
