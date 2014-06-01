@@ -1,6 +1,9 @@
 package algo;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import util.MyBitSet;
 
 public class ZscoreNew {
 	
@@ -21,12 +24,70 @@ public class ZscoreNew {
 //		
 //	}
 	
+	public static ArrayList<double[]> getBasicValues(int[][] coocc){
+		ArrayList<double[]> basicValues = new ArrayList<double[]>();
+		
+		BipartiteGraph bG = new BipartiteGraph(inputFile);
+		
+		int length = bG.numberOfPrimaryIds;
+		
+		MyBitSet adjM[]	= bG.toSecBS();
+		
+		//read original co-occurrence
+		CooccFkt.readCooccSecAddTopRight(adjM, coocc);
+		
+		//The first long swap walks
+		int[][] edges = bG.generateEdges();
+		Random generator_edge = new Random(seed);
+		
+		CooccFkt.swap(4*bG.numberOfEdges, edges, adjM, generator_edge);
+		CooccFkt.readCooccSecAddTopRight(adjM, coocc);
+		CooccFkt.multipleMatrixTopRight(coocc, numberOfSampleGraphs);
+		
+		//set the normal length of swap walks
+		int lengthOfWalks = (int)(bG.numberOfSamples * Math.log(bG.numberOfSamples));
+		
+		for(int i=0; i<numberOfSampleGraphs; i++){
+			CooccFkt.swap(lengthOfWalks, edges, adjM, generator_edge);
+			
+			CooccFkt.readCooccSecAddLowerLeft(adjM, coocc);
+			
+					
+		}
+		
+		for(int i=0; i<length; i++){
+			for(int j=i+1; j<length; j++){
+				if(coocc[i][j] > 0){
+					int levFDSM = coocc[i][j] - coocc[j][i];
+					if(levFDSM > 0){
+						
+					}
+					
+					
+				}
+				
+				
+			}
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		return basicValues;
+	}
+	
 	
 	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+	
+		
+		
 	}
 
 }

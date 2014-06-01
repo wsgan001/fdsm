@@ -236,8 +236,8 @@ public class PValue {
 
 	public static void main(String[] args) {
 
-//		run(5000, 1.0);
-		run();
+//		run();
+		run(numberOfSampleGraphs, 1.0);
 	}
 
 }
