@@ -24,15 +24,18 @@ public class ZscoreNew {
 	//
 	// }
 
-	public static ArrayList<double[]> getBasicValues(int[][] coocc) {
-		ArrayList<double[]> basicValues = new ArrayList<double[]>();
+	public static ArrayList<double[]> getBasicValues() {
+		
+		// measaures has 3 fields, [(double)i][(double)j][(double)zscore]
+		ArrayList<double[]> measures = new ArrayList<double[]>();
+		ArrayList<double[]> levFDSM_Means = new ArrayList<double[]>();
 
 		BipartiteGraph bG = new BipartiteGraph(inputFile);
 
 		int length = bG.numberOfPrimaryIds;
 
 		MyBitSet adjM[] = bG.toSecBS();
-
+		int[][] coocc = new int[bG.numberOfPrimaryIds][bG.numberOfPrimaryIds];
 		// read original co-occurrence
 		CooccFkt.readCooccSecAddTopRight(adjM, coocc);
 
@@ -61,17 +64,10 @@ public class ZscoreNew {
 							/ (double) numberOfSampleGraphs;
 					double levFDSM = (double) coocc[i][j] - mean;
 					if (levFDSM > 0) {
+						
+						measures.add(new double[]{i,j});
 
-						double[] value = new double[6];
-						value[0] = i; // Node position
-						value[1] = j; // Node postion
-						value[2] = levFDSM;// levFDSM
-						value[3] = mean; // average
-											// cooccurrence
-											// of the
-											// sample
-											// graphs
-						basicValues.add(value);
+						levFDSM_Means.add(new double[]{levFDSM, mean});
 
 					}
 
@@ -80,8 +76,11 @@ public class ZscoreNew {
 			}
 
 		}
+		
+		double[] standarddivation = new double[measures.size()];
 
-		int toCalLength = basicValues.size();
+		int toCalLength = standarddivation.length;
+		
 		CooccFkt.matrixClearLeftDown(coocc);
 
 		bG = new BipartiteGraph(inputFile);
@@ -101,21 +100,47 @@ public class ZscoreNew {
 			
 			for(int j=0; j<toCalLength; j++){
 				
+				double[] pos = measures.get(j);
+				double mean = levFDSM_Means.get(j)[1];
 				
+				standarddivation[j] += Math.pow((coocc[(int)pos[1]][(int)pos[0]] - mean),2);
 				
 			}
 			
 			CooccFkt.matrixClearLeftDown(coocc);
 
 		}
+		
+		for(int i = 0; i<toCalLength; i++){
+			
+			standarddivation[i] = Math.sqrt(standarddivation[i]/numberOfSampleGraphs);
+			
+		}
+		
+		for(int i=0; i<toCalLength; i++){
+			
+			double[] value = measures.get(i);
+			
+			if(standarddivation[i] == 0){
+				
+				value[2] = -1;
+				measures.set(i, value);
+				continue;
+			}
+			
+			value[2] = levFDSM_Means.get(i)[0]/standarddivation[i];
+			
+		}
+		
+		
 
-		return basicValues;
+		return measures;
 	}
 
 	public static void main(String[] args) {
-		int abc = 30000 / 5000;
-		System.out.println(abc);
 
+		double abc = Math.pow(5, 2);
+		System.out.println(abc);
 	}
 
 }
