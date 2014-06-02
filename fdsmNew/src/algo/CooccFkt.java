@@ -296,7 +296,7 @@ public class CooccFkt {
 		}
 
 	}
-	
+
 	public static void readCooccPrimarySubstractTopRight(MyBitSet[] adjM,
 			int[][] coocc) {
 
@@ -394,22 +394,34 @@ public class CooccFkt {
 		}
 
 	}
-//Hier is a Problem...It doesn't clear the LowerLeft, but Top Right
-//	public static void matrixClearLowerLeft(int[][] coocc) {
-//
-//		int ilength = coocc.length;
-//		int jlength = coocc[0].length;
-//
-//		for (int i = 0; i < ilength; i++) {
-//			for (int j = i + 1; j < jlength; j++) {
-//
-//				coocc[i][j] = 0;
-//			}
-//		}
-//
-//	}
-	
-	
+
+	public static void matrixClearLeftDown(int[][] coocc) {
+		int ilength = coocc.length;
+		int jlength = coocc[0].length;
+
+		for (int i = 0; i < ilength; i++) {
+			for (int j = 0; j < i; j++) {
+				coocc[i][j] = 0;
+			}
+
+		}
+
+	}
+
+	// Hier is a Problem...It doesn't clear the LowerLeft, but Top Right
+	// public static void matrixClearLowerLeft(int[][] coocc) {
+	//
+	// int ilength = coocc.length;
+	// int jlength = coocc[0].length;
+	//
+	// for (int i = 0; i < ilength; i++) {
+	// for (int j = i + 1; j < jlength; j++) {
+	//
+	// coocc[i][j] = 0;
+	// }
+	// }
+	//
+	// }
 
 	/**
 	 * Clear all the negative Numbers in the top right Matrix
@@ -472,7 +484,6 @@ public class CooccFkt {
 
 	}
 
-	
 	// public static int[][] selectPositiv(int[][] coocc){
 	//
 	//
