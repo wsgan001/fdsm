@@ -8,7 +8,7 @@ import util.ColumnComparator;
 import util.MyBitSet;
 import util.Text;
 
-public class cosine {
+public class Cosine {
 
 	public static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
 

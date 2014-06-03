@@ -7,7 +7,7 @@ import java.util.Random;
 import util.MyBitSet;
 import util.Text;
 
-public class levFDSM {
+public class LevFDSM {
 
 	static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
 

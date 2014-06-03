@@ -1,4 +1,4 @@
-package algo;
+package old;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,6 +17,8 @@ import javax.tools.FileObject;
 import javax.tools.JavaFileObject;
 import javax.tools.JavaFileManager.Location;
 
+import algo.BipartiteGraph;
+import algo.CooccFkt;
 import util.ColumnComparator;
 import util.MyBitSet;
 import util.Text;
