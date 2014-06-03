@@ -24,9 +24,10 @@ public class PresortedZScore {
 		File file1 = new File(outputPath);
 		
 		
-		int number1 = outputPath.indexOf("PresortedZScore");
-		int number2 = outputPath.lastIndexOf("PresortedZScore");
-		System.out.println(number1+","+number2);
+//		String outputRoot = outputPath.substring(9)
+//		
+//		
+//		System.out.println(number1+","+number2);
 		
 	}
 
