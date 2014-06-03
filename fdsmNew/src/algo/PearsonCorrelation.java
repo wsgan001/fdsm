@@ -94,7 +94,6 @@ public class PearsonCorrelation {
 
 		ArrayList<int[]> measures = calculate();
 
-		Collections.sort(measures, new ColumnComparator(-3, 1, 2));
 
 		Text.writeList(measures, PearsonCorrelation_GL_TXT,
 				"Pearson Correlation", "global list", "", true);

@@ -10,14 +10,14 @@ import util.MyBitSet;
 import util.Text;
 
 public class PValue {
+	public static int numberOfSampleGraphs = 5000;
 
 	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
-	public static String outputPath = "Example/Output/" + "PValue/";
+	public static String outputPath = "Example/Output/" + "PValue/"+numberOfSampleGraphs+"/";
 
 	public static String pValue_GL_TXT = outputPath + "PValue_GL.txt";
 	public static String pValue_LL_TXT = outputPath + "PValue_LL.txt";
 
-	public static int numberOfSampleGraphs = 5000;
 
 	public static int seed = 3306;
 
@@ -213,7 +213,7 @@ public class PValue {
 
 	}
 
-	public static void run(int numberOfSamples, double pValueCriterion) {
+	public static void run(int numberOfSampleGraphs, double pValueCriterion) {
 
 		File file = new File(outputPath);
 
@@ -223,13 +223,13 @@ public class PValue {
 
 		}
 
-		ArrayList<short[]> measures = calculate(numberOfSamples,
+		ArrayList<short[]> measures = calculate(numberOfSampleGraphs,
 				pValueCriterion);
 
-		Text.writeListShortForPValue(measures, numberOfSamples, pValue_GL_TXT,
-				"PValue", "global list", "", true);
+		Text.writeListShortForPValue(measures, numberOfSampleGraphs, pValue_GL_TXT,
+				"PValue", "global list", "numberOfSamples = "+numberOfSampleGraphs, true);
 
-		Text.writeLocalListShortForPValue(measures, numberOfSamples,
+		Text.writeLocalListShortForPValue(measures, numberOfSampleGraphs,
 				pValue_LL_TXT, "PValue", "loal list", "");
 
 	}

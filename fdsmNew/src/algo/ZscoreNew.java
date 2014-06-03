@@ -1,30 +1,32 @@
 package algo;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
+import util.ColumnComparator;
 import util.MyBitSet;
+import util.Text;
 
 public class ZscoreNew {
+	
+	static int numberOfSampleGraphs = 5000;
+
 
 	static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
 
-	static String outputPath = "Example/Output/" + "ZScore/";
+	static String outputPath = "Example/Output/" + "ZScore/"+numberOfSampleGraphs+"/";
 
-	static int numberOfSampleGraphs = 5000;
 
 	public static int seed = 3306;
 
 	// output file name for the levFDSM result:global list
-	public static String levFDSM_GL_TXT = outputPath + "ZScore_GL.txt";
-	public static String levFDSM_LL_TXT = outputPath + "ZScore_LL.txt";
+	public static String zScore_GL_TXT = outputPath + "ZScore_GL.txt";
+	public static String zScore_LL_TXT = outputPath + "ZScore_LL.txt";
 
-	// public ArrayList<double[]> getBasicValues(){
-	//
-	//
-	// }
 
-	public static ArrayList<double[]> getBasicValues() {
+	public static ArrayList<double[]> calculate() {
 		
 		// measaures has 3 fields, [(double)i][(double)j][(double)zscore]
 		ArrayList<double[]> measures = new ArrayList<double[]>();
@@ -65,7 +67,7 @@ public class ZscoreNew {
 					double levFDSM = (double) coocc[i][j] - mean;
 					if (levFDSM > 0) {
 						
-						measures.add(new double[]{i,j});
+						measures.add(new double[]{i,j,0});
 
 						levFDSM_Means.add(new double[]{levFDSM, mean});
 
@@ -77,9 +79,9 @@ public class ZscoreNew {
 
 		}
 		
-		double[] standarddivation = new double[measures.size()];
+		double[] standarddiviation = new double[measures.size()];
 
-		int toCalLength = standarddivation.length;
+		int toCalLength = standarddiviation.length;
 		
 		CooccFkt.matrixClearLeftDown(coocc);
 
@@ -103,7 +105,7 @@ public class ZscoreNew {
 				double[] pos = measures.get(j);
 				double mean = levFDSM_Means.get(j)[1];
 				
-				standarddivation[j] += Math.pow((coocc[(int)pos[1]][(int)pos[0]] - mean),2);
+				standarddiviation[j] += Math.pow((coocc[(int)pos[1]][(int)pos[0]] - mean),2);
 				
 			}
 			
@@ -113,34 +115,48 @@ public class ZscoreNew {
 		
 		for(int i = 0; i<toCalLength; i++){
 			
-			standarddivation[i] = Math.sqrt(standarddivation[i]/numberOfSampleGraphs);
+			standarddiviation[i] = Math.sqrt(standarddiviation[i]/numberOfSampleGraphs);
 			
 		}
 		
 		for(int i=0; i<toCalLength; i++){
 			
-			double[] value = measures.get(i);
 			
-			if(standarddivation[i] == 0){
+			if(standarddiviation[i] == 0){
 				
-				value[2] = -1;
-				measures.set(i, value);
+				measures.get(i)[2] = -1;
 				continue;
 			}
 			
-			value[2] = levFDSM_Means.get(i)[0]/standarddivation[i];
+			measures.get(i)[2] = levFDSM_Means.get(i)[0]/standarddiviation[i];
 			
 		}
-		
-		
 
 		return measures;
 	}
 
-	public static void main(String[] args) {
+	public static void run(){
+		
+		File file = new File(outputPath);
+		
+		if(!file.exists()){
+			file.mkdirs();
+		}
 
-		double abc = Math.pow(5, 2);
-		System.out.println(abc);
+		ArrayList<double[]> measures = calculate();
+		
+		Text.writeListDouble(measures, zScore_GL_TXT,
+				"Z-Score", "global list", "numberOfSamples = "+numberOfSampleGraphs, true);
+
+		Text.writeLocalListDouble(measures, zScore_LL_TXT,
+				"Z-Score", "local list", "");
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		run();
+
 	}
 
 }
