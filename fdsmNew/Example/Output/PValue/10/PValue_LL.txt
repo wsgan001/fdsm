@@ -1,0 +1,23 @@
+#measure = PValue, type = loal list,
+#primaryId = 0, numberOfFriends = 2
+3,0.0
+5,0.6
+#primaryId = 1, numberOfFriends = 3
+4,0.1
+2,0.5
+5,0.7
+#primaryId = 2, numberOfFriends = 3
+4,0.4
+1,0.5
+5,0.6
+#primaryId = 3, numberOfFriends = 1
+0,0.0
+#primaryId = 4, numberOfFriends = 3
+1,0.1
+5,0.3
+2,0.4
+#primaryId = 5, numberOfFriends = 4
+4,0.3
+0,0.6
+2,0.6
+1,0.7

@@ -215,13 +215,19 @@ public class PValue {
 
 	public static void run(int numberOfSampleGraphs, double pValueCriterion) {
 
-		File file = new File(outputPath);
+		
+		String outputPathLocal = outputPath.substring(0, outputPath.lastIndexOf("P"))+"/PValue/"+numberOfSampleGraphs+"/";
+		File file = new File(outputPathLocal);
 
 		if (!file.exists()) {
 
 			file.mkdirs();
 
 		}
+		
+		String pValue_GL_TXT = outputPathLocal+"PValue_GL.txt";
+		
+		String pValue_LL_TXT = outputPathLocal+"PValue_LL.txt";
 
 		ArrayList<short[]> measures = calculate(numberOfSampleGraphs,
 				pValueCriterion);

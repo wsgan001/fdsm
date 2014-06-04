@@ -23,6 +23,8 @@ import util.MyFastBitSet;
 
 public class Test {
 
+	public static int abc = 0;
+
 	public static <T> void foo(Class<? extends T> type, ArrayList<T> callback) {
 
 		System.out.println("here is foo... a is " + type.getName());
@@ -92,16 +94,17 @@ public class Test {
 
 	public static void test() {
 
-		System.out.println(1/0);
+		HashMap<Edge, Double> abc = new HashMap<Edge, Double>();
+		abc.put(new Edge(2, 4), Double.valueOf(8));
+		abc.put(new Edge(3, 4), Double.valueOf(12));
+
+
+
 	}
 
 	public static void main(String[] args) {
 
-		// HashSet<String> hs = new HashSet<String>();
-		// System.out.println(hs.getClass().getName());
-
 		test();
-
 	}
 
 }

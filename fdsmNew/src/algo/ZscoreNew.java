@@ -134,6 +134,115 @@ public class ZscoreNew {
 
 		return measures;
 	}
+	
+public static ArrayList<double[]> calculate(int numberOfSampleGraphs) {
+		
+		// measaures has 3 fields, [(double)i][(double)j][(double)zscore]
+		ArrayList<double[]> measures = new ArrayList<double[]>();
+		ArrayList<double[]> levFDSM_Means = new ArrayList<double[]>();
+
+		BipartiteGraph bG = new BipartiteGraph(inputFile);
+
+		int length = bG.numberOfPrimaryIds;
+
+		MyBitSet adjM[] = bG.toSecBS();
+		int[][] coocc = new int[bG.numberOfPrimaryIds][bG.numberOfPrimaryIds];
+		// read original co-occurrence
+		CooccFkt.readCooccSecAddTopRight(adjM, coocc);
+
+		// The first long swap walks
+		int[][] edges = bG.generateEdges();
+		Random generator_edge = new Random(seed);
+
+		CooccFkt.swap(4 * bG.numberOfEdges, edges, adjM, generator_edge);
+
+		// set the normal length of swap walks
+		int lengthOfWalks = (int) (bG.numberOfSamples * Math
+				.log(bG.numberOfSamples));
+
+		for (int i = 0; i < numberOfSampleGraphs; i++) {
+			CooccFkt.swap(lengthOfWalks, edges, adjM, generator_edge);
+
+			CooccFkt.readCooccSecAddLowerLeft(adjM, coocc);
+
+		}
+
+		for (int i = 0; i < length; i++) {
+			for (int j = i + 1; j < length; j++) {
+				if (coocc[i][j] > 0) {
+
+					double mean = (double) coocc[j][i]
+							/ (double) numberOfSampleGraphs;
+					double levFDSM = (double) coocc[i][j] - mean;
+					if (levFDSM > 0) {
+						
+						measures.add(new double[]{i,j,0});
+
+						levFDSM_Means.add(new double[]{levFDSM, mean});
+
+					}
+
+				}
+
+			}
+
+		}
+		
+		double[] standarddiviation = new double[measures.size()];
+
+		int toCalLength = standarddiviation.length;
+		
+		CooccFkt.matrixClearLeftDown(coocc);
+
+		bG = new BipartiteGraph(inputFile);
+
+		adjM = null;
+
+		generator_edge = new Random(seed);
+
+		adjM = bG.toSecBS();
+
+		CooccFkt.swap(4 * bG.numberOfEdges, edges, adjM, generator_edge);
+
+		for (int i = 0; i < numberOfSampleGraphs; i++) {
+
+			CooccFkt.swap(lengthOfWalks, edges, adjM, generator_edge);
+			CooccFkt.readCooccSecAddLowerLeft(adjM, coocc);
+			
+			for(int j=0; j<toCalLength; j++){
+				
+				double[] pos = measures.get(j);
+				double mean = levFDSM_Means.get(j)[1];
+				
+				standarddiviation[j] += Math.pow((coocc[(int)pos[1]][(int)pos[0]] - mean),2);
+				
+			}
+			
+			CooccFkt.matrixClearLeftDown(coocc);
+
+		}
+		
+		for(int i = 0; i<toCalLength; i++){
+			
+			standarddiviation[i] = Math.sqrt(standarddiviation[i]/numberOfSampleGraphs);
+			
+		}
+		
+		for(int i=0; i<toCalLength; i++){
+			
+			
+			if(standarddiviation[i] == 0){
+				
+				measures.get(i)[2] = -1;
+				continue;
+			}
+			
+			measures.get(i)[2] = levFDSM_Means.get(i)[0]/standarddiviation[i];
+			
+		}
+
+		return measures;
+	}
 
 	public static void run(){
 		
@@ -150,6 +259,31 @@ public class ZscoreNew {
 
 		Text.writeLocalListDouble(measures, zScore_LL_TXT,
 				"Z-Score", "local list", "");
+		
+	}
+	
+	public static void run(int numberOfSampleGraphs){
+		
+		String outputPathLocal = outputPath.substring(0, outputPath.lastIndexOf("Z"))+"/ZScore/"+numberOfSampleGraphs+"/";
+		File file = new File(outputPathLocal);
+		
+		
+		String zScore_GL_TXT = outputPathLocal+"ZScore_GL.txt";
+		String zScore_LL_TXT = outputPathLocal+"zScore_LL.txt";
+		
+		if(!file.exists()){
+			file.mkdirs();
+		}
+
+		ArrayList<double[]> measures = calculate(numberOfSampleGraphs);
+		
+		Text.writeListDouble(measures, zScore_GL_TXT,
+				"Z-Score", "global list", "numberOfSampleGraphs = "+numberOfSampleGraphs, true);
+
+		Text.writeLocalListDouble(measures, zScore_LL_TXT,
+				"Z-Score", "local list", "numberOfSampleGraphs = "+numberOfSampleGraphs);
+		
+		
 		
 	}
 	
