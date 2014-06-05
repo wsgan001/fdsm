@@ -5,6 +5,8 @@ import info.Setting;
 import java.io.File;
 import java.util.ArrayList;
 
+import structure.BipartiteGraph;
+import structure.CooccFkt;
 import util.MyBitSet;
 import util.Text;
 

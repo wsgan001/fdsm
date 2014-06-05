@@ -1,4 +1,4 @@
-package algo;
+package structure;
 
 import gnu.trove.set.hash.TIntHashSet;
 import info.DataSource;

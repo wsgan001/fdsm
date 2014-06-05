@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
-import algo.BipartiteGraph;
-import algo.CooccFkt;
+import structure.BipartiteGraph;
+import structure.CooccFkt;
 import util.MyBitSet;
 import util.Text;
 

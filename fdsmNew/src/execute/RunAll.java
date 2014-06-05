@@ -26,9 +26,6 @@ public class RunAll {
 		PValue.run();
 		Zscore.run();
 		PresortedZScore.run();
-		
-		
-
 	}
 
 }

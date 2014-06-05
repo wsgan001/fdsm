@@ -8,6 +8,8 @@ import java.util.Collections;
 
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 
+import structure.BipartiteGraph;
+import structure.CooccFkt;
 import util.ColumnComparator;
 import util.MyBitSet;
 import util.Text;

@@ -1,4 +1,4 @@
-package algo;
+package util;
 
 import gnu.trove.list.array.TIntArrayList;
 
@@ -18,9 +18,8 @@ import javax.tools.FileObject;
 import javax.tools.JavaFileObject;
 import javax.tools.JavaFileManager.Location;
 
+import structure.BipartiteGraph;
 import netflix.Jaccard;
-import util.MyBitSet;
-import util.Text;
 
 public class Remove {
 

@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.RandomAccess;
 import java.util.StringTokenizer;
 
-import algo.Remove;
+import util.Remove;
 
 public class Check {
 

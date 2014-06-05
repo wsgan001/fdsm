@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import algo.BipartiteGraph;
-import algo.CooccFkt;
+import structure.BipartiteGraph;
+import structure.CooccFkt;
 import util.ColumnComparator;
 import util.ColumnComparatorDouble;
 import util.MyBitSet;

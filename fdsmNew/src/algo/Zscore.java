@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import structure.BipartiteGraph;
+import structure.CooccFkt;
 import util.ColumnComparator;
 import util.MyBitSet;
 import util.Text;

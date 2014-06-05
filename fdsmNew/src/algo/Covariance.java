@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 import javax.xml.soap.Text;
 
+import structure.BipartiteGraph;
+import structure.CooccFkt;
 import util.ColumnComparator;
 import util.MyBitSet;
 

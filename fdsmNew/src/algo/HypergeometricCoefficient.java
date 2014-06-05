@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
+import structure.BipartiteGraph;
+import structure.CooccFkt;
 import util.ColumnComparatorDouble;
 import util.MyBitSet;
 

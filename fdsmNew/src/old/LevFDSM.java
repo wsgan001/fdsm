@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import algo.BipartiteGraph;
-import algo.CooccFkt;
+import structure.BipartiteGraph;
+import structure.CooccFkt;
 import util.MyBitSet;
 
 public class LevFDSM {
