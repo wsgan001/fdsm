@@ -1,5 +1,7 @@
 package algo;
 
+import info.Setting;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,33 +12,37 @@ import util.Text;
 
 public class Cosine {
 
-	public static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
+	// for general settings:
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot + "Cosine/";
 
-	public static String outputPath = info.DataSource.outputPath
-			+ File.separator + "Cosine" + File.separator;
+	// for indivial settings:
+	// public static String inputFile =
+	// info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
+	// public static String outputPath = info.DataSource.outputPath
+	// + File.separator + "Cosine" + File.separator;
 
-	// public static int seed = 3306;
 
 	public static String Cosine_GL_TXT = outputPath + "Cosine_GL.txt";
 	public static String Cosine_LL_TXT = outputPath + "Cosine_LL.txt";
 
-//	public static int[] readDegree(MyBitSet[] adjMPrimary) {
-//		int[] degrees = new int[adjMPrimary.length];
-//		int length = degrees.length;
-//		for (int i = 0; i < length; i++) {
-//			degrees[i] = adjMPrimary[i].cardinality();
-//		}
-//
-//		return degrees;
-//	}
+	// public static int[] readDegree(MyBitSet[] adjMPrimary) {
+	// int[] degrees = new int[adjMPrimary.length];
+	// int length = degrees.length;
+	// for (int i = 0; i < length; i++) {
+	// degrees[i] = adjMPrimary[i].cardinality();
+	// }
+	//
+	// return degrees;
+	// }
 
 	public static ArrayList<int[]> calculate() {
 
 		ArrayList<int[]> globalList = new ArrayList<int[]>();
 
 		BipartiteGraph bG = new BipartiteGraph(inputFile);
-		
-//		System.out.println(inputFile);
+
+		// System.out.println(inputFile);
 
 		int length = bG.numberOfPrimaryIds;
 
@@ -68,10 +74,11 @@ public class Cosine {
 					continue;
 				}
 
-				cosine = (int) Math.rint( ((double) coocc[i][j] * (double) 1000 / Math
-						.sqrt(d_i * d_j)));
+				cosine = (int) Math
+						.rint(((double) coocc[i][j] * (double) 1000 / Math
+								.sqrt(d_i * d_j)));
 
-				int[] measure = new int[]{ i, j, cosine };
+				int[] measure = new int[] { i, j, cosine };
 
 				globalList.add(measure);
 
@@ -90,22 +97,23 @@ public class Cosine {
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		
+
 		ArrayList<int[]> measures = calculate();
-		
-		Collections.sort(measures, new ColumnComparator(-3,1,2));
-		
-		Text.writeList(measures, Cosine_GL_TXT, "Consine", "global list", "", true);
-		
-		Text.writeLocalList(measures, Cosine_LL_TXT, "Consine", "local list", "");
+
+		Collections.sort(measures, new ColumnComparator(-3, 1, 2));
+
+		Text.writeList(measures, Cosine_GL_TXT, "Consine", "global list", "",
+				true);
+
+		Text.writeLocalList(measures, Cosine_LL_TXT, "Consine", "local list",
+				"");
 
 	}
 
 	public static void main(String[] args) {
 
 		run();
-		
-		
+
 	}
 
 }

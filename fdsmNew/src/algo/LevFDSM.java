@@ -1,5 +1,7 @@
 package algo;
 
+import info.Setting;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,15 +10,21 @@ import util.MyBitSet;
 import util.Text;
 
 public class LevFDSM {
-	
-	public static int numberOfSampleGraphs = 5000;
 
-	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	// for general settings:
+	public static int numberOfSampleGraphs = Setting.numberOfSampleGraphs;
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot + "LevFDSM/"
+			+ numberOfSampleGraphs + "/";
+	public static int seed = Setting.seed;
 
-	public static String outputPath = "Example/Output/" + "LevFDSM/"+numberOfSampleGraphs+"/";
-
-
-	public static int seed = 3306;
+	// for individual settings:
+	// public static int numberOfSampleGraphs = 5000;
+	// public static String inputFile =
+	// "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	// public static String outputPath = "Example/Output/" +
+	// "LevFDSM/"+numberOfSampleGraphs+"/";
+	// public static int seed = 3306;
 
 	// output file name for the levFDSM result:global list
 	public static String levFDSM_GL_TXT = outputPath + "levFDSM_GL.txt";
@@ -69,9 +77,10 @@ public class LevFDSM {
 		return measure;
 
 	}
-	
+
 	/**
 	 * Calculate all the co-occurrence with negative values
+	 * 
 	 * @return
 	 */
 	public static ArrayList<int[]> calculateAll() {
@@ -139,9 +148,10 @@ public class LevFDSM {
 		Text.writeLocalListScale(measure, numberOfSampleGraphs, levFDSM_LL_TXT,
 				"levFDSM", "local list", "");
 	}
-	
-	//Write down all the co-occurrence values. The value of the missing nodes paars is 0
-	public static void runAll(){
+
+	// Write down all the co-occurrence values. The value of the missing nodes
+	// paars is 0
+	public static void runAll() {
 		File file = new File(outputPath);
 
 		if (!file.exists()) {
@@ -156,15 +166,14 @@ public class LevFDSM {
 
 		Text.writeLocalListScale(measure, numberOfSampleGraphs, levFDSM_LL_TXT,
 				"LevFDSM", "local list", "");
-		
-		
+
 	}
 
 	public static void main(String[] args) {
-		
+
 		run();
-//		runAll();
-		
+		// runAll();
+
 	}
 
 }

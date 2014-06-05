@@ -3,6 +3,7 @@ package algo;
 import gnu.trove.iterator.TDoubleObjectIterator;
 import gnu.trove.map.hash.TDoubleObjectHashMap;
 import gnu.trove.map.hash.TObjectDoubleHashMap;
+import info.Setting;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,15 +28,24 @@ import util.ColumnComparatorDouble;
 import util.Edge;
 
 public class PresortedZScore {
-
-	public static int numberOfSampleGraphs = 5;
-
-	int seed = 3306;
-
-	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
-
-	public static String outputPath = "Example/Output/" + "PresortedZScore/"
+	
+	// for general settings:
+	public static int numberOfSampleGraphs = Setting.numberOfSampleGraphs;
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot + "PresortedZScore/"
 			+ numberOfSampleGraphs + "/";
+	public static int seed = Setting.seed;
+
+	// for individual settings:
+
+//	public static int numberOfSampleGraphs = 5;
+//
+//	int seed = 3306;
+//
+//	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+//
+//	public static String outputPath = "Example/Output/" + "PresortedZScore/"
+//			+ numberOfSampleGraphs + "/";
 
 	public static String PresortedZScore_GL_TXT = outputPath
 			+ "PresortedZScore_GL.txt";
@@ -65,7 +75,7 @@ public class PresortedZScore {
 
 		if (!file2.exists()) {
 
-			ZscoreNew.run(numberOfSampleGraphs);
+			Zscore.run(numberOfSampleGraphs);
 
 		}
 

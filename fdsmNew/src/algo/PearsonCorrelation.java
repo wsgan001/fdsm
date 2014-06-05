@@ -1,5 +1,7 @@
 package algo;
 
+import info.Setting;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,9 +14,18 @@ import util.Text;
 
 public class PearsonCorrelation {
 
-	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	// for general settings:
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot
+			+ "PearsonCorrelation/";
 
-	public static String outputPath = "Example/Output/" + "PearsonCorrelation/";
+	// for indivial settings:
+
+	// public static String inputFile =
+	// "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	//
+	// public static String outputPath = "Example/Output/" +
+	// "PearsonCorrelation/";
 
 	public static String PearsonCorrelation_GL_TXT = outputPath
 			+ "PearsonCorrelation_GL.txt";
@@ -94,7 +105,6 @@ public class PearsonCorrelation {
 
 		ArrayList<int[]> measures = calculate();
 
-
 		Text.writeList(measures, PearsonCorrelation_GL_TXT,
 				"Pearson Correlation", "global list", "", true);
 
@@ -105,7 +115,7 @@ public class PearsonCorrelation {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 		run();
 
 	}

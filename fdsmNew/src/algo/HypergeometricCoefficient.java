@@ -1,5 +1,7 @@
 package algo;
 
+import info.Setting;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,10 +15,16 @@ import util.MyBitSet;
 
 public class HypergeometricCoefficient {
 
-	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
-
-	public static String outputPath = "Example/Output/"
+	// for general settings:
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot
 			+ "HypergeometricCoefficient/";
+
+	// for indivial settings:
+	// public static String inputFile =
+	// "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	// public static String outputPath = "Example/Output/"
+	// + "HypergeometricCoefficient/";
 
 	public static String HypergeometricCoefficient_GL_TXT = outputPath
 			+ "HypergeometricCoefficient_GL.txt";
@@ -99,17 +107,18 @@ public class HypergeometricCoefficient {
 		Collections.sort(measures, new ColumnComparatorDouble(-3, 1, 3));
 
 		util.Text.writeListDouble(measures, HypergeometricCoefficient_GL_TXT,
-				"Hypergeometric Coefficient", "global list","", true);
-		
-		util.Text.writeLocalListDouble(measures, HypergeometricCoefficient_LL_TXT, "Hypergeometric coefficient", "local list", "");
-		
+				"Hypergeometric Coefficient", "global list", "", true);
+
+		util.Text.writeLocalListDouble(measures,
+				HypergeometricCoefficient_LL_TXT, "Hypergeometric coefficient",
+				"local list", "");
 
 	}
 
 	public static void main(String[] args) {
 
 		run();
-		
+
 	}
 
 }

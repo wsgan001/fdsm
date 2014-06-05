@@ -1,5 +1,7 @@
 package algo;
 
+import info.Setting;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,15 +10,25 @@ import util.MyBitSet;
 import util.Text;
 
 public class SLevFDSM {
+	
+	
+	// for general settings:
+	public static int numberOfSampleGraphs = Setting.numberOfSampleGraphs;
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot + "SLevFDSM/"
+			+ numberOfSampleGraphs + "/";
+	public static int seed = Setting.seed;
 
-	public static int numberOfSampleGraphs = 5000;
+	// for individual settings:
 
-	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
-
-	public static String outputPath = "Example/Output/" + "SLevFDSM/"+numberOfSampleGraphs+"/";
-
-
-	public static int seed = 3306;
+//	public static int numberOfSampleGraphs = 5000;
+//
+//	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+//
+//	public static String outputPath = "Example/Output/" + "SLevFDSM/"+numberOfSampleGraphs+"/";
+//
+//
+//	public static int seed = 3306;
 
 	// output file name for the levFDSM result:global list
 	public static String levFDSM_GL_TXT = outputPath + "SLevFDSM_GL.txt";

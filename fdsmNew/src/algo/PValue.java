@@ -1,5 +1,7 @@
 package algo;
 
+import info.Setting;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,16 +12,24 @@ import util.MyBitSet;
 import util.Text;
 
 public class PValue {
-	public static int numberOfSampleGraphs = 5000;
 
-	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
-	public static String outputPath = "Example/Output/" + "PValue/"+numberOfSampleGraphs+"/";
+	// for general settings:
+	public static int numberOfSampleGraphs = Setting.numberOfSampleGraphs;
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot + "PValue/"
+			+ numberOfSampleGraphs + "/";
+	public static int seed = Setting.seed;
+
+	// for individual settings:
+	// public static int numberOfSampleGraphs = 5000;
+	// public static String inputFile =
+	// "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	// public static String outputPath = "Example/Output/" +
+	// "PValue/"+numberOfSampleGraphs+"/";
+	// public static int seed = 3306;
 
 	public static String pValue_GL_TXT = outputPath + "PValue_GL.txt";
 	public static String pValue_LL_TXT = outputPath + "PValue_LL.txt";
-
-
-	public static int seed = 3306;
 
 	/**
 	 * Read the pValues from coocc Matrix into a pValue Matrix and clear the
@@ -215,8 +225,9 @@ public class PValue {
 
 	public static void run(int numberOfSampleGraphs, double pValueCriterion) {
 
-		
-		String outputPathLocal = outputPath.substring(0, outputPath.lastIndexOf("P"))+"/PValue/"+numberOfSampleGraphs+"/";
+		String outputPathLocal = outputPath.substring(0,
+				outputPath.lastIndexOf("P"))
+				+ "/PValue/" + numberOfSampleGraphs + "/";
 		File file = new File(outputPathLocal);
 
 		if (!file.exists()) {
@@ -224,16 +235,17 @@ public class PValue {
 			file.mkdirs();
 
 		}
-		
-		String pValue_GL_TXT = outputPathLocal+"PValue_GL.txt";
-		
-		String pValue_LL_TXT = outputPathLocal+"PValue_LL.txt";
+
+		String pValue_GL_TXT = outputPathLocal + "PValue_GL.txt";
+
+		String pValue_LL_TXT = outputPathLocal + "PValue_LL.txt";
 
 		ArrayList<short[]> measures = calculate(numberOfSampleGraphs,
 				pValueCriterion);
 
-		Text.writeListShortForPValue(measures, numberOfSampleGraphs, pValue_GL_TXT,
-				"PValue", "global list", "numberOfSamples = "+numberOfSampleGraphs, true);
+		Text.writeListShortForPValue(measures, numberOfSampleGraphs,
+				pValue_GL_TXT, "PValue", "global list", "numberOfSamples = "
+						+ numberOfSampleGraphs, true);
 
 		Text.writeLocalListShortForPValue(measures, numberOfSampleGraphs,
 				pValue_LL_TXT, "PValue", "loal list", "");
@@ -242,7 +254,7 @@ public class PValue {
 
 	public static void main(String[] args) {
 
-//		run();
+		// run();
 		run(numberOfSampleGraphs, 1.0);
 	}
 

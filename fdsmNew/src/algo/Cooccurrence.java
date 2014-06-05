@@ -1,5 +1,7 @@
 package algo;
 
+import info.Setting;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,16 +12,13 @@ import util.Text;
 
 public class Cooccurrence {
 
-//	public static String inputFile = info.dataReadWrite.selectedEntriesSecondaryId_Model_1TXT;
-//
-//	public static String outputPath = info.DataSource.outputPath
-//			+ File.separator + "Cooccurrence" + File.separator;
-	
-	
-	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
-	public static String outputPath = "Example/Output/" + "Cooccurence/";
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot + "Cooccurence/";
 
-	// public static int seed = 3306;
+	// for indivial settings
+	// public static String inputFile =
+	// "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	// public static String outputPath = "Example/Output/" + "Cooccurence/";
 
 	public static String Coocc_GL_TXT = outputPath + "Coocc_GL.txt";
 	public static String Coocc_LL_TXT = outputPath + "Coocc_LL.txt";
@@ -41,40 +40,41 @@ public class Cooccurrence {
 			for (int j = i + 1; j < length; j++) {
 				if (coocc[i][j] > 0) {
 
-					globalList.add(new int[] { i, j, coocc[i][j]});
+					globalList.add(new int[] { i, j, coocc[i][j] });
 
 				}
 
 			}
 
 		}
-		
+
 		return globalList;
 
 	}
-	
-	public static void run(){
+
+	public static void run() {
 		File file = new File(outputPath);
-		
+
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		
-		ArrayList<int[]> measures = calculate();
-		
-		Collections.sort(measures, new ColumnComparator(-3,1,2));
-		
-		Text.writeList(measures, Coocc_GL_TXT, "Consine", "global list", "", true);
-		
-		Text.writeLocalList(measures, Coocc_LL_TXT, "Cooccurrence", "local list", "");
 
-		
+		ArrayList<int[]> measures = calculate();
+
+		Collections.sort(measures, new ColumnComparator(-3, 1, 2));
+
+		Text.writeList(measures, Coocc_GL_TXT, "Consine", "global list", "",
+				true);
+
+		Text.writeLocalList(measures, Coocc_LL_TXT, "Cooccurrence",
+				"local list", "");
+
 	}
 
 	public static void main(String[] args) {
 
 		run();
-		
+
 	}
 
 }

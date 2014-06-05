@@ -1,4 +1,7 @@
 package algo;
+
+import info.Setting;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -7,8 +10,14 @@ import util.Text;
 
 public class Jaccard {
 
-	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
-	public static String outputPath = "Example/Output/" + "Jaccard/";
+	// for general settings:
+	public static String inputFile = Setting.inputFile;
+	public static String outputPath = Setting.outputRoot + "Jaccard/";
+
+	// for indivial settings:
+	// public static String inputFile =
+	// "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	// public static String outputPath = "Example/Output/" + "Jaccard/";
 
 	public static String Jaccard_GL_TXT = outputPath + "Jaccard_GL.txt";
 	public static String Jaccard_LL_TXT = outputPath + "Jaccard_LL.txt";
@@ -47,24 +56,26 @@ public class Jaccard {
 
 		return measure;
 	}
-	
-	public static void run(){
-		
+
+	public static void run() {
+
 		File file = new File(outputPath);
-		
-		if(!file.exists()){
+
+		if (!file.exists()) {
 			file.mkdirs();
 		}
-		
+
 		ArrayList<double[]> measures = calculate();
-		
-		Text.writeListDouble(measures, Jaccard_GL_TXT, "Jaccard", "global list", "", true);
-		
-		Text.writeLocalListDouble(measures, Jaccard_LL_TXT, "Jaccard", "global list", "");
+
+		Text.writeListDouble(measures, Jaccard_GL_TXT, "Jaccard",
+				"global list", "", true);
+
+		Text.writeLocalListDouble(measures, Jaccard_LL_TXT, "Jaccard",
+				"global list", "");
 	}
 
 	public static void main(String[] args) {
-		
+
 		run();
 
 	}
