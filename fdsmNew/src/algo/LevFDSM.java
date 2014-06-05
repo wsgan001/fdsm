@@ -8,12 +8,13 @@ import util.MyBitSet;
 import util.Text;
 
 public class LevFDSM {
+	
+	public static int numberOfSampleGraphs = 5000;
 
-	static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
+	public static String inputFile = "Example/Output/selectedEntriesSecondaryId_Model_1.txt";
 
-	static String outputPath = "Example/Output/" + "levFDSM/";
+	public static String outputPath = "Example/Output/" + "LevFDSM/"+numberOfSampleGraphs+"/";
 
-	static int numberOfSampleGraphs = 5000;
 
 	public static int seed = 3306;
 
@@ -151,10 +152,10 @@ public class LevFDSM {
 		ArrayList<int[]> measure = calculateAll();
 
 		Text.writeListScale(measure, numberOfSampleGraphs, levFDSM_GL_TXT,
-				"levFDSM", "global list", "", true);
+				"LevFDSM", "global list", "", true);
 
 		Text.writeLocalListScale(measure, numberOfSampleGraphs, levFDSM_LL_TXT,
-				"levFDSM", "local list", "");
+				"LevFDSM", "local list", "");
 		
 		
 	}
