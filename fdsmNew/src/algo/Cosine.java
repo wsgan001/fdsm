@@ -28,16 +28,6 @@ public class Cosine {
 	public static String Cosine_GL_TXT = outputPath + "Cosine_GL.txt";
 	public static String Cosine_LL_TXT = outputPath + "Cosine_LL.txt";
 
-	// public static int[] readDegree(MyBitSet[] adjMPrimary) {
-	// int[] degrees = new int[adjMPrimary.length];
-	// int length = degrees.length;
-	// for (int i = 0; i < length; i++) {
-	// degrees[i] = adjMPrimary[i].cardinality();
-	// }
-	//
-	// return degrees;
-	// }
-
 	public static ArrayList<int[]> calculate() {
 
 		ArrayList<int[]> globalList = new ArrayList<int[]>();
