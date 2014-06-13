@@ -80,7 +80,7 @@ public class PValue {
 
 		Random generator_edge = new Random(seed);
 
-		System.out.println("The first long swap...");
+//		System.out.println("The first long swap...");
 
 		CooccFkt.swap(4 * bG.numberOfEdges, edges, adjMSec, generator_edge);
 
@@ -103,8 +103,8 @@ public class PValue {
 
 			long t3 = t2 - t1;
 
-			System.out.println("Round " + i + " takes " + (t3 / 1000)
-					+ " seconds...");
+//			System.out.println("Round " + i + " takes " + (t3 / 1000)
+//					+ " seconds...");
 
 		}
 
@@ -157,7 +157,7 @@ public class PValue {
 
 		Random generator_edge = new Random(seed);
 
-		System.out.println("The first long swap...");
+//		System.out.println("The first long swap...");
 
 		CooccFkt.swap(4 * bG.numberOfEdges, edges, adjMSec, generator_edge);
 

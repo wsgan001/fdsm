@@ -86,7 +86,7 @@ public class CooccFkt {
 
 		}
 
-		System.out.println("unswapable steps = " + unswapable);
+//		System.out.println("unswapable steps = " + unswapable);
 
 	}
 

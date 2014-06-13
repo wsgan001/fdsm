@@ -890,10 +890,10 @@ public class Text {
 
 		int length = list.size();
 
-		System.out.println("leng = " + list.size());
+//		System.out.println("leng = " + list.size());
 
 		// create the hashmaps for local list.
-		System.out.println("create the hashmaps for local list.");
+//		System.out.println("create the hashmaps for local list.");
 
 		for (int i = 0; i < length; i++) {
 
@@ -924,14 +924,14 @@ public class Text {
 
 		// sort the primary keys of the hashmap of local list
 
-		System.out
-				.println("sort the primary keys of the hashmap of local list");
+//		System.out
+//				.println("sort the primary keys of the hashmap of local list");
 
 		Arrays.sort(primaryIds);
 
 		// begin write the local list file.
 
-		System.out.println("begin write the local list file.");
+//		System.out.println("begin write the local list file.");
 
 		try {
 
@@ -1061,10 +1061,10 @@ public class Text {
 
 		int length = list.size();
 
-		System.out.println("leng = " + list.size());
+//		System.out.println("leng = " + list.size());
 
 		// create the hashmaps for local list.
-		System.out.println("create the hashmaps for local list.");
+//		System.out.println("create the hashmaps for local list.");
 
 		for (int i = 0; i < length; i++) {
 
@@ -1095,14 +1095,13 @@ public class Text {
 
 		// sort the primary keys of the hashmap of local list
 
-		System.out
-				.println("sort the primary keys of the hashmap of local list");
-
+//		System.out
+//				.println("sort the primary keys of the hashmap of local list");
 		Arrays.sort(primaryIds);
 
 		// begin write the local list file.
 
-		System.out.println("begin write the local list file.");
+//		System.out.println("begin write the local list file.");
 
 		try {
 
