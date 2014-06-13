@@ -1,4 +1,0 @@
-#Number of PrimaryIds:
-numberOfPrimaryIds=6
-#Number Of SecondaryIds:
-numberOfSecondaryIds=10
