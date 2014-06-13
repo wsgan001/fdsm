@@ -29,6 +29,8 @@ public class Cooccurrence {
 		ArrayList<int[]> globalList = new ArrayList<>();
 
 		BipartiteGraph bG = new BipartiteGraph(inputFile);
+		
+		System.out.println("read...");
 
 		int length = bG.numberOfPrimaryIds;
 
@@ -37,6 +39,8 @@ public class Cooccurrence {
 		MyBitSet[] adjMPrimary = bG.toPrimBS();
 
 		CooccFkt.readCooccPrimaryAddTopRight(adjMPrimary, coocc);
+		
+		System.out.println("read coocc");
 
 		for (int i = 0; i < length; i++) {
 			for (int j = i + 1; j < length; j++) {
@@ -49,6 +53,8 @@ public class Cooccurrence {
 			}
 
 		}
+		
+
 
 		return globalList;
 
